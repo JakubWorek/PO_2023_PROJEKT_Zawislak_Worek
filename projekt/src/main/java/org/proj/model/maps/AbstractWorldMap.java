@@ -52,6 +52,10 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         }
     }
 
+    public void removeAnimal(Animal animal) {
+        animals.get(animal.getPosition()).remove(animal);
+    }
+
     public void placePlants(Vector2d plantPosition, Plant plant) {
         plants.put(plantPosition, plant);
     }
@@ -110,8 +114,9 @@ public abstract class AbstractWorldMap implements IMoveValidator {
     }
 
     public void eat() {
-        for ( Vector2d position : plants.keySet() ){
-            if ( animals.containsKey(position) ){
+        Set<Vector2d> keys = new HashSet<>(plants.keySet());
+        for ( Vector2d position : keys ){
+            if ( animals.containsKey(position) ) {
                 List<Animal> animalList = animals.get(position);
                 if (animalList.size() > 0) {
                     Animal animal = animalList.get(0);
@@ -119,7 +124,7 @@ public abstract class AbstractWorldMap implements IMoveValidator {
                         animal = animal.compareWith(animal1);
                     }
                     animal.eat(simulationProps.getPlantEnergy());
-                    //plants.remove(position);
+                    plants.remove(position);
                 }
             }
 
