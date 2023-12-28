@@ -74,7 +74,7 @@ public class SimulationPresenter implements IMapChangeListener {
                     grid.getRowConstraints().add(new RowConstraints(CELL));
                 }
                 else {
-                    System.out.println(new Vector2d(i, simulationProps.getMapHeight()-j-1));
+                    //System.out.println(new Vector2d(i, simulationProps.getMapHeight()-j-1));
                     Object object = worldMap.objectAt(new Vector2d(i, simulationProps.getMapHeight()-j));
                     if (object != null)
                         label.setText(object.toString());
@@ -91,8 +91,8 @@ public class SimulationPresenter implements IMapChangeListener {
 
         clearGrid();
 
-        System.out.println(simulationProps.getMapWidth());
-        System.out.println(simulationProps.getMapHeight());
+        //System.out.println(simulationProps.getMapWidth());
+        //System.out.println(simulationProps.getMapHeight());
 
         int CELL = min(550/simulationProps.getMapWidth(), 550/simulationProps.getMapHeight());
 
@@ -111,6 +111,7 @@ public class SimulationPresenter implements IMapChangeListener {
         Platform.runLater(() -> {
             drawMap();
             currMoveLbl.setText(message);
+
         });
     }
 }

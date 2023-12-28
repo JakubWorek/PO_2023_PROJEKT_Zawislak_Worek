@@ -115,9 +115,9 @@ public abstract class AbstractWorldMap implements IMoveValidator {
                 List<Animal> animalList = animals.get(position);
                 if (animalList.size() > 0) {
                     Animal animal = animalList.get(0);
-                    //for (Animal animal1 : animalList) {
-                    //    animal = animal.compareWith(animal1);
-                    //}
+                    for (Animal animal1 : animalList) {
+                        animal = animal.compareWith(animal1);
+                    }
                     animal.eat(simulationProps.getPlantEnergy());
                     //plants.remove(position);
                 }

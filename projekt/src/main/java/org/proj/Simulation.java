@@ -9,7 +9,9 @@ import org.proj.utils.RandomPositionGenerator;
 import org.proj.utils.Vector2d;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Simulation implements Runnable {
     private final AbstractWorldMap map;
@@ -50,12 +52,28 @@ public class Simulation implements Runnable {
                 //animal.move(map);
                 map.move(animal);
             }
+            // decrease energy after move
+            for(Animal animal : animals){
+                animal.removeEnergy(10);
+            }
             // eat
             map.eat();
             // reproduce animals
             map.reproduce();
             // remove dead animals
-            System.out.println("X");
+            Set<Animal> animalsToRemove = new HashSet<>(animals);
+            for(Animal animal : animalsToRemove){
+                if(animal.getEnergy()<=0){
+                    map.removeAnimal(animal);
+                    animals.remove(animal);
+                }
+            }
+            //System.out.println("X");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
