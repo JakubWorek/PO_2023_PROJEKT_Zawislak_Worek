@@ -1,5 +1,16 @@
 package org.proj;
 
+import org.proj.model.Genotype;
+import org.proj.model.SimulationProps;
+import org.proj.model.elements.Animal;
+import org.proj.model.elements.Plant;
+import org.proj.model.maps.AbstractWorldMap;
+import org.proj.utils.RandomPositionGenerator;
+import org.proj.utils.Vector2d;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Simulation implements Runnable {
     private final AbstractWorldMap map;
     private List<Animal> animals = new ArrayList<>();

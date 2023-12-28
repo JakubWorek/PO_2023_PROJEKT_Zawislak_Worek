@@ -65,6 +65,7 @@ public class Animal implements IWorldElement {
     public void addAge() { this.age++; }
     public void setDeathDate(int deathDate) { this.deathDate = deathDate; }
     public void removeEnergy(int energy) { this.energy -= energy; }
+    public void addChild() { this.childrenMade++; }
 
     // other methods
     @Override

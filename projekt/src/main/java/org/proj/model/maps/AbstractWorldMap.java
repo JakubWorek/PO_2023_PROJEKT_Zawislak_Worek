@@ -12,10 +12,7 @@ import org.proj.utils.IMoveValidator;
 import org.proj.utils.RandomPositionGenerator;
 import org.proj.utils.Vector2d;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public abstract class AbstractWorldMap implements IMoveValidator {
     protected HashMap<Vector2d, List<Animal>> animals;
@@ -79,6 +76,67 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         animal.move(this);
         placeAnimals(animal.getPosition(), animal);
         mapChanged("Animal moved to "  + animal.getPosition());
+    }
+
+    public void reproduce() {
+        for (Vector2d position : animals.keySet()) {
+            List<Animal> animalList = animals.get(position);
+            if (animalList.size() > 1) {
+                Animal a1 = animalList.get(0);
+                Animal a2 = animalList.get(1);
+                for (Animal animal : animalList) {
+                    if (animal == a1 || animal == a2) continue;
+                    Animal a3 = a1;
+                    a1 = a1.compareWith(animal);
+                    if (a3 != a1) {
+                        a2 = a3;
+                    } else {
+                        a2 = a2.compareWith(animal);
+                    }
+                }
+                if (a1.getEnergy() > simulationProps.getEnergyLevelNeededToReproduce() && a2.getEnergy() > simulationProps.getEnergyLevelNeededToReproduce()) {
+                    Animal child = new Animal(position, 2 * simulationProps.getEnergyLevelToPassToChild(),
+                            simulationProps.getMaxEnergy(), simulationProps.getDaysElapsed(), Genotype.getGenesFromParents(a1, a2, simulationProps.getMutationStyle(), simulationProps.getGenesCount()),
+                            simulationProps.getMoveStyle());
+                    animals.get(position).add(child);
+                    a1.removeEnergy(simulationProps.getEnergyLevelToPassToChild());
+                    a1.addChild();
+                    a2.removeEnergy(simulationProps.getEnergyLevelToPassToChild());
+                    a2.addChild();
+                    simulation.addAnimal(child);
+                }
+            }
+        }
+    }
+
+    public void eat() {
+        for ( Vector2d position : plants.keySet() ){
+            if ( animals.containsKey(position) ){
+                List<Animal> animalList = animals.get(position);
+                if (animalList.size() > 0) {
+                    Animal animal = animalList.get(0);
+                    //for (Animal animal1 : animalList) {
+                    //    animal = animal.compareWith(animal1);
+                    //}
+                    animal.eat(simulationProps.getPlantEnergy());
+                    //plants.remove(position);
+                }
+            }
+
+        }
+    }
+
+    public IWorldElement objectAt(Vector2d position){
+        if(animals.containsKey(position)) {
+            if (animals.get(position).size() > 0)
+                return animals.get(position).get(0);
+        }
+        if(plants.containsKey(position)) return plants.get(position);
+        return null;
+    }
+
+    public void setSimulation(Simulation simulation) {
+        this.simulation = simulation;
     }
 
     @Override
