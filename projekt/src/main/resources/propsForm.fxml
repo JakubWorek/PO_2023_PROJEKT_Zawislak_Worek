@@ -2,12 +2,90 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 
 <VBox minHeight="800.0" minWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.proj.presenter.PropsFormPresenter">
-
+   <Label text="Start energy level:" />
+   <TextField fx:id="startEnergy" text="100">
+      <VBox.margin>
+         <Insets bottom="10.0" />
+      </VBox.margin>
+   </TextField>
+   <Label text="Max energy level:" />
+   <TextField fx:id="maxEnergy" text="100">
+      <VBox.margin>
+         <Insets bottom="10.0" />
+      </VBox.margin>
+   </TextField>
+   <Label text="Genes count:" />
+   <TextField fx:id="genesCount" text="10">
+      <VBox.margin>
+         <Insets bottom="10.0" />
+      </VBox.margin>
+   </TextField>
+   <Label text="Energy level needed to reproduce:" />
+   <TextField fx:id="energyToReproduce" text="60">
+      <VBox.margin>
+         <Insets bottom="10.0" />
+      </VBox.margin>
+   </TextField>
+   <Label text="Energy level to pass to child:" />
+   <TextField fx:id="energyToPass" text="20" />
+   <Line endX="267.29290771484375" endY="-1.6568543910980225" startX="-100.0">
+      <VBox.margin>
+         <Insets bottom="10.0" top="10.0" />
+      </VBox.margin>
+   </Line>
+   <Label text="Move style:" />
+   <ComboBox fx:id="moveStyleCBox" prefHeight="25.0" prefWidth="370.0">
+      <VBox.margin>
+         <Insets bottom="10.0" />
+      </VBox.margin>
+   </ComboBox>
+   <Line endX="267.29290771484375" endY="-1.6568543910980225" startX="-100.0">
+      <VBox.margin>
+         <Insets bottom="10.0" />
+      </VBox.margin>
+   </Line>
+   <Label text="Energy restored from plant:" />
+   <TextField fx:id="energyFromPlant" text="10">
+      <VBox.margin>
+         <Insets bottom="10.0" />
+      </VBox.margin>
+   </TextField>
+   <Label text="Plants count:" />
+   <TextField fx:id="plantCount" text="10">
+      <VBox.margin>
+         <Insets bottom="10.0" />
+      </VBox.margin>
+   </TextField>
+   <Label text="Animals count:" />
+   <TextField fx:id="animalCount" text="10">
+      <VBox.margin>
+         <Insets bottom="10.0" />
+      </VBox.margin>
+   </TextField>
+   <Label text="Map width:" />
+   <TextField fx:id="mapWidth" text="10">
+      <VBox.margin>
+         <Insets bottom="10.0" />
+      </VBox.margin>
+   </TextField>
+   <Label text="Map height:" />
+   <TextField fx:id="mapHeight" text="10">
+      <VBox.margin>
+         <Insets bottom="10.0" />
+      </VBox.margin>
+   </TextField>
+   <Button mnemonicParsing="false" onAction="#onNewSimulationClicked" prefHeight="25.0" prefWidth="369.0" text="Start Simulation" />
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <padding>
+      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+   </padding>
 </VBox>

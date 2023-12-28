@@ -13,7 +13,11 @@ public class SimulationProps {
     static private int energyLevelToPassToChild;
     static private int daysElapsed;
 
-    public static void setProps(int energy_, int maxEnergy_, EMoveStyle moveStyle_, EMutationStyle mutationStyle_, int genesCount_, int energyLevelNeededToReproduce_, int energyLevelToPassToChild_) {
+    public SimulationProps(int width_, int height_, int animalCount_, int plantCount_, int energy_, int maxEnergy_, int plantEnergy_, EMoveStyle moveStyle_, EMutationStyle mutationStyle_, int genesCount_, int energyLevelNeededToReproduce_, int energyLevelToPassToChild_) {
+        width = width_;
+        height = height_;
+        animalCount = animalCount_;
+        plantCount = plantCount_;
         energy = energy_;
         maxEnergy = maxEnergy_;
         moveStyle = moveStyle_;
@@ -24,41 +28,38 @@ public class SimulationProps {
         daysElapsed = 0;
     }
 
-    static void incrementDaysElapsed() {
+    public synchronized void incrementDaysElapsed() {
         daysElapsed++;
     }
 
-    public static int getStartEnergy() {
+    public synchronized int getStartEnergy() {
         return energy;
     }
 
-    public static EMoveStyle getMoveStyle() {
+    public synchronized EMoveStyle getMoveStyle() {
         return moveStyle;
     }
 
-    public static EMutationStyle getMutationStyle() { return mutationStyle; }
+    public synchronized EMutationStyle getMutationStyle() { return mutationStyle; }
 
-    public static int getMaxEnergy() {
+    public synchronized int getMaxEnergy() {
         return maxEnergy;
     }
 
-    public static int getGenesCount() {
+    public synchronized int getGenesCount() {
         return genesCount;
     }
 
-    public static int getEnergyLevelNeededToReproduce() {
+    public synchronized int getEnergyLevelNeededToReproduce() {
         return energyLevelNeededToReproduce;
     }
 
-    public static int getEnergyLevelToPassToChild() {
+    public synchronized int getEnergyLevelToPassToChild() {
         return energyLevelToPassToChild;
     }
 
-    public static int getDaysElapsed() {
+    public synchronized int getDaysElapsed() {
         return daysElapsed;
     }
 
-    private SimulationProps() {
-
-    }
 }

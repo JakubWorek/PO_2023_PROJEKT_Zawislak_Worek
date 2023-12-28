@@ -1,33 +1,32 @@
 package org.proj;
 
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.proj.model.SimulationProps;
+import org.proj.presenter.SimulationPresenter;
 
+import java.io.IOException;
 import java.util.Objects;
 
-public class App {
-    String args;
+public class SimulationApp extends Application implements Runnable {
+    SimulationProps simulationProps;
 
-    public App() {
-        args = "";
-    }
-    public App(String params) {
-        args = params;
+    public SimulationApp(SimulationProps simulationProps) {
+        this.simulationProps = simulationProps;
     }
 
     private void configureStage(Stage primaryStage, VBox viewRoot) {
         var scene = new Scene(viewRoot);
-        if (!Objects.equals(args, "")) {
-            // simulation
-        }
-        else {
-            primaryStage.setScene(scene);
-            primaryStage.setTitle("Simulation Props Form");
-            primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());
-            primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
-        }
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Simulation app");
+        primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());
+        primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
     }
 
     public void start(Stage primaryStage) {
@@ -43,6 +42,9 @@ public class App {
         }
 
         configureStage(primaryStage, viewRoot);
+
+        SimulationPresenter controller = loader.getController();
+        controller.setProps(simulationProps);
 
         primaryStage.show();
     }
