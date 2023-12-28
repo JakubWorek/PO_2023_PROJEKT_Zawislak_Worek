@@ -71,7 +71,7 @@ public class Animal implements IWorldElement {
     @Override
     public String toString() {
         Integer val = this.energy;
-        return val.toString(); 
+        return val.toString();
     }
     public boolean isAt(Vector2d position){ return this.position.equals(position);}
 
