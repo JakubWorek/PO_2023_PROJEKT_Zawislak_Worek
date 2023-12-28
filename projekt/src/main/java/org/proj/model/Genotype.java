@@ -49,7 +49,9 @@ public class Genotype {
 
         // mutate
         if (mutationStyle == EMutationStyle.FULLY_RANDOM) {
-
+            for (int i = 0; i < SimulationProps.getGenesCount(); i++) {
+                genes[i] = random.nextInt(0, 8);
+            }
         }
 
         // return finale genes

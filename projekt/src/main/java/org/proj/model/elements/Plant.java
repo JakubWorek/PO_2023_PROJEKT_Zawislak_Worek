@@ -1,6 +1,5 @@
 package org.proj.model.elements;
 
-import org.proj.model.elements.IWorldElement;
 import org.proj.utils.Vector2d;
 
 public class Plant implements IWorldElement {
