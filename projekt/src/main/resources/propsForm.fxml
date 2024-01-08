@@ -21,6 +21,12 @@
          <Insets bottom="10.0" />
       </VBox.margin>
    </TextField>
+   <Label text="Energy used while moving:" />
+   <TextField fx:id="moveEnergy" text="10">
+      <VBox.margin>
+         <Insets bottom="10.0" />
+      </VBox.margin>
+   </TextField>
    <Label text="Genes count:" />
    <TextField fx:id="genesCount" text="10">
       <VBox.margin>
@@ -63,6 +69,12 @@
          <Insets bottom="10.0" />
       </VBox.margin>
    </TextField>
+   <Label text="Spawn plant per day:" />
+   <TextField fx:id="spawnPlantPerDay" text="10">
+      <VBox.margin>
+         <Insets bottom="10.0" />
+      </VBox.margin>
+   </TextField>
    <Label text="Animals count:" />
    <TextField fx:id="animalCount" text="10">
       <VBox.margin>
@@ -77,6 +89,12 @@
    </TextField>
    <Label text="Map height:" />
    <TextField fx:id="mapHeight" text="10">
+      <VBox.margin>
+         <Insets bottom="10.0" />
+      </VBox.margin>
+   </TextField>
+   <Label text="Equator height:" />
+   <TextField fx:id="equatorHeight" text="4">
       <VBox.margin>
          <Insets bottom="10.0" />
       </VBox.margin>

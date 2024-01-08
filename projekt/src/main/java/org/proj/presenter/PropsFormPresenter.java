@@ -17,13 +17,19 @@ public class PropsFormPresenter {
     @FXML
     TextField mapHeight;
     @FXML
+    TextField equatorHeight;
+    @FXML
     TextField animalCount;
     @FXML
     TextField plantCount;
     @FXML
     TextField maxEnergy;
     @FXML
+    TextField moveEnergy;
+    @FXML
     TextField genesCount;
+    @FXML
+    TextField spawnPlantPerDay;
     @FXML
     TextField energyToReproduce;
     @FXML
@@ -34,6 +40,7 @@ public class PropsFormPresenter {
     TextField energyFromPlant;
     @FXML
     TextField startEnergy;
+
 
 
     @FXML
@@ -48,10 +55,10 @@ public class PropsFormPresenter {
         SimulationProps props = new SimulationProps(
                 Integer.parseInt(mapWidth.getText()),
                 Integer.parseInt(mapHeight.getText()),
-                4,
+                Integer.parseInt(equatorHeight.getText()),
                 Integer.parseInt(animalCount.getText()),
                 Integer.parseInt(plantCount.getText()),
-                10,
+                Integer.parseInt(spawnPlantPerDay.getText()),
                 Integer.parseInt(startEnergy.getText()),
                 Integer.parseInt(maxEnergy.getText()),
                 Integer.parseInt(energyFromPlant.getText()),
@@ -60,7 +67,7 @@ public class PropsFormPresenter {
                 Integer.parseInt(genesCount.getText()),
                 Integer.parseInt(energyToReproduce.getText()),
                 Integer.parseInt(energyToPass.getText()),
-                10
+                Integer.parseInt(moveEnergy.getText())
         );
 
         SimulationApp app = new SimulationApp(props);

@@ -15,13 +15,13 @@ import org.proj.utils.Vector2d;
 import java.util.*;
 
 public abstract class AbstractWorldMap implements IMoveValidator {
+    protected static final Random random = new Random();
     protected HashMap<Vector2d, List<Animal>> animals;
     protected HashMap<Vector2d, Plant> plants;
-
+    private List<Vector2d> freePositionsForPlants = new ArrayList<>();
     protected int width;
     protected int height;
     private final ForestedEquator forestedEquator;
-
     protected final List<IMapChangeListener> listeners;
     //private final MapVisualizer mapVisualizer;
 
@@ -40,6 +40,13 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         this.simulationProps = simulationProps;
 
         forestedEquator = new ForestedEquator(this.simulationProps.getEquatorHeight(), width, height);
+
+        for (int x=1; x<=width; x++) {
+            for (int y=1; y<=height; y++) {
+                Vector2d position = new Vector2d(x,y);
+                freePositionsForPlants.add(position);
+            }
+        }
         //mapVisualizer = new MapVisualizer(this);
     }
 
@@ -63,15 +70,17 @@ public abstract class AbstractWorldMap implements IMoveValidator {
     }
 
     public void spawnPlant(){
-        RandomPositionGenerator randomPositionGenerator = new RandomPositionGenerator(width, height, 1);
-        for(Vector2d plantPosition : randomPositionGenerator) {
-            if (forestedEquator.willBePlanted(plantPosition)) {
-                placePlants(plantPosition, new Plant(plantPosition));
-                //mapChanged("Plant spawned at " + plantPosition);
-            }
-            else {
-                spawnPlant();
-            }
+        // chceck if there are any free positions
+        if (freePositionsForPlants.size() == 0) return;
+        // calculate free positions for plants
+        Vector2d plantPosition = freePositionsForPlants.get(random.nextInt(freePositionsForPlants.size()));
+        if (forestedEquator.willBePlanted(plantPosition)) {
+            Plant plant = new Plant(plantPosition);
+            placePlants(plantPosition, plant);
+            freePositionsForPlants.remove(plantPosition);
+        }
+        else {
+            spawnPlant();
         }
     }
 
@@ -140,6 +149,7 @@ public abstract class AbstractWorldMap implements IMoveValidator {
                     }
                     animal.eat(simulationProps.getPlantEnergy());
                     plants.remove(position);
+                    freePositionsForPlants.add(position);
                 }
             }
 
