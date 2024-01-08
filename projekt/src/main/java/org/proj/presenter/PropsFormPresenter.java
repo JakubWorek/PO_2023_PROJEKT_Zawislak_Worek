@@ -48,8 +48,10 @@ public class PropsFormPresenter {
         SimulationProps props = new SimulationProps(
                 Integer.parseInt(mapWidth.getText()),
                 Integer.parseInt(mapHeight.getText()),
+                4,
                 Integer.parseInt(animalCount.getText()),
                 Integer.parseInt(plantCount.getText()),
+                10,
                 Integer.parseInt(startEnergy.getText()),
                 Integer.parseInt(maxEnergy.getText()),
                 Integer.parseInt(energyFromPlant.getText()),
@@ -57,7 +59,8 @@ public class PropsFormPresenter {
                 EMutationStyle.FULLY_RANDOM,
                 Integer.parseInt(genesCount.getText()),
                 Integer.parseInt(energyToReproduce.getText()),
-                Integer.parseInt(energyToPass.getText())
+                Integer.parseInt(energyToPass.getText()),
+                10
         );
 
         SimulationApp app = new SimulationApp(props);

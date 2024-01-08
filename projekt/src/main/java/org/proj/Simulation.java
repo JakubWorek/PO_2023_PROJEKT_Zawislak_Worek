@@ -45,8 +45,6 @@ public class Simulation implements Runnable {
     @Override
     public void run(){
         while(animals.size()>0){
-            // add day
-            simulationProps.incrementDaysElapsed();
             // move animals
             for(Animal animal : animals){
                 //animal.move(map);
@@ -54,7 +52,7 @@ public class Simulation implements Runnable {
             }
             // decrease energy after move
             for(Animal animal : animals){
-                animal.removeEnergy(10);
+                animal.removeEnergy(simulationProps.getMoveEnergy());
             }
             // eat
             map.eat();
@@ -68,6 +66,14 @@ public class Simulation implements Runnable {
                     animals.remove(animal);
                 }
             }
+            // add day
+            simulationProps.incrementDaysElapsed();
+            // add age
+            for(Animal animal : animals){
+                animal.addAge();
+            }
+            // grow new plants
+            map.growPlants();
             //System.out.println("X");
             try {
                 Thread.sleep(1000);

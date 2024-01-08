@@ -6,8 +6,10 @@ import org.proj.model.elements.EMutationStyle;
 public class SimulationProps {
     private int width;
     private int height;
+    private int equatorHeight;
     private int animalCount;
     private int plantCount;
+    private int spawnPlantPerDay;
     private int energy;
     private int maxEnergy;
     private int plantEnergy;
@@ -16,13 +18,16 @@ public class SimulationProps {
     private int genesCount;
     private int energyLevelNeededToReproduce;
     private int energyLevelToPassToChild;
+    private int moveEnergy;
     private int daysElapsed;
 
-    public SimulationProps(int width_, int height_, int animalCount_, int plantCount_, int energy_, int maxEnergy_, int plantEnergy_, EMoveStyle moveStyle_, EMutationStyle mutationStyle_, int genesCount_, int energyLevelNeededToReproduce_, int energyLevelToPassToChild_) {
+    public SimulationProps(int width_, int height_, int equatorHeight_, int animalCount_, int plantCount_, int spawnPlantPerDay_, int energy_, int maxEnergy_, int plantEnergy_, EMoveStyle moveStyle_, EMutationStyle mutationStyle_, int genesCount_, int energyLevelNeededToReproduce_, int energyLevelToPassToChild_, int moveEnergy_) {
         width = width_;
         height = height_;
+        equatorHeight = equatorHeight_;
         animalCount = animalCount_;
         plantCount = plantCount_;
+        spawnPlantPerDay = spawnPlantPerDay_;
         energy = energy_;
         maxEnergy = maxEnergy_;
         plantEnergy = plantEnergy_;
@@ -31,6 +36,7 @@ public class SimulationProps {
         genesCount = genesCount_;
         energyLevelNeededToReproduce = energyLevelNeededToReproduce_;
         energyLevelToPassToChild = energyLevelToPassToChild_;
+        moveEnergy = moveEnergy_;
         daysElapsed = 0;
     }
 
@@ -44,6 +50,9 @@ public class SimulationProps {
 
     public synchronized int getMapHeight(){
         return height;
+    }
+    public synchronized int getEquatorHeight(){
+        return equatorHeight;
     }
 
     public synchronized int getStartAnimalCount(){
@@ -82,6 +91,9 @@ public class SimulationProps {
 
     public synchronized int getEnergyLevelToPassToChild() {
         return energyLevelToPassToChild;
+    }
+    public synchronized int getMoveEnergy() {
+        return moveEnergy;
     }
 
     public synchronized int getDaysElapsed() {

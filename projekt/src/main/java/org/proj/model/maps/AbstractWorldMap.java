@@ -16,11 +16,11 @@ import java.util.*;
 
 public abstract class AbstractWorldMap implements IMoveValidator {
     protected HashMap<Vector2d, List<Animal>> animals;
-
     protected HashMap<Vector2d, Plant> plants;
 
     protected int width;
     protected int height;
+    private final ForestedEquator forestedEquator;
 
     protected final List<IMapChangeListener> listeners;
     //private final MapVisualizer mapVisualizer;
@@ -38,6 +38,8 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         height = simulationProps.getMapHeight();
 
         this.simulationProps = simulationProps;
+
+        forestedEquator = new ForestedEquator(this.simulationProps.getEquatorHeight(), width, height);
         //mapVisualizer = new MapVisualizer(this);
     }
 
@@ -58,6 +60,19 @@ public abstract class AbstractWorldMap implements IMoveValidator {
 
     public void placePlants(Vector2d plantPosition, Plant plant) {
         plants.put(plantPosition, plant);
+    }
+
+    public void spawnPlant(){
+        RandomPositionGenerator randomPositionGenerator = new RandomPositionGenerator(width, height, 1);
+        for(Vector2d plantPosition : randomPositionGenerator) {
+            if (forestedEquator.willBePlanted(plantPosition)) {
+                placePlants(plantPosition, new Plant(plantPosition));
+                //mapChanged("Plant spawned at " + plantPosition);
+            }
+            else {
+                spawnPlant();
+            }
+        }
     }
 
     public void addListener(IMapChangeListener listener) {
@@ -128,6 +143,13 @@ public abstract class AbstractWorldMap implements IMoveValidator {
                 }
             }
 
+        }
+    }
+
+    public void growPlants() {
+        int plantsToAdd = 10;
+        for (int i = 0; i<plantsToAdd; i++) {
+            spawnPlant();
         }
     }
 
