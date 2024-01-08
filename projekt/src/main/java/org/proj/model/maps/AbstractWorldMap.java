@@ -45,7 +45,6 @@ public abstract class AbstractWorldMap implements IMoveValidator {
             for (int y=0; y<height; y++) {
                 Vector2d position = new Vector2d(x,y);
                 freePositionsForPlants.add(position);
-                //System.out.println(position);
             }
         }
         //mapVisualizer = new MapVisualizer(this);
@@ -196,9 +195,6 @@ public abstract class AbstractWorldMap implements IMoveValidator {
     }
 
     public Integer getPlantsCount() {
-        System.out.println(plants.keySet());
-        System.out.println();
-        System.out.println();
         return plants.size();
     }
 }

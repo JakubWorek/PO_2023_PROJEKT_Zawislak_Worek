@@ -63,7 +63,7 @@ public class SimulationPresenter implements IMapChangeListener {
         clearGrid();
         int width =  simulationProps.getMapWidth();
         int height =  simulationProps.getMapHeight();
-        int CELL = min(400/width, 400/height);
+        int CELL = min(500/width, 500/height);
 
         int limit = max(height, width);
 
