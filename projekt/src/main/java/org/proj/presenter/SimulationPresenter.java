@@ -42,39 +42,20 @@ public class SimulationPresenter implements IMapChangeListener {
         clearGrid();
         int width =  simulationProps.getMapWidth();
         int height =  simulationProps.getMapHeight();
-        int CELL = min(500/width, 500/height);
-
-        int x = 0;
-        int y = simulationProps.getMapHeight();
+        int CELL = min(400/width, 400/height);
 
         int limit = max(height, width);
 
         for (int i = 0; i < limit; i++) {
             for (int j = 0; j < limit; j++) {
                 Label label = new Label();
-
-                if (i == 0 && j == 0) {
-                    label.setText("y/x");
-                    grid.getRowConstraints().add(new RowConstraints(CELL));
-                }
-                else if (i == 0) {
-                    label.setText(""+y);
-                    y--;
-                }
-                else if (j == 0) {
-                    label.setText(""+x);
-                    x++;
-                    grid.getRowConstraints().add(new RowConstraints(CELL));
-                }
-                else {
-                    //System.out.println(new Vector2d(i, simulationProps.getMapHeight()-j-1));
-                    Object object = worldMap.objectAt(new Vector2d(i, simulationProps.getMapHeight()-j));
-                    if (object != null)
-                        label.setText(object.toString());
-                }
+                Object object = worldMap.objectAt(new Vector2d(i, simulationProps.getMapHeight()-j));
+                if (object != null)
+                    label.setText(object.toString());
                 grid.add(label, i, j);
                 GridPane.setHalignment(label, HPos.CENTER);
             }
+            grid.getRowConstraints().add(new RowConstraints(CELL));
             grid.getColumnConstraints().add(new ColumnConstraints(CELL));
         }
     }
