@@ -45,6 +45,7 @@ public abstract class AbstractWorldMap implements IMoveValidator {
             for (int y=0; y<height; y++) {
                 Vector2d position = new Vector2d(x,y);
                 freePositionsForPlants.add(position);
+                //System.out.println(position);
             }
         }
         //mapVisualizer = new MapVisualizer(this);
@@ -67,6 +68,7 @@ public abstract class AbstractWorldMap implements IMoveValidator {
 
     public void placePlants(Vector2d plantPosition, Plant plant) {
         plants.put(plantPosition, plant);
+        freePositionsForPlants.remove(plantPosition);
     }
 
     public void spawnPlant(){
@@ -74,10 +76,10 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         if (freePositionsForPlants.size() == 0) return;
         // calculate free positions for plants
         Vector2d plantPosition = freePositionsForPlants.get(random.nextInt(freePositionsForPlants.size()));
+        //System.out.println(plantPosition);
         if (forestedEquator.willBePlanted(plantPosition)) {
             Plant plant = new Plant(plantPosition);
             placePlants(plantPosition, plant);
-            freePositionsForPlants.remove(plantPosition);
         }
         else {
             spawnPlant();
@@ -157,7 +159,7 @@ public abstract class AbstractWorldMap implements IMoveValidator {
     }
 
     public void growPlants() {
-        int plantsToAdd = 10;
+        int plantsToAdd = simulationProps.getSpawnPlantPerDay();
         for (int i = 0; i<plantsToAdd; i++) {
             spawnPlant();
         }

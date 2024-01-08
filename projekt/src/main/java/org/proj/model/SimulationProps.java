@@ -51,6 +51,9 @@ public class SimulationProps {
     public synchronized Integer getMapHeight(){
         return height;
     }
+    public synchronized int getSpawnPlantPerDay(){
+        return spawnPlantPerDay;
+    }
     public synchronized int getEquatorHeight(){
         return equatorHeight;
     }
