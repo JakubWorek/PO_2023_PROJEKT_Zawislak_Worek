@@ -93,7 +93,7 @@ public class Animal implements IWorldElement {
 
         EMapDirection newOrientation = this.orientation.rotate(this.genome[this.geneIndex]);
         Vector2d newPosition = this.position.add(newOrientation.unitVector());
-        PositionOrientationTuple correctedPosition = moveValidator.correctPosition(newPosition, newOrientation);
+        PositionOrientationTuple correctedPosition = moveValidator.correctPosition(this.position, newPosition, newOrientation);
         this.orientation = correctedPosition.orientation();
         this.position = correctedPosition.position();
     }

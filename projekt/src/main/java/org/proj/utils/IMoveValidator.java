@@ -1,5 +1,5 @@
 package org.proj.utils;
 
 public interface IMoveValidator {
-    PositionOrientationTuple correctPosition(Vector2d position, EMapDirection orientation);
+    PositionOrientationTuple correctPosition(Vector2d oldPosition, Vector2d newPosition, EMapDirection orientation);
 }
