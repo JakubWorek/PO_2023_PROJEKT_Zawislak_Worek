@@ -28,13 +28,6 @@ public class SimulationPresenter implements IMapChangeListener {
     @FXML
     private GridPane grid;
 
-    @FXML
-    private Label currMoveLbl;
-
-    @FXML
-    public void initialize() {
-    }
-
     public void setProps(SimulationProps simulationProps) {
         this.simulationProps = simulationProps;
     }
@@ -110,8 +103,6 @@ public class SimulationPresenter implements IMapChangeListener {
     public void mapChanged(AbstractWorldMap map, String message) {
         Platform.runLater(() -> {
             drawMap();
-            currMoveLbl.setText(message);
-
         });
     }
 }
