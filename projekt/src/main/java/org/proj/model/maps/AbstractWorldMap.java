@@ -41,8 +41,8 @@ public abstract class AbstractWorldMap implements IMoveValidator {
 
         forestedEquator = new ForestedEquator(this.simulationProps.getEquatorHeight(), width, height);
 
-        for (int x=1; x<=width; x++) {
-            for (int y=1; y<=height; y++) {
+        for (int x=0; x<width; x++) {
+            for (int y=0; y<height; y++) {
                 Vector2d position = new Vector2d(x,y);
                 freePositionsForPlants.add(position);
             }
@@ -183,5 +183,20 @@ public abstract class AbstractWorldMap implements IMoveValidator {
 
     public String getId() {
         return id;
+    }
+
+    public Integer getAliveAnimalsCount() {
+        int count = 0;
+        for (List<Animal> animals : animals.values()) {
+            count += animals.size();
+        }
+        return count;
+    }
+
+    public Integer getPlantsCount() {
+        System.out.println(plants.keySet());
+        System.out.println();
+        System.out.println();
+        return plants.size();
     }
 }

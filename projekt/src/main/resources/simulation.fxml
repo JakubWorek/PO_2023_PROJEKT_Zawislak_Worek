@@ -45,13 +45,13 @@
 
             <Label fx:id="mapWidthValue" GridPane.columnIndex="1" GridPane.rowIndex="0" />
             <Label fx:id="mapHeightValue" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="animalsAliveValue" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="animalsDeadValue" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label fx:id="plantsValue" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label fx:id="freeFieldsValue" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label fx:id="averageEnergyValue" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Label fx:id="averageLifespanValue" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <Label fx:id="averageChildrenValue" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <Label fx:id="animalsAliveValue" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="animalsDeadValue" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="plantsValue" text="0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="freeFieldsValue" text="0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label fx:id="averageEnergyValue" text="0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label fx:id="averageLifespanValue" text="0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label fx:id="averageChildrenValue" text="0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <rowConstraints>
                <RowConstraints />
                <RowConstraints />
@@ -66,38 +66,23 @@
 
         </GridPane>
             <Label text="Clicked animal stats:">
-                <HBox.margin>
-                    <Insets left="15.0" />
-                </HBox.margin>
             <padding>
-               <Insets top="25.0" />
+               <Insets top="40.0" />
             </padding>
             </Label>
             <Label text="Genotype: ">
-                <HBox.margin>
-                    <Insets left="15.0" />
-                </HBox.margin>
                 <padding>
                     <Insets bottom="5.0" top="10.0" />
                 </padding>
             </Label>
             <Label fx:id="genotype" text="##########">
-                <HBox.margin>
-                    <Insets left="15.0" />
-                </HBox.margin>
             </Label>
             <Label text="Current move: ">
-                <HBox.margin>
-                    <Insets left="15.0" />
-                </HBox.margin>
                 <padding>
-                    <Insets bottom="5.0" top="15.0" />
+                    <Insets bottom="5.0" top="10.0" />
                 </padding>
             </Label>
             <Label fx:id="currMove" text="#">
-                <HBox.margin>
-                    <Insets left="15.0" />
-                </HBox.margin>
                 <padding>
                     <Insets bottom="10.0" />
                 </padding>
@@ -107,25 +92,20 @@
                     <ColumnConstraints maxWidth="110" minWidth="110" prefWidth="110" />
                     <ColumnConstraints maxWidth="70" minWidth="70" prefWidth="70" />
                 </columnConstraints>
-                <Label text="Map width: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                <Label text="Map height: " GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <Label text="Animals alive: " GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                <Label text="Animals dead: " GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                <Label text="Plants: " GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <Label text="Energy Level: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <Label text="Plants eaten: " GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <Label text="Children count: " GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <Label text="Predecessors count: " GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <Label text="Days lived: " GridPane.columnIndex="0" GridPane.rowIndex="4" />
                 <Label text="Free fields: " GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                <Label text="Average energy: " GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                <Label text="Average lifespan: " GridPane.columnIndex="0" GridPane.rowIndex="7" />
-                <Label text="Average children: " GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                <Label text="Died at day: " GridPane.columnIndex="0" GridPane.rowIndex="6" />
 
-                <Label fx:id="_mapWidthValue" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                <Label fx:id="_mapHeightValue" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <Label fx:id="_animalsAliveValue" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <Label fx:id="_animalsDeadValue" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                <Label fx:id="_plantsValue" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <Label fx:id="_freeFieldsValue" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                <Label fx:id="_averageEnergyValue" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                <Label fx:id="_averageLifespanValue" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                <Label fx:id="_averageChildrenValue" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                <Label fx:id="energyLevel" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <Label fx:id="plantsEaten" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Label fx:id="childrenCount" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label fx:id="predCount" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <Label fx:id="daysLived" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <Label fx:id="diedAt" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <rowConstraints>
                <RowConstraints />
                <RowConstraints />

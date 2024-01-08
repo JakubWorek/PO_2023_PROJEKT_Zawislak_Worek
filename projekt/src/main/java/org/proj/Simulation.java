@@ -19,6 +19,8 @@ public class Simulation implements Runnable {
     private boolean isRunning = true;
     private SimulationProps simulationProps;
 
+    private int deadAnimals = 0;
+
     public Simulation(AbstractWorldMap map, SimulationProps simulationProps) {
         map.setSimulation(this);
         this.map = map;
@@ -38,6 +40,7 @@ public class Simulation implements Runnable {
 
         RandomPositionGenerator randomPositionGeneratorPlants = new RandomPositionGenerator(simulationProps.getMapWidth(), simulationProps.getMapHeight(), simulationProps.getStartPlantCount());
         for(Vector2d plantPosition : randomPositionGeneratorPlants) {
+            System.out.println(plantPosition);
             map.placePlants(plantPosition, new Plant(plantPosition));
         }
     }
@@ -62,6 +65,7 @@ public class Simulation implements Runnable {
             Set<Animal> animalsToRemove = new HashSet<>(animals);
             for(Animal animal : animalsToRemove){
                 if(animal.getEnergy()<=0){
+                    deadAnimals += 1;
                     map.removeAnimal(animal);
                     animals.remove(animal);
                 }
@@ -85,5 +89,9 @@ public class Simulation implements Runnable {
 
     public void addAnimal(Animal animal){
         animals.add(animal);
+    }
+
+    public Integer getDeadAnimalsCount() {
+        return deadAnimals;
     }
 }

@@ -41,7 +41,7 @@ public class PropsFormPresenter {
     @FXML
     TextField startEnergy;
 
-
+    SimulationProps simulationProps;
 
     @FXML
     public void initialize() {
@@ -70,6 +70,7 @@ public class PropsFormPresenter {
                 Integer.parseInt(moveEnergy.getText())
         );
 
+        simulationProps = props;
         SimulationApp app = new SimulationApp(props);
         //Thread appThread = new Thread(app);
         app.run();

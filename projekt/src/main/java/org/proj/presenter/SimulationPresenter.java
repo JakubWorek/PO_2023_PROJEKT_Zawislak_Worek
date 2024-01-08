@@ -22,14 +22,35 @@ import static java.lang.Math.min;
 
 public class SimulationPresenter implements IMapChangeListener {
 
+    @FXML
+    private  Label averageChildrenValue;
+    @FXML
+    private  Label averageLifespanValue;
+    @FXML
+    private  Label averageEnergyValue;
+    @FXML
+    private  Label freeFieldsValue;
+    @FXML
+    private  Label plantsValue;
+    @FXML
+    private  Label animalsDeadValue;
+    @FXML
+    private  Label animalsAliveValue;
+    @FXML
+    private  Label mapHeightValue;
+    @FXML
+    private Label mapWidthValue;
     private SimulationProps simulationProps;
     private AbstractWorldMap worldMap;
+    private Simulation simulation;
 
     @FXML
     private GridPane grid;
 
     public void setProps(SimulationProps simulationProps) {
         this.simulationProps = simulationProps;
+        mapWidthValue.setText(simulationProps.getMapWidth().toString());
+        mapHeightValue.setText(simulationProps.getMapHeight().toString());
     }
 
     private void clearGrid() {
@@ -84,9 +105,6 @@ public class SimulationPresenter implements IMapChangeListener {
 
         clearGrid();
 
-        //System.out.println(simulationProps.getMapWidth());
-        //System.out.println(simulationProps.getMapHeight());
-
         int CELL = min(550/simulationProps.getMapWidth(), 550/simulationProps.getMapHeight());
 
         grid.getColumnConstraints().add(new ColumnConstraints(CELL));
@@ -94,15 +112,18 @@ public class SimulationPresenter implements IMapChangeListener {
 
         worldMap.addListener(this);
         Simulation simulation = new Simulation(worldMap, simulationProps);
+        this.simulation = simulation;
         Thread appThread = new Thread(simulation);
         appThread.start();
-        //simulation.run();
     }
 
     @Override
     public void mapChanged(AbstractWorldMap map, String message) {
         Platform.runLater(() -> {
             drawMap();
+            animalsAliveValue.setText(map.getAliveAnimalsCount().toString());
+            animalsDeadValue.setText(simulation.getDeadAnimalsCount().toString());
+            plantsValue.setText(map.getPlantsCount().toString());
         });
     }
 }

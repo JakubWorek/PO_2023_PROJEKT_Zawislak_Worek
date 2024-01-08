@@ -44,11 +44,11 @@ public class SimulationProps {
         daysElapsed++;
     }
 
-    public synchronized int getMapWidth(){
+    public synchronized Integer getMapWidth(){
         return width;
     }
 
-    public synchronized int getMapHeight(){
+    public synchronized Integer getMapHeight(){
         return height;
     }
     public synchronized int getEquatorHeight(){
