@@ -70,7 +70,7 @@ public class SimulationPresenter implements IMapChangeListener {
         for (int i = 0; i < limit; i++) {
             for (int j = 0; j < limit; j++) {
                 Label label = new Label();
-                Object object = worldMap.objectAt(new Vector2d(i, simulationProps.getMapHeight()-j));
+                Object object = worldMap.objectAt(new Vector2d(i, simulationProps.getMapHeight()-j-1));
                 if (object != null)
                     label.setText(object.toString());
                 grid.add(label, i, j);
