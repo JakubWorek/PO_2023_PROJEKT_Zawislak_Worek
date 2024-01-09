@@ -49,15 +49,15 @@ public class Animal implements IWorldElement {
     public Vector2d getPosition(){ return this.position; }
     public EMapDirection getOrientation() { return this.orientation; }
     public EMoveStyle getMoveStyle() { return moveStyle; }
-    public int getEnergy() { return energy; }
+    public Integer getEnergy() { return energy; }
     public int getMaxEnergy() { return maxEnergy; }
-    public int getAge() { return age; }
+    public Integer getAge() { return age; }
     public int getBirthDate() { return birthDate; }
-    public int getDeathDate() { return deathDate; }
+    public Integer getDeathDate() { return deathDate; }
     public int[] getGenome() { return genome; }
-    public int getGeneIndex() { return geneIndex; }
-    public int getChildrenMade() { return childrenMade; }
-    public int getPlantsEaten() { return plantsEaten; }
+    public Integer getGeneIndex() { return geneIndex; }
+    public Integer getChildrenMade() { return childrenMade; }
+    public Integer getPlantsEaten() { return plantsEaten; }
 
     // setters
     public void setPosition(Vector2d position) { this.position = position; }

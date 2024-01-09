@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public class Simulation implements Runnable {
     private final AbstractWorldMap map;
@@ -19,7 +20,15 @@ public class Simulation implements Runnable {
     private boolean isRunning = true;
     private SimulationProps simulationProps;
 
+    private int accumulatedLifeSpan = 0;
+
     private int deadAnimals = 0;
+
+    private int childrenCountOfDeadAnimals = 0;
+
+    public List<Animal> getAnimals() {
+        return animals;
+    }
 
     public Simulation(AbstractWorldMap map, SimulationProps simulationProps) {
         map.setSimulation(this);
@@ -48,6 +57,14 @@ public class Simulation implements Runnable {
     @Override
     public void run(){
         while(animals.size()>0){
+            if (!isRunning) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                continue;
+            }
             // move animals
             for(Animal animal : animals){
                 //animal.move(map);
@@ -65,7 +82,10 @@ public class Simulation implements Runnable {
             Set<Animal> animalsToRemove = new HashSet<>(animals);
             for(Animal animal : animalsToRemove){
                 if(animal.getEnergy()<=0){
+                    animal.setDeathDate(simulationProps.getDaysElapsed());
                     deadAnimals += 1;
+                    accumulatedLifeSpan += animal.getAge();
+                    childrenCountOfDeadAnimals += animal.getChildrenMade();
                     map.removeAnimal(animal);
                     animals.remove(animal);
                 }
@@ -93,5 +113,29 @@ public class Simulation implements Runnable {
 
     public Integer getDeadAnimalsCount() {
         return deadAnimals;
+    }
+
+    public float getAvarageEnergy() {
+        float sum = 0;
+        for (Animal animal : animals)
+            sum += animal.getEnergy();
+
+        return sum / animals.size();
+    }
+
+
+    public float getAverageLifeSpan() {
+        return accumulatedLifeSpan / (float)deadAnimals;
+    }
+
+    public float getAverageChildrenCount() {
+        float sum = childrenCountOfDeadAnimals;
+        for (Animal animal : animals)
+            sum += animal.getChildrenMade();
+        return  sum / (animals.size()+deadAnimals);
+    }
+
+    public void togglePause() {
+        isRunning = !isRunning;
     }
 }

@@ -196,9 +196,15 @@ public abstract class AbstractWorldMap implements IMoveValidator {
     }
 
     public Integer getPlantsCount() {
-        System.out.println(plants.keySet());
-        System.out.println();
-        System.out.println();
         return plants.size();
+    }
+
+    public Integer getEmptyCount() {
+        Set<Vector2d> position = new HashSet<>();
+        for (Vector2d pos : animals.keySet())
+            if (!animals.get(pos).isEmpty())
+                position.add(pos);
+        position.addAll(plants.keySet());
+        return width*height - position.size();
     }
 }
