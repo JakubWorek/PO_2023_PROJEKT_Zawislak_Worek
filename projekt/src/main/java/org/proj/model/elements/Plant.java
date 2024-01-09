@@ -16,6 +16,6 @@ public class Plant implements IWorldElement {
 
     @Override
     public String toString() {
-        return " * ";
+        return "*";
     }
 }

@@ -1,0 +1,23 @@
+.stats-section {
+    -fx-font-size: 12;
+}
+
+.stats-section GridPane Label {
+    -fx-padding: 3;
+}
+
+.header {
+    -fx-font-weight: 700;
+    -fx-font-size: 16;
+}
+
+.equator-cell {
+    -fx-background-color: lightgreen;
+    -fx-background-insets: 1;
+}
+
+.grid-style VBox {
+    -fx-border-color: black;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+}

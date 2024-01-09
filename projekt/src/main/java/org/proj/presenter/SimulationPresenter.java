@@ -4,14 +4,13 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import org.proj.SimulationApp;
 import org.proj.model.SimulationProps;
 import org.proj.model.elements.Animal;
@@ -47,21 +46,21 @@ public class SimulationPresenter implements IMapChangeListener {
     @FXML
     private Button bestAnimalsBtn;
     @FXML
-    private  Label averageChildrenValue;
+    private Label averageChildrenValue;
     @FXML
-    private  Label averageLifespanValue;
+    private Label averageLifespanValue;
     @FXML
-    private  Label averageEnergyValue;
+    private Label averageEnergyValue;
     @FXML
-    private  Label freeFieldsValue;
+    private Label freeFieldsValue;
     @FXML
-    private  Label plantsValue;
+    private Label plantsValue;
     @FXML
-    private  Label animalsDeadValue;
+    private Label animalsDeadValue;
     @FXML
-    private  Label animalsAliveValue;
+    private Label animalsAliveValue;
     @FXML
-    private  Label mapHeightValue;
+    private Label mapHeightValue;
     @FXML
     private Label mapWidthValue;
     private SimulationProps simulationProps;
@@ -76,6 +75,9 @@ public class SimulationPresenter implements IMapChangeListener {
 
     private Animal animalToFollow;
 
+    Thread appThread;
+    boolean running = false;
+
     public void setProps(SimulationProps simulationProps) {
         this.simulationProps = simulationProps;
         mapWidthValue.setText(simulationProps.getMapWidth().toString());
@@ -83,27 +85,31 @@ public class SimulationPresenter implements IMapChangeListener {
     }
 
     private void clearGrid() {
-        grid.getChildren().retainAll(grid.getChildren().get(0)); // hack to retain visible grid lines
+        grid.getChildren().retainAll();
         grid.getColumnConstraints().clear();
         grid.getRowConstraints().clear();
+        grid.setHgap(1);
+        grid.setVgap(1);
     }
 
     public void drawMap() {
         clearGrid();
         int width =  simulationProps.getMapWidth();
         int height =  simulationProps.getMapHeight();
-        int CELL = min(500/width, 500/height);
+        int CELL = min((520-width)/width, (520-height)/height);
 
         int limit = max(height, width);
 
         for (int i = 0; i < limit; i++) {
             for (int j = 0; j < limit; j++) {
                 VBox vbox = new VBox();
-                Label label = new Label("   ");
+                if (worldMap.getForestedEquator().isPreferable(new Vector2d(i, simulationProps.getMapHeight()-j)))
+                    vbox.getStyleClass().add("equator-cell");
+                Label label = new Label("");
                 Object object = worldMap.objectAt(new Vector2d(i, simulationProps.getMapHeight()-j-1));
                 if (object != null)
                     label.setText(object.toString());
-                label.setStyle("-fx-font-size: %d".formatted(CELL/3));
+                label.setStyle("-fx-font-size: %d".formatted((int)(CELL/2.5)));
                 vbox.getChildren().add(label);
                 grid.add(vbox, i, j);
                 vbox.setAlignment(Pos.CENTER);
@@ -114,21 +120,55 @@ public class SimulationPresenter implements IMapChangeListener {
         }
     }
 
+    void updateSelectedAnimalStats() {
+        if (animalToFollow == null) {
+            energyLevel.setText("");
+            daysLived.setText("");
+            plantsEaten.setText("");
+            childrenCount.setText("");
+            currMove.setText("Gene index: # | Value: #");
+            diedAt.setText("");
+            genotype.setText("##########");
+        }
+        else {
+            energyLevel.setText(animalToFollow.getEnergy().toString());
+            daysLived.setText(animalToFollow.getAge().toString());
+            plantsEaten.setText(animalToFollow.getPlantsEaten().toString());
+            childrenCount.setText(animalToFollow.getChildrenMade().toString());
+            currMove.setText("Gene index: " + animalToFollow.getGeneIndex().toString() + " | Value: " + animalToFollow.getGenome()[animalToFollow.getGeneIndex()]);
+            if (animalToFollow.getEnergy() == 0) {
+                diedAt.setText(animalToFollow.getDeathDate().toString());
+            }
+        }
+    }
+
     public void onStartBtnClicked(ActionEvent actionEvent) {
         worldMap = new GlobeMap(simulationProps);
 
         clearGrid();
 
-        int CELL = min(550/simulationProps.getMapWidth(), 550/simulationProps.getMapHeight());
-
-        grid.getColumnConstraints().add(new ColumnConstraints(CELL));
-        grid.getRowConstraints().add(new RowConstraints(CELL));
+        Button btn = (Button) actionEvent.getSource();
+        btn.setText("Reset");
+        pauseToggleBtn.setText("Pause");
+        bestAnimalsBtn.setVisible(false);
+        bestGrassBtn.setVisible(false);
+        animalToFollow = null;
+        updateSelectedAnimalStats();
+        animalsAliveValue.setText("");
+        animalsDeadValue.setText("");
+        plantsValue.setText("");
+        freeFieldsValue.setText("");
+        averageEnergyValue.setText("");
+        averageLifespanValue.setText("");
+        averageChildrenValue.setText("");
 
         worldMap.addListener(this);
         Simulation simulation = new Simulation(worldMap, simulationProps);
         this.simulation = simulation;
-        Thread appThread = new Thread(simulation);
+        if(running) appThread.stop();
+        appThread = new Thread(simulation);
         appThread.start();
+        running = true;
     }
 
     @Override
@@ -143,16 +183,7 @@ public class SimulationPresenter implements IMapChangeListener {
             averageLifespanValue.setText(String.valueOf(simulation.getAverageLifeSpan()));
             averageChildrenValue.setText(String.valueOf(simulation.getAverageChildrenCount()));
 
-            if (animalToFollow != null) {
-                energyLevel.setText(animalToFollow.getEnergy().toString());
-                daysLived.setText(animalToFollow.getAge().toString());
-                plantsEaten.setText(animalToFollow.getPlantsEaten().toString());
-                childrenCount.setText(animalToFollow.getChildrenMade().toString());
-                currMove.setText("Gene index: " + animalToFollow.getGeneIndex().toString() + " | Value: " + animalToFollow.getGenome()[animalToFollow.getGeneIndex()]);
-                if (animalToFollow.getEnergy() == 0) {
-                    diedAt.setText(animalToFollow.getDeathDate().toString());
-                }
-            }
+            updateSelectedAnimalStats();
         });
     }
 
@@ -173,6 +204,7 @@ public class SimulationPresenter implements IMapChangeListener {
                     for (int g : animalToFollow.getGenome())
                         genes += String.valueOf(g);
                     genotype.setText(genes);
+                    updateSelectedAnimalStats();
                 }
             }
         }

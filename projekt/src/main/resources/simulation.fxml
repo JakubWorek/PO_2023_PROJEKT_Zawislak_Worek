@@ -9,28 +9,25 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox minHeight="571.0" minWidth="780.0" prefHeight="571.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.proj.presenter.SimulationPresenter">
-    <HBox prefHeight="500.0" prefWidth="938.0">
+<VBox stylesheets="style.css" minHeight="580.0" minWidth="790.0" prefHeight="580.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.proj.presenter.SimulationPresenter">
+    <HBox prefHeight="500.0" prefWidth="940.0">
         <VBox.margin>
-            <Insets bottom="15.0" top="15.0" />
+            <Insets bottom="15.0" top="10.0" />
         </VBox.margin>
-        <GridPane fx:id="grid" onMouseClicked="#clickGrid" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="550.0">
+        <GridPane fx:id="grid" styleClass="grid-style" onMouseClicked="#clickGrid" prefWidth="535.0" minHeight="515.0">
             <HBox.margin>
                 <Insets left="15.0" right="15.0" />
             </HBox.margin>
         </GridPane>
-        <VBox>
-      <Label text="Overall stats:">
+        <VBox styleClass="stats-section">
+      <Label styleClass="header" text="Overall stats:">
          <HBox.margin>
-            <Insets left="15.0" />
+            <Insets left="10.0" />
          </HBox.margin>
-            <VBox.margin>
-               <Insets bottom="10.0" />
-            </VBox.margin>
       </Label>
         <GridPane gridLinesVisible="true">
             <columnConstraints>
-                <ColumnConstraints maxWidth="110" minWidth="110" prefWidth="110" />
+                <ColumnConstraints maxWidth="135" minWidth="135" prefWidth="135" />
                 <ColumnConstraints maxWidth="70" minWidth="70" prefWidth="70" />
             </columnConstraints>
             <Label text="Map width: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
@@ -65,15 +62,15 @@
             </rowConstraints>
 
         </GridPane>
-            <Label text="Clicked animal stats:">
-            <padding>
-               <Insets top="40.0" />
-            </padding>
+            <Label styleClass="header"  text="Clicked animal stats:">
+                <padding>
+                    <Insets top="20.0" />
+                </padding>
             </Label>
             <Label text="Genotype: ">
-                <padding>
-                    <Insets bottom="5.0" top="10.0" />
-                </padding>
+                <HBox.margin>
+                    <Insets bottom="5.0" />
+                </HBox.margin>
             </Label>
             <Label fx:id="genotype" text="##########">
             </Label>
@@ -89,7 +86,7 @@
             </Label>
             <GridPane fx:id="animalSpecsGrid" gridLinesVisible="true">
                 <columnConstraints>
-                    <ColumnConstraints maxWidth="110" minWidth="110" prefWidth="110" />
+                    <ColumnConstraints maxWidth="135" minWidth="135" prefWidth="135" />
                     <ColumnConstraints maxWidth="70" minWidth="70" prefWidth="70" />
                 </columnConstraints>
                 <Label text="Energy Level: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
@@ -112,16 +109,13 @@
                <RowConstraints />
                <RowConstraints />
                <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
             </rowConstraints>
 
             </GridPane>
         </VBox>
     </HBox>
     <HBox>
-        <Button mnemonicParsing="false" onAction="#onStartBtnClicked" prefHeight="26.0" prefWidth="142.0" text="Start">
+        <Button mnemonicParsing="false" onAction="#onStartBtnClicked" prefHeight="25.0" prefWidth="140.0" text="Start">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>

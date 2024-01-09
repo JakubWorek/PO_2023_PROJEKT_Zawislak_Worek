@@ -206,4 +206,8 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         position.addAll(plants.keySet());
         return width*height - position.size();
     }
+
+    public ForestedEquator getForestedEquator() {
+        return forestedEquator;
+    }
 }

@@ -23,6 +23,9 @@ public class SimulationApp extends Application implements Runnable {
 
     private void configureStage(Stage primaryStage, VBox viewRoot) {
         var scene = new Scene(viewRoot);
+
+        scene.getStylesheets().add(getClass().getClassLoader().getResource("style.css").toExternalForm());
+
         primaryStage.setScene(scene);
         primaryStage.setTitle("Simulation app");
         primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());

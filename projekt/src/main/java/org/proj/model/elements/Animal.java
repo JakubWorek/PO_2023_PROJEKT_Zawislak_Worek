@@ -76,19 +76,20 @@ public class Animal implements IWorldElement {
     public boolean isAt(Vector2d position){ return this.position.equals(position);}
 
     // simulation methods (move, eat, ...)
-    public void move(IMoveValidator moveValidator){
-        if(moveStyle == EMoveStyle.FULLY_PREDESTINED){
+    public void move(IMoveValidator moveValidator) {
+        if(moveStyle == EMoveStyle.FULLY_PREDESTINED) {
             this.geneIndex = (this.geneIndex + 1) % this.genome.length;
-        } else if (moveStyle == EMoveStyle.BACK_AND_FORTH) {
-            if (this.geneIndex == this.genome.length - 1) {
+        }
+        else if (moveStyle == EMoveStyle.BACK_AND_FORTH) {
+            if (this.geneIndex == this.genome.length - 1)
                 this.back = true;
-            } else if (this.geneIndex == 0) {
+            else if (this.geneIndex == 0)
                 this.back = false;
-            } else if (this.back){
+
+            if (this.back)
                 this.geneIndex--;
-            } else {
+            else
                 this.geneIndex++;
-            }
         }
 
         EMapDirection newOrientation = this.orientation.rotate(this.genome[this.geneIndex]);
