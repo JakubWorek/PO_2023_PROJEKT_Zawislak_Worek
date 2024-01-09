@@ -1,21 +1,27 @@
 package org.proj.model.maps;
 
 import org.proj.model.SimulationProps;
-import org.proj.model.elements.EMoveStyle;
+import org.proj.model.elements.Water;
 import org.proj.utils.EMapDirection;
 import org.proj.utils.PositionOrientationTuple;
 import org.proj.utils.Vector2d;
 
-public class GlobeMap extends AbstractWorldMap {
+import java.util.HashMap;
 
-    public GlobeMap(SimulationProps simulationProps) {
+public class WaterMap extends AbstractWorldMap{
+    private HashMap<Vector2d, Water> waters;
+    public WaterMap(SimulationProps simulationProps){
         super(simulationProps);
     }
 
     @Override
-    public PositionOrientationTuple correctPosition(Vector2d oldPosition, Vector2d position, EMapDirection orientation) {
-        int x = (position.getX()+width)%width;
-        int y = position.getY();
+    public PositionOrientationTuple correctPosition(Vector2d oldPosition, Vector2d newPosition, EMapDirection orientation){
+        // check if it is water on position
+        if(waters.containsKey(newPosition)){
+            return new PositionOrientationTuple(oldPosition, orientation.rotate(4));
+        }
+        int x = (newPosition.getX()+width)%width;
+        int y = newPosition.getY();
         EMapDirection orient = orientation;
         if (y < 0) {
             y = 1;
