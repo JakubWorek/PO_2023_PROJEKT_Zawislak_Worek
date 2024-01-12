@@ -16,6 +16,7 @@ import org.proj.model.SimulationProps;
 import org.proj.model.elements.Animal;
 import org.proj.model.maps.AbstractWorldMap;
 import org.proj.model.maps.GlobeMap;
+import org.proj.model.maps.WaterMap;
 import org.proj.utils.Vector2d;
 import org.proj.Simulation;
 
@@ -98,10 +99,10 @@ public class SimulationPresenter implements IMapChangeListener {
         int height =  simulationProps.getMapHeight();
         int CELL = min((520-width)/width, (520-height)/height);
 
-        int limit = max(height, width);
+        //int limit = max(height, width);
 
-        for (int i = 0; i < limit; i++) {
-            for (int j = 0; j < limit; j++) {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
                 VBox vbox = new VBox();
                 if (worldMap.getForestedEquator().isPreferable(new Vector2d(i, simulationProps.getMapHeight()-j)))
                     vbox.getStyleClass().add("equator-cell");
@@ -114,8 +115,11 @@ public class SimulationPresenter implements IMapChangeListener {
                 grid.add(vbox, i, j);
                 vbox.setAlignment(Pos.CENTER);
                 GridPane.setHalignment(label, HPos.CENTER);
+                if (i == 0) {
+                    grid.getRowConstraints().add(new RowConstraints(CELL));
+                }
             }
-            grid.getRowConstraints().add(new RowConstraints(CELL));
+
             grid.getColumnConstraints().add(new ColumnConstraints(CELL));
         }
     }
@@ -143,7 +147,7 @@ public class SimulationPresenter implements IMapChangeListener {
     }
 
     public void onStartBtnClicked(ActionEvent actionEvent) {
-        worldMap = new GlobeMap(simulationProps);
+        worldMap = new WaterMap(simulationProps);
 
         clearGrid();
 

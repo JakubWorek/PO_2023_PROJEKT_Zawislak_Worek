@@ -18,7 +18,7 @@ public abstract class AbstractWorldMap implements IMoveValidator {
     protected static final Random random = new Random();
     protected HashMap<Vector2d, List<Animal>> animals;
     protected HashMap<Vector2d, Plant> plants;
-    private List<Vector2d> freePositionsForPlants = new ArrayList<>();
+    protected List<Vector2d> freePositionsForPlants = new ArrayList<>();
     protected int width;
     protected int height;
     private final ForestedEquator forestedEquator;

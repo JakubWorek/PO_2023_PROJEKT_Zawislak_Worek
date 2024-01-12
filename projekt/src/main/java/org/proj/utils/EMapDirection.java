@@ -1,5 +1,7 @@
 package org.proj.utils;
 
+import java.util.Random;
+
 public enum EMapDirection {
     NORTH,
     NORTH_EAST,
@@ -9,6 +11,8 @@ public enum EMapDirection {
     SOUTH_WEST,
     WEST,
     NORTH_WEST;
+
+    private static final Random random = new Random();
 
     public String toString() {
         switch(this) {
@@ -43,6 +47,20 @@ public enum EMapDirection {
             result = result.next();
         }
         return result;
+    }
+
+    public static EMapDirection getRandomDirection() {
+        return switch(random.nextInt(8)) {
+            case 0 -> NORTH;
+            case 1 -> NORTH_EAST;
+            case 2 -> EAST;
+            case 3 -> SOUTH_EAST;
+            case 4 -> SOUTH;
+            case 5 -> SOUTH_WEST;
+            case 6 -> WEST;
+            case 7 -> NORTH_WEST;
+            default -> NORTH;
+        };
     }
 
     public Vector2d unitVector() {
