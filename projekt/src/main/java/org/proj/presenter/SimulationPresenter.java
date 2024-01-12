@@ -3,16 +3,11 @@ package org.proj.presenter;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import org.proj.SimulationApp;
 import org.proj.model.SimulationProps;
 import org.proj.model.elements.Animal;
 import org.proj.model.elements.IWorldElement;
@@ -22,7 +17,6 @@ import org.proj.model.maps.WaterMap;
 import org.proj.utils.Vector2d;
 import org.proj.Simulation;
 
-import java.util.List;
 import java.util.Objects;
 
 import static java.lang.Math.max;
@@ -42,6 +36,8 @@ public class SimulationPresenter implements IMapChangeListener {
     private Label genotype;
     @FXML
     private Label childrenCount;
+    @FXML
+    private Label descCount;
     @FXML
     private Label plantsEaten;
     @FXML
@@ -136,6 +132,7 @@ public class SimulationPresenter implements IMapChangeListener {
             daysLived.setText("");
             plantsEaten.setText("");
             childrenCount.setText("");
+            descCount.setText("");
             currMove.setText("Gene index: # | Value: #");
             diedAt.setText("");
             genotype.setText("##########");
@@ -145,6 +142,7 @@ public class SimulationPresenter implements IMapChangeListener {
             daysLived.setText(animalToFollow.getAge().toString());
             plantsEaten.setText(animalToFollow.getPlantsEaten().toString());
             childrenCount.setText(animalToFollow.getChildrenMade().toString());
+            descCount.setText(animalToFollow.countDescendants().toString());
             currMove.setText("Gene index: " + animalToFollow.getGeneIndex().toString() + " | Value: " + animalToFollow.getGenome()[animalToFollow.getGeneIndex()]);
             if (animalToFollow.getEnergy() == 0) {
                 diedAt.setText(animalToFollow.getDeathDate().toString());

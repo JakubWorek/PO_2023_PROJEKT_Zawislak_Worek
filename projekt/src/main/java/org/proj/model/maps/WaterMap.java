@@ -8,13 +8,10 @@ import org.proj.utils.PositionOrientationTuple;
 import org.proj.utils.RandomPositionGenerator;
 import org.proj.utils.Vector2d;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class WaterMap extends AbstractWorldMap{
-    private HashMap<Vector2d, Water> waters = new HashMap<>();;
+    private HashMap<Vector2d, Water> waters = new HashMap<>();
     public WaterMap(SimulationProps simulationProps){
         super(simulationProps);
 
@@ -27,7 +24,7 @@ public class WaterMap extends AbstractWorldMap{
     public void makeWaterDoAnything(){
         // wylosuj z obecnych wód 50%
         int waterCount = waters.size();
-        int waterToChangeCount = waterCount/10;
+        int waterToChangeCount = waterCount/2;
         if (waterToChangeCount == 0) waterToChangeCount = 1;
 
         List<Vector2d> waterToChange = new ArrayList<>(waters.keySet());
@@ -56,7 +53,6 @@ public class WaterMap extends AbstractWorldMap{
                         }
                     }
                 }
-
 
                 // Jeśli nie ma tam zwierzaka
                 if (!animals.containsKey(newPosition)) {
@@ -125,5 +121,16 @@ public class WaterMap extends AbstractWorldMap{
         if(waters.containsKey(position)) return waters.get(position);
         if(plants.containsKey(position)) return plants.get(position);
         return null;
+    }
+
+    @Override
+    public Integer getEmptyCount() {
+        Set<Vector2d> position = new HashSet<>();
+        for (Vector2d pos : animals.keySet())
+            if (!animals.get(pos).isEmpty())
+                position.add(pos);
+        position.addAll(plants.keySet());
+        position.addAll(waters.keySet());
+        return width*height - position.size();
     }
 }

@@ -130,8 +130,10 @@ public abstract class AbstractWorldMap implements IMoveValidator {
                     animals.get(position).add(child);
                     a1.removeEnergy(simulationProps.getEnergyLevelToPassToChild());
                     a1.addChild();
+                    a1.addChildToList(child);
                     a2.removeEnergy(simulationProps.getEnergyLevelToPassToChild());
                     a2.addChild();
+                    a2.addChildToList(child);
                     simulation.addAnimal(child);
                 }
             }

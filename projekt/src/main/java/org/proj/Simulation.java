@@ -75,7 +75,7 @@ public class Simulation implements Runnable {
         while(animals.size()>0){
             if (!isRunning) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -94,7 +94,7 @@ public class Simulation implements Runnable {
                 }
             }
             // if map is WaterMap, then expand/contract water and calculate free positions for plants
-            if(map.getClass().getSimpleName().equals("WaterMap")){
+            if(map.getClass().getSimpleName().equals("WaterMap") && simulationProps.getDaysElapsed() % 2 == 0){
                 ((WaterMap)map).makeWaterDoAnything();
                 ((WaterMap)map).calculateFreePositions();
             }
@@ -116,7 +116,7 @@ public class Simulation implements Runnable {
                 if (deadAnimals > 0) avgLifespan = String.valueOf(getAverageLifeSpan());
                 csvContent += simulationProps.getDaysElapsed() + ";" + map.getAliveAnimalsCount() + ";" + map.getPlantsCount() + ";" + map.getEmptyCount() + ";" + getMostPopularGenotypeStr() + ";" + getAvarageEnergy() + ";" + avgLifespan + ";" + getAverageChildrenCount() + "\n";
             }
-                // add day
+            // add day
             simulationProps.incrementDaysElapsed();
             // add age
             for(Animal animal : animals){

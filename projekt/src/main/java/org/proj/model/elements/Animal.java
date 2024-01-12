@@ -8,7 +8,7 @@ import org.proj.utils.EMapDirection;
 import org.proj.utils.PositionOrientationTuple;
 import org.proj.utils.Vector2d;
 
-import java.util.Random;
+import java.util.*;
 
 public class Animal implements IWorldElement {
     // for random orientation etc
@@ -30,6 +30,8 @@ public class Animal implements IWorldElement {
     private int geneIndex;
     private int childrenMade;
     private int plantsEaten;
+
+    private List<Animal> children = new ArrayList<>();
 
     // constructor
     public Animal(Vector2d position, int energy, int maxEnergy, int birthDate, int[] genome, EMoveStyle moveStyle) {
@@ -140,6 +142,27 @@ public class Animal implements IWorldElement {
                 }
             }
         }
+    }
+
+    public void addChildToList(Animal child) {
+        this.children.add(child);
+    }
+
+    public Integer countDescendants() {
+        Set<Animal> visited = new HashSet<>();
+        return countDescendantsRecursive(this, visited);
+    }
+
+    public Integer countDescendantsRecursive(Animal animal, Set<Animal> visited) {
+        Integer count = 0;
+        visited.add(animal);
+        for (Animal child : children) {
+            if (!visited.contains(child)) {
+                //visited.add(child);
+                count += countDescendantsRecursive(child, visited);
+            }
+        }
+        return count + children.size();
     }
 
     public Shape getShapeToPrint(int cellSize) {
