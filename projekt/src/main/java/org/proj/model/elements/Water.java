@@ -1,5 +1,8 @@
 package org.proj.model.elements;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
 import org.proj.utils.Vector2d;
 
 public class Water implements IWorldElement{
@@ -17,5 +20,9 @@ public class Water implements IWorldElement{
     @Override
     public String toString() {
         return "W";
+    }
+
+    public Shape getShapeToPrint(int cellSize) {
+        return null;
     }
 }

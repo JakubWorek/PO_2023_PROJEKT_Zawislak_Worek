@@ -1,5 +1,8 @@
 package org.proj.model.elements;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
 import org.proj.utils.IMoveValidator;
 import org.proj.utils.EMapDirection;
 import org.proj.utils.PositionOrientationTuple;
@@ -139,5 +142,11 @@ public class Animal implements IWorldElement {
         }
     }
 
+    public Shape getShapeToPrint(int cellSize) {
+        float k = (float)energy/(float)maxEnergy;
+        Color temp = Color.CHOCOLATE;
+        Color brown = new Color(temp.getRed()*k, temp.getGreen()*k, temp.getBlue()*k, 1.0);
+        return new Circle(cellSize/3, brown);
+    }
 
 }

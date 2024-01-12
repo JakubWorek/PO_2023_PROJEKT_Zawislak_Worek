@@ -16,6 +16,11 @@
     -fx-background-insets: 1;
 }
 
+.water-cell {
+    -fx-background-color: lightblue;
+    -fx-background-insets: 1;
+}
+
 .grid-style VBox {
     -fx-border-color: black;
     -fx-border-width: 1;

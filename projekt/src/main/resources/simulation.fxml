@@ -9,14 +9,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox stylesheets="style.css" minHeight="580.0" minWidth="790.0" prefHeight="580.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.proj.presenter.SimulationPresenter">
-    <HBox prefHeight="500.0" prefWidth="940.0">
+<VBox minHeight="600.0" minWidth="840.0" prefHeight="600.0" prefWidth="840.0" stylesheets="style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.proj.presenter.SimulationPresenter">
+    <HBox prefHeight="500.0">
         <VBox.margin>
-            <Insets bottom="15.0" top="10.0" />
+            <Insets bottom="15.0" top="15.0" />
         </VBox.margin>
-        <GridPane fx:id="grid" styleClass="grid-style" onMouseClicked="#clickGrid" prefWidth="535.0" minHeight="515.0">
+        <GridPane fx:id="grid" minHeight="515.0" onMouseClicked="#clickGrid" prefWidth="515.0" styleClass="grid-style">
             <HBox.margin>
-                <Insets left="15.0" right="15.0" />
+                <Insets left="15.0" right="15.0" top="15.0" />
             </HBox.margin>
         </GridPane>
         <VBox styleClass="stats-section">
@@ -27,8 +27,8 @@
       </Label>
         <GridPane gridLinesVisible="true">
             <columnConstraints>
-                <ColumnConstraints maxWidth="135" minWidth="135" prefWidth="135" />
-                <ColumnConstraints maxWidth="70" minWidth="70" prefWidth="70" />
+                <ColumnConstraints maxWidth="150" minWidth="150" prefWidth="150" />
+                <ColumnConstraints maxWidth="100" minWidth="100" prefWidth="100" />
             </columnConstraints>
             <Label text="Map width: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <Label text="Map height: " GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -39,16 +39,18 @@
             <Label text="Average energy: " GridPane.columnIndex="0" GridPane.rowIndex="6" />
             <Label text="Average lifespan: " GridPane.columnIndex="0" GridPane.rowIndex="7" />
             <Label text="Average children: " GridPane.columnIndex="0" GridPane.rowIndex="8" />
+            <Label text="Most popular genotype: " GridPane.columnIndex="0" GridPane.rowIndex="9" />
 
             <Label fx:id="mapWidthValue" GridPane.columnIndex="1" GridPane.rowIndex="0" />
             <Label fx:id="mapHeightValue" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="animalsAliveValue" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="animalsDeadValue" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label fx:id="plantsValue" text="0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label fx:id="freeFieldsValue" text="0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label fx:id="averageEnergyValue" text="0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Label fx:id="averageLifespanValue" text="0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <Label fx:id="averageChildrenValue" text="0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <Label fx:id="animalsAliveValue" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="animalsDeadValue" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="plantsValue" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="freeFieldsValue" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label fx:id="averageEnergyValue" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label fx:id="averageLifespanValue" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label fx:id="averageChildrenValue" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <Label fx:id="mostPopularGenes" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <rowConstraints>
                <RowConstraints />
                <RowConstraints />
@@ -62,7 +64,7 @@
             </rowConstraints>
 
         </GridPane>
-            <Label styleClass="header"  text="Clicked animal stats:">
+            <Label styleClass="header" text="Clicked animal stats:">
                 <padding>
                     <Insets top="20.0" />
                 </padding>
@@ -86,8 +88,8 @@
             </Label>
             <GridPane fx:id="animalSpecsGrid" gridLinesVisible="true">
                 <columnConstraints>
-                    <ColumnConstraints maxWidth="135" minWidth="135" prefWidth="135" />
-                    <ColumnConstraints maxWidth="70" minWidth="70" prefWidth="70" />
+                    <ColumnConstraints maxWidth="150" minWidth="150" prefWidth="150" />
+                    <ColumnConstraints maxWidth="100" minWidth="100" prefWidth="100" />
                 </columnConstraints>
                 <Label text="Energy Level: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
                 <Label text="Plants eaten: " GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -122,19 +124,24 @@
          <HBox.margin>
             <Insets left="15.0" />
          </HBox.margin></Button>
-      <Button mnemonicParsing="false" fx:id="pauseToggleBtn" onAction="#onPauseToggle" prefHeight="25.0" prefWidth="100.0" text="Pause">
+      <Button fx:id="pauseToggleBtn" mnemonicParsing="false" onAction="#onPauseToggle" prefHeight="25.0" prefWidth="100.0" text="Pause">
          <HBox.margin>
             <Insets left="25.0" />
          </HBox.margin>
       </Button>
-      <Button mnemonicParsing="false" fx:id="bestAnimalsBtn" visible="false" text="Best animals">
+      <Button fx:id="bestAnimalsBtn" mnemonicParsing="false" text="Best animals" visible="false">
          <HBox.margin>
             <Insets left="100.0" />
          </HBox.margin>
       </Button>
-      <Button mnemonicParsing="false" fx:id="bestGrassBtn" visible="false" text="Best grass">
+      <Button fx:id="bestGrassBtn" mnemonicParsing="false" text="Best grass" visible="false">
          <HBox.margin>
             <Insets left="15.0" />
+         </HBox.margin>
+      </Button>
+      <Button fx:id="saveBtn" onAction="#onSaveBtnClicked" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Save to CSV" visible="false">
+         <HBox.margin>
+            <Insets left="59.0" />
          </HBox.margin>
       </Button>
     </HBox>

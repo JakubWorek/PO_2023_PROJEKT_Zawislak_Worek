@@ -9,10 +9,10 @@ import org.proj.model.maps.WaterMap;
 import org.proj.utils.RandomPositionGenerator;
 import org.proj.utils.Vector2d;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class Simulation implements Runnable {
@@ -26,6 +26,8 @@ public class Simulation implements Runnable {
     private int deadAnimals = 0;
 
     private String csvContent = "Day;Animals count;Plants count;Free fields count;Most popular genotype;Average energy level;Average lifespan;Average children count of living animals\n";
+
+    private Map genesCount = new HashMap<int[], Integer>();
 
     public List<Animal> getAnimals() {
         return animals;
@@ -45,6 +47,9 @@ public class Simulation implements Runnable {
                                         Genotype.getRandomGenes(simulationProps.getGenesCount()),
                                         simulationProps.getMoveStyle());
             animals.add(animal);
+            int[] genome = animal.getGenome();
+            if (genesCount.get(genome) == null) genesCount.put(genome, 1);
+            else genesCount.put(genome, (Integer)genesCount.get(genome)+1);
             map.placeAnimals(animal.getPosition(), animal);
         }
 
@@ -55,12 +60,23 @@ public class Simulation implements Runnable {
         }
     }
 
+    public void saveToCSV() {
+        File file = new File(simulationProps.getCSVName());
+        try {
+            FileWriter fr = new FileWriter(file, false);
+            fr.write(csvContent);
+            fr.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void run(){
         while(animals.size()>0){
             if (!isRunning) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -88,6 +104,7 @@ public class Simulation implements Runnable {
             for(Animal animal : animalsToRemove){
                 if(animal.getEnergy()<=0){
                     animal.setDeathDate(simulationProps.getDaysElapsed());
+                    genesCount.put(animal.getGenome(), (Integer)genesCount.get(animal.getGenome())-1);
                     deadAnimals += 1;
                     accumulatedLifeSpan += animal.getAge();
                     map.removeAnimal(animal);
@@ -96,10 +113,11 @@ public class Simulation implements Runnable {
             }
             // save stats to csv *
             if (simulationProps.shouldSaveCSV()) {
-                csvContent += simulationProps.getDaysElapsed() + ";" + map.getAliveAnimalsCount() + ";" + map.getPlantsCount() + ";" +map.getEmptyCount() + ";" + "" + ";" + getAvarageEnergy() + ";" + getAverageLifeSpan() + ";" + getAverageChildrenCount() + "\n";
+                String avgLifespan = "---";
+                if (deadAnimals > 0) avgLifespan = String.valueOf(getAverageLifeSpan());
+                csvContent += simulationProps.getDaysElapsed() + ";" + map.getAliveAnimalsCount() + ";" + map.getPlantsCount() + ";" + map.getEmptyCount() + ";" + getMostPopularGenotypeStr() + ";" + getAvarageEnergy() + ";" + avgLifespan + ";" + getAverageChildrenCount() + "\n";
             }
-
-            // add day
+                // add day
             simulationProps.incrementDaysElapsed();
             // add age
             for(Animal animal : animals){
@@ -107,7 +125,6 @@ public class Simulation implements Runnable {
             }
             // grow new plants
             map.growPlants();
-            //System.out.println("X");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -118,6 +135,9 @@ public class Simulation implements Runnable {
 
     public void addAnimal(Animal animal){
         animals.add(animal);
+        int[] genome = animal.getGenome();
+        if (genesCount.get(genome) == null) genesCount.put(genome, 1);
+        else genesCount.put(genome, (Integer)genesCount.get(genome)+1);
     }
 
     public Integer getDeadAnimalsCount() {
@@ -146,5 +166,15 @@ public class Simulation implements Runnable {
 
     public void togglePause() {
         isRunning = !isRunning;
+    }
+
+    public String getMostPopularGenotypeStr() {
+        if (genesCount.size() == 0)  return "---";
+        int[] genome = (int[])Collections.max(genesCount.entrySet(), Map.Entry.comparingByValue()).getKey();
+        String genomeStr = "";
+        for (int v : genome) {
+            genomeStr += v;
+        }
+        return genomeStr;
     }
 }

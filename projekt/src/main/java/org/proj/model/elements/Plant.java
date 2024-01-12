@@ -1,5 +1,8 @@
 package org.proj.model.elements;
 
+import javafx.scene.shape.Shape;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import org.proj.utils.Vector2d;
 
 public class Plant implements IWorldElement {
@@ -17,5 +20,10 @@ public class Plant implements IWorldElement {
     @Override
     public String toString() {
         return "*";
+    }
+
+    @Override
+    public Shape getShapeToPrint(int cellSize) {
+        return new Circle(cellSize/3, Color.GREEN);
     }
 }

@@ -11,11 +11,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import org.proj.SimulationApp;
 import org.proj.model.SimulationProps;
 import org.proj.model.elements.Animal;
+import org.proj.model.elements.IWorldElement;
 import org.proj.model.maps.AbstractWorldMap;
 import org.proj.model.maps.GlobeMap;
+import org.proj.model.maps.WaterMap;
 import org.proj.utils.Vector2d;
 import org.proj.Simulation;
 
@@ -27,6 +30,10 @@ import static java.lang.Math.min;
 
 public class SimulationPresenter implements IMapChangeListener {
 
+    @FXML
+    private Label mostPopularGenes;
+    @FXML
+    private Button saveBtn;
     @FXML
     private Label diedAt;
     @FXML
@@ -105,15 +112,15 @@ public class SimulationPresenter implements IMapChangeListener {
                 VBox vbox = new VBox();
                 if (worldMap.getForestedEquator().isPreferable(new Vector2d(i, simulationProps.getMapHeight()-j)))
                     vbox.getStyleClass().add("equator-cell");
-                Label label = new Label("");
-                Object object = worldMap.objectAt(new Vector2d(i, simulationProps.getMapHeight()-j-1));
-                if (object != null)
-                    label.setText(object.toString());
-                label.setStyle("-fx-font-size: %d".formatted((int)(CELL/2.5)));
-                vbox.getChildren().add(label);
+                IWorldElement object = worldMap.objectAt(new Vector2d(i, simulationProps.getMapHeight()-j-1));
+                if (object != null) {
+                    if (object.getShapeToPrint(CELL) == null)
+                        vbox.getStyleClass().add("water-cell");
+                    else
+                        vbox.getChildren().add(object.getShapeToPrint(CELL));
+                }
                 grid.add(vbox, i, j);
                 vbox.setAlignment(Pos.CENTER);
-                GridPane.setHalignment(label, HPos.CENTER);
             }
             grid.getRowConstraints().add(new RowConstraints(CELL));
             grid.getColumnConstraints().add(new ColumnConstraints(CELL));
@@ -161,6 +168,7 @@ public class SimulationPresenter implements IMapChangeListener {
         averageEnergyValue.setText("");
         averageLifespanValue.setText("");
         averageChildrenValue.setText("");
+        mostPopularGenes.setText("");
 
         worldMap.addListener(this);
         Simulation simulation = new Simulation(worldMap, simulationProps);
@@ -169,6 +177,10 @@ public class SimulationPresenter implements IMapChangeListener {
         appThread = new Thread(simulation);
         appThread.start();
         running = true;
+
+        if (simulationProps.shouldSaveCSV()) {
+            saveBtn.setVisible(true);
+        }
     }
 
     @Override
@@ -180,8 +192,11 @@ public class SimulationPresenter implements IMapChangeListener {
             plantsValue.setText(map.getPlantsCount().toString());
             freeFieldsValue.setText(map.getEmptyCount().toString());
             averageEnergyValue.setText(String.valueOf(simulation.getAvarageEnergy()));
-            averageLifespanValue.setText(String.valueOf(simulation.getAverageLifeSpan()));
+            String avgLifespan = "---";
+            if (simulation.getDeadAnimalsCount() > 0) avgLifespan = String.valueOf(simulation.getAverageLifeSpan());
+            averageLifespanValue.setText(avgLifespan);
             averageChildrenValue.setText(String.valueOf(simulation.getAverageChildrenCount()));
+            mostPopularGenes.setText(simulation.getMostPopularGenotypeStr());
 
             updateSelectedAnimalStats();
         });
@@ -222,5 +237,9 @@ public class SimulationPresenter implements IMapChangeListener {
             bestAnimalsBtn.setVisible(false);
             bestGrassBtn.setVisible(false);
         }
+    }
+
+    public void onSaveBtnClicked(ActionEvent actionEvent) {
+        simulation.saveToCSV();
     }
 }
