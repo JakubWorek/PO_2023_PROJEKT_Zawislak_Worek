@@ -14,6 +14,16 @@ public class WaterMap extends AbstractWorldMap{
         super(simulationProps);
     }
 
+    public void doShitWithWater(){
+        // wylosuj z obecnych wód 10%
+            // wylosuj czy jest przypływ czy odpływ
+                // jeśli przypływ to wylosuj kierunek
+                    // jeśli jest miejsce to dodaj wodę
+                    // jeśli zwierzak to wylosuj nowy kierunek
+                    // jeśli roślinka to usuń roślinkę i dodaj wodę
+                // jeśli odpływ usuń wodę
+    }
+
     @Override
     public PositionOrientationTuple correctPosition(Vector2d oldPosition, Vector2d newPosition, EMapDirection orientation){
         // check if it is water on position

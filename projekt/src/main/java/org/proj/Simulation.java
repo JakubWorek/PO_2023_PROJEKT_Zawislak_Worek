@@ -5,6 +5,7 @@ import org.proj.model.SimulationProps;
 import org.proj.model.elements.Animal;
 import org.proj.model.elements.Plant;
 import org.proj.model.maps.AbstractWorldMap;
+import org.proj.model.maps.WaterMap;
 import org.proj.utils.RandomPositionGenerator;
 import org.proj.utils.Vector2d;
 
@@ -64,6 +65,10 @@ public class Simulation implements Runnable {
                     e.printStackTrace();
                 }
                 continue;
+            }
+            // if map is WaterMap, then expand/contract water
+            if(map.getClass().getSimpleName().equals("WaterMap")){
+                ((WaterMap)map).doShitWithWater();
             }
             // move animals
             for(Animal animal : animals){
