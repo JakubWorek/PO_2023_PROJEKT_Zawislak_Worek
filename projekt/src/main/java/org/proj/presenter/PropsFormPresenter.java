@@ -2,44 +2,47 @@ package org.proj.presenter;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import org.proj.SimulationApp;
 import org.proj.model.SimulationProps;
 import org.proj.model.elements.EMoveStyle;
 import org.proj.model.elements.EMutationStyle;
 
 public class PropsFormPresenter {
+
     @FXML
-    TextField mapWidth;
+    private TextField csvFileName;
     @FXML
-    TextField mapHeight;
+    private CheckBox csvFlag;
     @FXML
-    TextField equatorHeight;
+    private TextField mapWidth;
     @FXML
-    TextField animalCount;
+    private TextField mapHeight;
     @FXML
-    TextField plantCount;
+    private TextField equatorHeight;
     @FXML
-    TextField maxEnergy;
+    private TextField animalCount;
     @FXML
-    TextField moveEnergy;
+    private TextField plantCount;
     @FXML
-    TextField genesCount;
+    private TextField maxEnergy;
     @FXML
-    TextField spawnPlantPerDay;
+    private TextField moveEnergy;
     @FXML
-    TextField energyToReproduce;
+    private TextField genesCount;
     @FXML
-    TextField energyToPass;
+    private TextField spawnPlantPerDay;
     @FXML
-    ComboBox moveStyleCBox;
+    private TextField energyToReproduce;
     @FXML
-    TextField energyFromPlant;
+    private TextField energyToPass;
     @FXML
-    TextField startEnergy;
+    private ComboBox moveStyleCBox;
+    @FXML
+    private TextField energyFromPlant;
+    @FXML
+    private TextField startEnergy;
 
     SimulationProps simulationProps;
 
@@ -48,6 +51,7 @@ public class PropsFormPresenter {
         moveStyleCBox.getItems().removeAll(moveStyleCBox.getItems());
         moveStyleCBox.getItems().addAll("FULLY_PREDESTINED", "BACK_AND_FORTH");
         moveStyleCBox.getSelectionModel().select("FULLY_PREDESTINED");
+        csvFlag.setSelected(false);
     }
 
     public void onNewSimulationClicked(ActionEvent actionEvent) {
@@ -67,7 +71,9 @@ public class PropsFormPresenter {
                 Integer.parseInt(genesCount.getText()),
                 Integer.parseInt(energyToReproduce.getText()),
                 Integer.parseInt(energyToPass.getText()),
-                Integer.parseInt(moveEnergy.getText())
+                Integer.parseInt(moveEnergy.getText()),
+                !csvFileName.isDisable(),
+                csvFileName.getText()
         );
 
         simulationProps = props;
@@ -75,5 +81,9 @@ public class PropsFormPresenter {
         //Thread appThread = new Thread(app);
         //appThread.start();
         app.run();
+    }
+
+    public void toggleCSVFlag(MouseEvent mouseEvent) {
+        csvFileName.setDisable(!csvFileName.isDisable());
     }
 }

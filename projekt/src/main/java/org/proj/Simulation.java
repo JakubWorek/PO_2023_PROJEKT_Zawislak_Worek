@@ -24,7 +24,7 @@ public class Simulation implements Runnable {
 
     private int deadAnimals = 0;
 
-    private int childrenCountOfDeadAnimals = 0;
+    private String csvContent = "Day;Animals count;Plants count;Free fields count;Most popular genotype;Average energy level;Average lifespan;Average children count of living animals\n";
 
     public List<Animal> getAnimals() {
         return animals;
@@ -85,11 +85,15 @@ public class Simulation implements Runnable {
                     animal.setDeathDate(simulationProps.getDaysElapsed());
                     deadAnimals += 1;
                     accumulatedLifeSpan += animal.getAge();
-                    childrenCountOfDeadAnimals += animal.getChildrenMade();
                     map.removeAnimal(animal);
                     animals.remove(animal);
                 }
             }
+            // save stats to csv *
+            if (simulationProps.shouldSaveCSV()) {
+                csvContent += simulationProps.getDaysElapsed() + ";" + map.getAliveAnimalsCount() + ";" + map.getPlantsCount() + ";" +map.getEmptyCount() + ";" + "" + ";" + getAvarageEnergy() + ";" + getAverageLifeSpan() + ";" + getAverageChildrenCount() + "\n";
+            }
+
             // add day
             simulationProps.incrementDaysElapsed();
             // add age
@@ -129,10 +133,10 @@ public class Simulation implements Runnable {
     }
 
     public float getAverageChildrenCount() {
-        float sum = childrenCountOfDeadAnimals;
+        float sum = 0;
         for (Animal animal : animals)
             sum += animal.getChildrenMade();
-        return  sum / (animals.size()+deadAnimals);
+        return  sum / (animals.size());
     }
 
     public void togglePause() {
