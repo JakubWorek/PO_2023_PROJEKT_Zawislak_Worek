@@ -55,7 +55,6 @@ public class Simulation implements Runnable {
 
         RandomPositionGenerator randomPositionGeneratorPlants = new RandomPositionGenerator(simulationProps.getMapWidth(), simulationProps.getMapHeight(), simulationProps.getStartPlantCount());
         for(Vector2d plantPosition : randomPositionGeneratorPlants) {
-            System.out.println(plantPosition);
             map.placePlants(plantPosition, new Plant(plantPosition));
         }
     }
@@ -82,23 +81,6 @@ public class Simulation implements Runnable {
                 }
                 continue;
             }
-            // if map is WaterMap, then expand/contract water
-            if(map.getClass().getSimpleName().equals("WaterMap")){
-                ((WaterMap)map).doShitWithWater();
-            }
-            // move animals
-            for(Animal animal : animals){
-                //animal.move(map);
-                map.move(animal);
-            }
-            // decrease energy after move
-            for(Animal animal : animals){
-                animal.removeEnergy(simulationProps.getMoveEnergy());
-            }
-            // eat
-            map.eat();
-            // reproduce animals
-            map.reproduce();
             // remove dead animals
             Set<Animal> animalsToRemove = new HashSet<>(animals);
             for(Animal animal : animalsToRemove){
@@ -111,6 +93,23 @@ public class Simulation implements Runnable {
                     animals.remove(animal);
                 }
             }
+            // if map is WaterMap, then expand/contract water and calculate free positions for plants
+            if(map.getClass().getSimpleName().equals("WaterMap")){
+                ((WaterMap)map).makeWaterDoAnything();
+                ((WaterMap)map).calculateFreePositions();
+            }
+            // move animals
+            for(Animal animal : animals){
+                map.move(animal);
+            }
+            // decrease energy after move
+            for(Animal animal : animals){
+                animal.removeEnergy(simulationProps.getMoveEnergy());
+            }
+            // eat
+            map.eat();
+            // reproduce animals
+            map.reproduce();
             // save stats to csv *
             if (simulationProps.shouldSaveCSV()) {
                 String avgLifespan = "---";
@@ -126,7 +125,7 @@ public class Simulation implements Runnable {
             // grow new plants
             map.growPlants();
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -1,28 +1,95 @@
 package org.proj.model.maps;
 
 import org.proj.model.SimulationProps;
+import org.proj.model.elements.IWorldElement;
 import org.proj.model.elements.Water;
 import org.proj.utils.EMapDirection;
 import org.proj.utils.PositionOrientationTuple;
+import org.proj.utils.RandomPositionGenerator;
 import org.proj.utils.Vector2d;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public class WaterMap extends AbstractWorldMap{
-    private HashMap<Vector2d, Water> waters;
+    private HashMap<Vector2d, Water> waters = new HashMap<>();;
     public WaterMap(SimulationProps simulationProps){
         super(simulationProps);
+
+        RandomPositionGenerator randomPositionGeneratorWater = new RandomPositionGenerator(simulationProps.getMapWidth(), simulationProps.getMapHeight(), 10);
+        for(Vector2d waterPosition : randomPositionGeneratorWater) {
+            waters.put(waterPosition, new Water(waterPosition));
+        }
     }
 
-    public void doShitWithWater(){
-        // wylosuj z obecnych wód 10%
-            // wylosuj czy jest przypływ czy odpływ
-                // jeśli przypływ to wylosuj kierunek
-                    // jeśli jest miejsce to dodaj wodę
-                    // jeśli zwierzak to wylosuj nowy kierunek
-                    // jeśli roślinka to usuń roślinkę i dodaj wodę
-                // jeśli odpływ usuń wodę
+    public void makeWaterDoAnything(){
+        // wylosuj z obecnych wód 50%
+        int waterCount = waters.size();
+        int waterToChangeCount = waterCount/10;
+        if (waterToChangeCount == 0) waterToChangeCount = 1;
+
+        List<Vector2d> waterToChange = new ArrayList<>(waters.keySet());
+        Collections.shuffle(waterToChange);
+
+        // Wylosuj czy jest przypływ czy odpływ
+        boolean isFlow = (random.nextInt(3) != 2);
+
+        for (int i = 0; i < waterToChangeCount && i < waterToChange.size(); i++) {
+            Vector2d currentPosition = waterToChange.get(i);
+
+            if (isFlow) {
+                // Jeśli przypływ to wylosuj kierunek
+                EMapDirection direction = EMapDirection.getRandomDirection();
+                Vector2d newPosition = currentPosition.add(direction.unitVector());
+
+                // Jeśli jest tam woda to zmień kierunek
+                if (waters.containsKey(newPosition)) {
+                    for (int j = 0; j < 8; j++) {
+                        if (waters.containsKey(newPosition)) {
+                            direction = direction.next();
+                            newPosition = currentPosition.add(direction.unitVector());
+                        }
+                        else{
+                            break;
+                        }
+                    }
+                }
+
+
+                // Jeśli nie ma tam zwierzaka
+                if (!animals.containsKey(newPosition)) {
+                    // Jeśli roślinka to usuń roślinkę i dodaj wodę
+                    if (plants.containsKey(newPosition)) {
+                        plants.remove(newPosition);
+                        waters.put(newPosition, new Water(newPosition));
+                    }
+                    // Jeśli jest miejsce to dodaj wodę
+                    else if (!waters.containsKey(newPosition)) {
+                        waters.put(newPosition, new Water(newPosition));
+                    }
+
+                }
+            } else {
+                // Jeśli odpływ, usuń wodę
+                if (waters.size() > 1) {
+                    waters.remove(currentPosition);
+                }
+            }
+        }
     }
+
+    public void calculateFreePositions(){
+        freePositionsForPlants.clear();
+        for (int x=0; x<width; x++) {
+            for (int y=0; y<height; y++) {
+                Vector2d position = new Vector2d(x,y);
+                if(!waters.containsKey(position)) freePositionsForPlants.add(position);
+            }
+        }
+    }
+
 
     @Override
     public PositionOrientationTuple correctPosition(Vector2d oldPosition, Vector2d newPosition, EMapDirection orientation){
@@ -47,5 +114,16 @@ public class WaterMap extends AbstractWorldMap{
         }
 
         return new PositionOrientationTuple(new Vector2d(x, y), orient);
+    }
+
+    @Override
+    public IWorldElement objectAt(Vector2d position){
+        if(animals.containsKey(position)) {
+            if (animals.get(position).size() > 0)
+                return animals.get(position).get(0);
+        }
+        if(waters.containsKey(position)) return waters.get(position);
+        if(plants.containsKey(position)) return plants.get(position);
+        return null;
     }
 }
