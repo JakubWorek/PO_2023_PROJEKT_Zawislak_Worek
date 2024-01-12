@@ -121,7 +121,6 @@ public class SimulationPresenter implements IMapChangeListener {
                 }
                 grid.add(vbox, i, j);
                 vbox.setAlignment(Pos.CENTER);
-                GridPane.setHalignment(label, HPos.CENTER);
                 if (i == 0) {
                     grid.getRowConstraints().add(new RowConstraints(CELL));
                 }
