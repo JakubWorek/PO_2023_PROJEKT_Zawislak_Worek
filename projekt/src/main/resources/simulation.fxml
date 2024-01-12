@@ -94,14 +94,14 @@
                 <Label text="Energy Level: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
                 <Label text="Plants eaten: " GridPane.columnIndex="0" GridPane.rowIndex="1" />
                 <Label text="Children count: " GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                <Label text="Predecessors count: " GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <Label text="Descendants count: " GridPane.columnIndex="0" GridPane.rowIndex="3" />
                 <Label text="Days lived: " GridPane.columnIndex="0" GridPane.rowIndex="4" />
                 <Label text="Died at day: " GridPane.columnIndex="0" GridPane.rowIndex="5" />
 
                 <Label fx:id="energyLevel" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                 <Label fx:id="plantsEaten" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <Label fx:id="childrenCount" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <Label fx:id="predCount" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <Label fx:id="descCount" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                 <Label fx:id="daysLived" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                 <Label fx:id="diedAt" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <rowConstraints>
