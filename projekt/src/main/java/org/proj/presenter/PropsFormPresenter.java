@@ -17,8 +17,6 @@ public class PropsFormPresenter {
     @FXML
     TextField mapHeight;
     @FXML
-    TextField equatorHeight;
-    @FXML
     TextField animalCount;
     @FXML
     TextField plantCount;
@@ -55,7 +53,7 @@ public class PropsFormPresenter {
         SimulationProps props = new SimulationProps(
                 Integer.parseInt(mapWidth.getText()),
                 Integer.parseInt(mapHeight.getText()),
-                Integer.parseInt(equatorHeight.getText()),
+                (int) (Integer.parseInt(mapHeight.getText())*(0.2)),
                 Integer.parseInt(animalCount.getText()),
                 Integer.parseInt(plantCount.getText()),
                 Integer.parseInt(spawnPlantPerDay.getText()),

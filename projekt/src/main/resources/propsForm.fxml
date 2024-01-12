@@ -93,12 +93,6 @@
          <Insets bottom="10.0" />
       </VBox.margin>
    </TextField>
-   <Label text="Equator height:" />
-   <TextField fx:id="equatorHeight" text="4">
-      <VBox.margin>
-         <Insets bottom="10.0" />
-      </VBox.margin>
-   </TextField>
    <Button mnemonicParsing="false" onAction="#onNewSimulationClicked" prefHeight="25.0" prefWidth="369.0" text="Start Simulation" />
    <opaqueInsets>
       <Insets />
