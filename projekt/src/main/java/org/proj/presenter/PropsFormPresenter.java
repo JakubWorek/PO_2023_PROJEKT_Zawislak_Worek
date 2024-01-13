@@ -4,13 +4,24 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import org.proj.SimulationApp;
 import org.proj.model.SimulationProps;
 import org.proj.model.elements.EMoveStyle;
 import org.proj.model.elements.EMutationStyle;
+import org.proj.model.maps.EMapType;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class PropsFormPresenter {
 
+    @FXML
+    private ComboBox mapStyleCBox;
     @FXML
     private TextField simulationStepTime;
     @FXML
@@ -51,11 +62,20 @@ public class PropsFormPresenter {
         moveStyleCBox.getItems().removeAll(moveStyleCBox.getItems());
         moveStyleCBox.getItems().addAll("FULLY_PREDESTINED", "BACK_AND_FORTH");
         moveStyleCBox.getSelectionModel().select("FULLY_PREDESTINED");
+
+        mapStyleCBox.getItems().removeAll(mapStyleCBox.getItems());
+        mapStyleCBox.getItems().addAll("WATER", "GLOBE");
+        mapStyleCBox.getSelectionModel().select("WATER");
+
+        //FileChooser fileChooser = new FileChooser();
+        //File selectedFile = fileChooser.showOpenDialog(null);
+
         csvFlag.setSelected(false);
     }
 
     public void onNewSimulationClicked(ActionEvent actionEvent) {
         EMoveStyle moveStyle = (moveStyleCBox.getValue() == "FULLY_PREDESTINED" ? EMoveStyle.FULLY_PREDESTINED : EMoveStyle.BACK_AND_FORTH);
+        EMapType mapType = (mapStyleCBox.getValue() == "WATER" ? EMapType.WATER : EMapType.GLOBE);
         SimulationProps props = new SimulationProps(
                 Integer.parseInt(mapWidth.getText()),
                 Integer.parseInt(mapHeight.getText()),
@@ -68,6 +88,7 @@ public class PropsFormPresenter {
                 Integer.parseInt(energyFromPlant.getText()),
                 moveStyle,
                 EMutationStyle.FULLY_RANDOM,
+                mapType,
                 Integer.parseInt(genesCount.getText()),
                 Integer.parseInt(energyToReproduce.getText()),
                 Integer.parseInt(energyToPass.getText()),
@@ -84,5 +105,37 @@ public class PropsFormPresenter {
 
     public void toggleCSVFlag(MouseEvent mouseEvent) {
         csvFileName.setDisable(!csvFileName.isDisable());
+    }
+
+    public void onOpenDialogClicked(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CFG", "*.cfg"));
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            try {
+                List<String> lines = new ArrayList<>();
+                Scanner myReader = new Scanner(selectedFile);
+                while (myReader.hasNextLine()) {
+                    lines.add(myReader.nextLine().strip());
+                }
+                myReader.close();
+                startEnergy.setText(lines.get(0));
+                maxEnergy.setText(lines.get(1));
+                moveEnergy.setText(lines.get(2));
+                genesCount.setText(lines.get(3));
+                energyToReproduce.setText(lines.get(4));
+                energyToPass.setText(lines.get(5));
+                moveStyleCBox.getSelectionModel().select(lines.get(6));
+                mapStyleCBox.getSelectionModel().select(lines.get(7));
+                energyFromPlant.setText(lines.get(8));
+                plantCount.setText(lines.get(9));
+                spawnPlantPerDay.setText(lines.get(10));
+                animalCount.setText(lines.get(11));
+                simulationStepTime.setText(lines.get(12));
+                mapWidth.setText(lines.get(13));
+                mapHeight.setText(lines.get(14));
+            } catch (FileNotFoundException e) {
+            }
+        }
     }
 }

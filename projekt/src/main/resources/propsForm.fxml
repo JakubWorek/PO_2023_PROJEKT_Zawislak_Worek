@@ -6,106 +6,137 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 
-<VBox minHeight="800.0" minWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.proj.presenter.PropsFormPresenter">
-   <Label text="Start energy level:" />
-   <TextField fx:id="startEnergy" text="100">
-      <VBox.margin>
-         <Insets bottom="10.0" />
-      </VBox.margin>
-   </TextField>
-   <Label text="Max energy level:" />
-   <TextField fx:id="maxEnergy" text="100">
-      <VBox.margin>
-         <Insets bottom="10.0" />
-      </VBox.margin>
-   </TextField>
-   <Label text="Energy used while moving:" />
-   <TextField fx:id="moveEnergy" text="2">
-      <VBox.margin>
-         <Insets bottom="10.0" />
-      </VBox.margin>
-   </TextField>
-   <Label text="Genes count:" />
-   <TextField fx:id="genesCount" text="10">
-      <VBox.margin>
-         <Insets bottom="10.0" />
-      </VBox.margin>
-   </TextField>
-   <Label text="Energy level needed to reproduce:" />
-   <TextField fx:id="energyToReproduce" text="30">
-      <VBox.margin>
-         <Insets bottom="10.0" />
-      </VBox.margin>
-   </TextField>
-   <Label text="Energy level to pass to child:" />
-   <TextField fx:id="energyToPass" text="20">
-      <VBox.margin>
-         <Insets bottom="10.0" />
-      </VBox.margin></TextField>
-   <Label text="Move style:" />
-   <ComboBox fx:id="moveStyleCBox" prefHeight="25.0" prefWidth="370.0">
-      <VBox.margin>
-         <Insets bottom="10.0" />
-      </VBox.margin>
-   </ComboBox>
-   <Label text="Energy restored from plant:" />
-   <TextField fx:id="energyFromPlant" text="10">
-      <VBox.margin>
-         <Insets bottom="10.0" />
-      </VBox.margin>
-   </TextField>
-   <Label text="Plants count:" />
-   <TextField fx:id="plantCount" text="200">
-      <VBox.margin>
-         <Insets bottom="10.0" />
-      </VBox.margin>
-   </TextField>
-   <Label text="Spawn plant per day:" />
-   <TextField fx:id="spawnPlantPerDay" text="200">
-      <VBox.margin>
-         <Insets bottom="10.0" />
-      </VBox.margin>
-   </TextField>
-   <Label text="Animals count:" />
-   <TextField fx:id="animalCount" text="250">
-      <VBox.margin>
-         <Insets bottom="10.0" />
-      </VBox.margin>
-   </TextField>
-   <Label text="Map width:" />
-   <TextField fx:id="mapWidth" text="30">
-      <VBox.margin>
-         <Insets bottom="10.0" />
-      </VBox.margin>
-   </TextField>
-   <Label text="Map height:" />
-   <TextField fx:id="mapHeight" text="30">
-      <VBox.margin>
-         <Insets bottom="10.0" />
-      </VBox.margin>
-   </TextField>
-   <Label text="Simulation stop duration [ms]:" />
-   <TextField fx:id="simulationStepTime" text="250">
-      <VBox.margin>
-         <Insets bottom="10.0" />
-      </VBox.margin>
-   </TextField>
-   <CheckBox fx:id="csvFlag" mnemonicParsing="false" onMouseClicked="#toggleCSVFlag" text="Save simulation results to CSV file">
-      <VBox.margin>
-         <Insets bottom="10.0" />
-      </VBox.margin>
-   </CheckBox>
-   <TextField fx:id="csvFileName" disable="true" promptText="CSV filename">
-      <VBox.margin>
-         <Insets bottom="15.0" />
-      </VBox.margin></TextField>
-   <Button mnemonicParsing="false" onAction="#onNewSimulationClicked" prefHeight="25.0" prefWidth="369.0" text="Start Simulation" />
-   <opaqueInsets>
-      <Insets />
-   </opaqueInsets>
-   <padding>
-      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-   </padding>
-</VBox>
+<HBox minHeight="648.0" minWidth="800.0" prefHeight="648.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.proj.presenter.PropsFormPresenter">
+   <VBox minHeight="488.0" minWidth="400.0" prefHeight="488.0" prefWidth="400.0">
+      <Label text="Start energy level:" />
+      <TextField fx:id="startEnergy" text="100">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </TextField>
+      <Label text="Max energy level:" />
+      <TextField fx:id="maxEnergy" text="100">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </TextField>
+      <Label text="Energy used while moving:" />
+      <TextField fx:id="moveEnergy" text="2">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </TextField>
+      <Label text="Genes count:" />
+      <TextField fx:id="genesCount" text="10">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </TextField>
+      <Label text="Energy level needed to reproduce:" />
+      <TextField fx:id="energyToReproduce" text="30">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </TextField>
+      <Label text="Energy level to pass to child:" />
+      <TextField fx:id="energyToPass" text="20">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin></TextField>
+      <Label text="Move style:" />
+      <ComboBox fx:id="moveStyleCBox" prefHeight="25.0" prefWidth="370.0">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </ComboBox>
+      <Label text="Map style:" />
+      <ComboBox fx:id="mapStyleCBox" prefHeight="25.0" prefWidth="370.0">
+         <VBox.margin>
+            <Insets bottom="15.0" />
+         </VBox.margin>
+      </ComboBox>
+      <Label text="Energy restored from plant:" />
+      <TextField fx:id="energyFromPlant" text="10">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </TextField>
+      <Label text="Plants count:" />
+      <TextField fx:id="plantCount" text="200">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </TextField>
+      <Label text="Spawn plant per day:" />
+      <TextField fx:id="spawnPlantPerDay" text="200">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </TextField>
+      <Label text="Animals count:" />
+      <TextField fx:id="animalCount" text="250">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </TextField>
+      <opaqueInsets>
+         <Insets />
+      </opaqueInsets>
+      <padding>
+         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+      </padding>
+   </VBox>
+   <Line endX="-101.41421508789062" endY="647.2929077148438" startX="-100.0" />
+   <VBox prefHeight="908.0" prefWidth="390.0">
+      <children>
+         <Label text="Simulation stop duration [ms]:" />
+         <TextField fx:id="simulationStepTime" text="250">
+            <VBox.margin>
+               <Insets bottom="10.0" />
+            </VBox.margin>
+         </TextField>
+         <Label text="Map width:">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+            <VBox.margin>
+               <Insets />
+            </VBox.margin>
+         </Label>
+         <TextField fx:id="mapWidth" text="30">
+            <VBox.margin>
+               <Insets bottom="10.0" />
+            </VBox.margin>
+         </TextField>
+         <Label text="Map height:" />
+         <TextField fx:id="mapHeight" text="30">
+            <VBox.margin>
+               <Insets bottom="10.0" />
+            </VBox.margin>
+         </TextField>
+         <CheckBox fx:id="csvFlag" mnemonicParsing="false" onMouseClicked="#toggleCSVFlag" text="Save simulation results to CSV file">
+            <VBox.margin>
+               <Insets bottom="10.0" />
+            </VBox.margin>
+         </CheckBox>
+         <TextField fx:id="csvFileName" disable="true" promptText="CSV filename">
+            <VBox.margin>
+               <Insets bottom="15.0" />
+            </VBox.margin>
+         </TextField>
+         <Button onAction="#onOpenDialogClicked" mnemonicParsing="false" prefHeight="25.0" prefWidth="359.0" text="Load config from file">
+            <VBox.margin>
+               <Insets bottom="15.0" top="10.0" />
+            </VBox.margin>
+         </Button>
+         <Button mnemonicParsing="false" onAction="#onNewSimulationClicked" prefHeight="25.0" prefWidth="369.0" text="Start Simulation" />
+      </children>
+      <padding>
+         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+      </padding>
+   </VBox>
+</HBox>

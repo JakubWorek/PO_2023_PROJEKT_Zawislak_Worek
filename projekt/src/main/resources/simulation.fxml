@@ -129,12 +129,12 @@
             <Insets left="25.0" />
          </HBox.margin>
       </Button>
-      <Button fx:id="bestAnimalsBtn" mnemonicParsing="false" text="Best animals" visible="false">
+      <Button onAction="#onBestGenomeClicked" fx:id="bestAnimalsBtn" mnemonicParsing="false" text="Best animals" visible="false">
          <HBox.margin>
             <Insets left="100.0" />
          </HBox.margin>
       </Button>
-      <Button fx:id="bestGrassBtn" mnemonicParsing="false" text="Best grass" visible="false">
+      <Button onAction="#onBestGrassClicked" fx:id="bestGrassBtn" mnemonicParsing="false" text="Best grass" visible="false">
          <HBox.margin>
             <Insets left="15.0" />
          </HBox.margin>

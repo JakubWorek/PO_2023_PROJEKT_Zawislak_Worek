@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.proj.model.SimulationProps;
@@ -23,7 +24,7 @@ public class SimulationApp extends Application implements Runnable {
         this.simulationProps = simulationProps;
     }
 
-    private void configureStage(Stage primaryStage, VBox viewRoot) {
+    private void configureStageV(Stage primaryStage, VBox viewRoot) {
         var scene = new Scene(viewRoot);
 
         scene.getStylesheets().add(getClass().getClassLoader().getResource("style.css").toExternalForm());
@@ -46,7 +47,7 @@ public class SimulationApp extends Application implements Runnable {
             throw new RuntimeException(e.getMessage());
         }
 
-        configureStage(primaryStage, viewRoot);
+        configureStageV(primaryStage, viewRoot);
 
         controller = loader.getController();
         controller.setProps(simulationProps);

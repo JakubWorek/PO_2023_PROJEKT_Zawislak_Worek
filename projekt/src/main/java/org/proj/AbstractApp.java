@@ -1,11 +1,13 @@
 package org.proj;
 
 import javafx.application.Application;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public abstract class AbstractApp extends Application implements Runnable {
-    public abstract void configureStage(Stage primaryStage, VBox viewRoot);
+    public void configureStageV(Stage primaryStage, VBox viewRoot) {};
+    public void configureStageH(Stage primaryStage, HBox viewRoot) {};
 
     public abstract void start(Stage primaryStage);
 

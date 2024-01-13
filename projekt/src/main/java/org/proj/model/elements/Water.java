@@ -29,4 +29,9 @@ public class Water implements IWorldElement{
     public FieldPaint getFieldPaint() {
         return new FieldPaint(Color.TRANSPARENT, Color.LIGHTBLUE);
     }
+
+    @Override
+    public EElementType getElementType() {
+        return EElementType.WATER;
+    }
 }

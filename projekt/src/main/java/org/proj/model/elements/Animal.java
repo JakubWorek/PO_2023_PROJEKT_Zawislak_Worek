@@ -11,6 +11,7 @@ import org.proj.utils.EMapDirection;
 import org.proj.utils.PositionOrientationTuple;
 import org.proj.utils.Vector2d;
 
+import java.lang.annotation.ElementType;
 import java.util.*;
 
 public class Animal implements IWorldElement {
@@ -175,4 +176,8 @@ public class Animal implements IWorldElement {
         return new FieldPaint(entityColor, Color.TRANSPARENT);
     }
 
+    @Override
+    public EElementType getElementType() {
+        return EElementType.ANIMAL;
+    }
 }

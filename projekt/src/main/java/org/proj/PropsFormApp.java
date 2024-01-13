@@ -2,6 +2,7 @@ package org.proj;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -10,7 +11,7 @@ import java.io.IOException;
 public class PropsFormApp extends AbstractApp {
 
     @Override
-    public void configureStage(Stage primaryStage, VBox viewRoot) {
+    public void configureStageH(Stage primaryStage, HBox viewRoot) {
         var scene = new Scene(viewRoot);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Simulation Props form");
@@ -28,7 +29,7 @@ public class PropsFormApp extends AbstractApp {
     public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("propsForm.fxml"));
-        VBox viewRoot;
+        HBox viewRoot;
         try {
             viewRoot = loader.load();
         }
@@ -37,7 +38,7 @@ public class PropsFormApp extends AbstractApp {
             throw new RuntimeException(e.getMessage());
         }
 
-        configureStage(primaryStage, viewRoot);
+        configureStageH(primaryStage, viewRoot);
 
         primaryStage.show();
     }

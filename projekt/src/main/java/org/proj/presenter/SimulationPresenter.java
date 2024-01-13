@@ -14,9 +14,12 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import org.proj.model.SimulationProps;
 import org.proj.model.elements.Animal;
+import org.proj.model.elements.EElementType;
 import org.proj.model.elements.FieldPaint;
 import org.proj.model.elements.IWorldElement;
 import org.proj.model.maps.AbstractWorldMap;
+import org.proj.model.maps.EMapType;
+import org.proj.model.maps.GlobeMap;
 import org.proj.model.maps.WaterMap;
 import org.proj.utils.Vector2d;
 import org.proj.Simulation;
@@ -91,6 +94,9 @@ public class SimulationPresenter implements IMapChangeListener {
 
     private int CELL;
 
+    private boolean showPreferableGrassFields = false;
+    private boolean showMostPopularGenome = false;
+
     public void setProps(SimulationProps simulationProps) {
         this.simulationProps = simulationProps;
         mapWidthValue.setText(simulationProps.getMapWidth().toString());
@@ -129,9 +135,11 @@ public class SimulationPresenter implements IMapChangeListener {
 
         emptyFieldsCount = 0;
 
+        int[] mostPopularGenotype = simulation.getMostPopularGenotype();
+
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                VBox cell = (VBox) grid.getChildren().get(i * simulationProps.getMapWidth() + j);
+                VBox cell = (VBox) grid.getChildren().get(i * simulationProps.getMapHeight() + j);
                 Circle entity = (Circle) cell.getChildren().get(0);
 
                 IWorldElement object = worldMap.objectAt(new Vector2d(i, simulationProps.getMapHeight()-j-1));
@@ -140,8 +148,15 @@ public class SimulationPresenter implements IMapChangeListener {
                     entity.setVisible(true);
                     if (entity.getFill() != fp.entityColor())
                         entity.setFill(fp.entityColor());
-                    if (fp.backgroundFill() != Color.TRANSPARENT)
+                    if (fp.backgroundFill() != cell.getBackground().getFills().get(0).getFill())
                         cell.setBackground(new Background(new BackgroundFill(fp.backgroundFill(), new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1))));
+
+                    if (showMostPopularGenome && object.getElementType() == EElementType.ANIMAL) {
+                        Animal animal = (Animal)object;
+                        if (animal.getGenome() == mostPopularGenotype) {
+                            cell.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(4, 4, 4, 4, false), new Insets(1, 1, 1, 1))));
+                        }
+                    }
                 }
                 else {
                     entity.setVisible(false);
@@ -150,8 +165,11 @@ public class SimulationPresenter implements IMapChangeListener {
                     emptyFieldsCount++;
                 }
 
-                //if (worldMap.getForestedEquator().isPreferable(new Vector2d(i, simulationProps.getMapHeight()-j)) && cell.getBackground().getFills().get(0).getFill() != Color.LIGHTGREEN)
-                //    cell.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1))));
+                if (showPreferableGrassFields && cell.getBackground().getFills().get(0).getFill() == Color.TRANSPARENT) {
+                    if (worldMap.getForestedEquator().isPreferable(new Vector2d(i, simulationProps.getMapHeight() - j)) && cell.getBackground().getFills().get(0).getFill() != Color.LIGHTGREEN)
+                        cell.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(4, 4, 4, 4, false), new Insets(1, 1, 1, 1))));
+                }
+
             }
         }
     }
@@ -181,7 +199,10 @@ public class SimulationPresenter implements IMapChangeListener {
     }
 
     public void onStartBtnClicked(ActionEvent actionEvent) {
-        worldMap = new WaterMap(simulationProps);
+        switch (simulationProps.getMapType()) {
+            case WATER -> worldMap = new WaterMap(simulationProps);
+            case GLOBE -> worldMap = new GlobeMap(simulationProps);
+        }
 
         setupGrid();
 
@@ -277,5 +298,15 @@ public class SimulationPresenter implements IMapChangeListener {
 
     public void shutdownSimulation() {
         if(running) appThread.stop();
+    }
+
+    public void onBestGrassClicked(ActionEvent actionEvent) {
+        showPreferableGrassFields = !showPreferableGrassFields;
+        mapChanged(worldMap, "Show preferable grass");
+    }
+
+    public void onBestGenomeClicked(ActionEvent actionEvent) {
+        showMostPopularGenome = !showMostPopularGenome;
+        mapChanged(worldMap, "Show best genome animals");
     }
 }

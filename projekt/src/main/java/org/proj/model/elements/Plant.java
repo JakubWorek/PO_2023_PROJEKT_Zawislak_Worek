@@ -29,4 +29,9 @@ public class Plant implements IWorldElement {
     public FieldPaint getFieldPaint() {
         return new FieldPaint(Color.GREEN, Color.TRANSPARENT);
     }
+
+    @Override
+    public EElementType getElementType() {
+        return EElementType.PLANT;
+    }
 }

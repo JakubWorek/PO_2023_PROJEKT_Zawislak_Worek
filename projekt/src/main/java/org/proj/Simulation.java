@@ -177,4 +177,9 @@ public class Simulation implements Runnable {
         }
         return genomeStr;
     }
+
+    public synchronized int[] getMostPopularGenotype() {
+        if (genesCount.size() == 0) return new int[1];
+        return (int[])Collections.max(genesCount.entrySet(), Map.Entry.comparingByValue()).getKey();
+    }
 }

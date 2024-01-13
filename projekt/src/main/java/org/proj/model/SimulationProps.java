@@ -2,6 +2,7 @@ package org.proj.model;
 
 import org.proj.model.elements.EMoveStyle;
 import org.proj.model.elements.EMutationStyle;
+import org.proj.model.maps.EMapType;
 
 public class SimulationProps {
     private int width;
@@ -15,6 +16,7 @@ public class SimulationProps {
     private int plantEnergy;
     private EMoveStyle moveStyle;
     private EMutationStyle mutationStyle;
+    private EMapType mapType;
     private int genesCount;
     private int energyLevelNeededToReproduce;
     private int energyLevelToPassToChild;
@@ -27,7 +29,7 @@ public class SimulationProps {
 
     public SimulationProps(int width_, int height_, int equatorHeight_, int animalCount_, int plantCount_,
                            int spawnPlantPerDay_, int energy_, int maxEnergy_, int plantEnergy_,
-                           EMoveStyle moveStyle_, EMutationStyle mutationStyle_, int genesCount_,
+                           EMoveStyle moveStyle_, EMutationStyle mutationStyle_, EMapType mapType_, int genesCount_,
                            int energyLevelNeededToReproduce_, int energyLevelToPassToChild_, int moveEnergy_,
                            boolean saveToCSV_, String CSVName_, int simulationStep_) {
         width = width_;
@@ -41,6 +43,7 @@ public class SimulationProps {
         plantEnergy = plantEnergy_;
         moveStyle = moveStyle_;
         mutationStyle = mutationStyle_;
+        mapType = mapType_;
         genesCount = genesCount_;
         energyLevelNeededToReproduce = energyLevelNeededToReproduce_;
         energyLevelToPassToChild = energyLevelToPassToChild_;
@@ -86,6 +89,10 @@ public class SimulationProps {
     }
 
     public EMutationStyle getMutationStyle() { return mutationStyle; }
+
+    public EMapType getMapType() {
+        return mapType;
+    }
 
     public int getMaxEnergy() {
         return maxEnergy;
