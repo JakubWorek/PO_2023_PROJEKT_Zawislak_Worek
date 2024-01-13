@@ -96,7 +96,7 @@ public class Simulation implements Runnable {
             }
             // if map is WaterMap, then expand/contract water and calculate free positions for plants
             if(map.getClass().getSimpleName().equals("WaterMap") && simulationProps.getDaysElapsed() % 2 == 0){
-                ((WaterMap)map).makeWaterDoAnything();
+                ((WaterMap)map).makeWaterDoAnything(simulationProps.getDaysElapsed() % 10 != 0);
                 ((WaterMap)map).calculateFreePositions();
             }
             // move animals and decrease energy
