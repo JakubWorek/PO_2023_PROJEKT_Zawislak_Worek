@@ -15,13 +15,13 @@ public class WaterMap extends AbstractWorldMap{
     public WaterMap(SimulationProps simulationProps){
         super(simulationProps);
 
-        RandomPositionGenerator randomPositionGeneratorWater = new RandomPositionGenerator(simulationProps.getMapWidth(), simulationProps.getMapHeight(), 10);
+        RandomPositionGenerator randomPositionGeneratorWater = new RandomPositionGenerator(simulationProps.getMapWidth(), simulationProps.getMapHeight(), width*height/10);
         for(Vector2d waterPosition : randomPositionGeneratorWater) {
             waters.put(waterPosition, new Water(waterPosition));
         }
     }
 
-    public void makeWaterDoAnything(){
+    public void makeWaterDoAnything(boolean isFlow){
         // wylosuj z obecnych wód 50%
         int waterCount = waters.size();
         int waterToChangeCount = waterCount/2;
@@ -30,8 +30,6 @@ public class WaterMap extends AbstractWorldMap{
         List<Vector2d> waterToChange = new ArrayList<>(waters.keySet());
         Collections.shuffle(waterToChange);
 
-        // Wylosuj czy jest przypływ czy odpływ
-        boolean isFlow = (random.nextInt(5) != 4);
 
         for (int i = 0; i < waterToChangeCount && i < waterToChange.size(); i++) {
             Vector2d currentPosition = waterToChange.get(i);
