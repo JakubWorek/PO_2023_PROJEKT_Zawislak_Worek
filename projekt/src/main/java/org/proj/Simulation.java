@@ -71,7 +71,7 @@ public class Simulation implements Runnable {
 
     @Override
     public void run(){
-        while(animals.size()>0){
+        while(animals.size()>0) {
             if (!isRunning) {
                 try {
                     Thread.sleep(1000);
@@ -127,6 +127,7 @@ public class Simulation implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            map.mapChanged("Day elapsed");
         }
     }
 

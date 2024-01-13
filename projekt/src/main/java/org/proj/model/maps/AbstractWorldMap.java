@@ -66,7 +66,7 @@ public abstract class AbstractWorldMap implements IMoveValidator {
 
     public synchronized void removeAnimal(Animal animal) {
         animals.get(animal.getPosition()).remove(animal);
-        mapChanged("Animal removed from map");
+        //mapChanged("Animal removed from map");
     }
 
     public synchronized void placePlants(Vector2d plantPosition, Plant plant) {
@@ -108,7 +108,7 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         animals.get(animal.getPosition()).remove(animal);
         animal.move(this);
         placeAnimals(animal.getPosition(), animal);
-        mapChanged("Animal moved to "  + animal.getPosition());
+        //mapChanged("Animal moved to "  + animal.getPosition());
     }
 
     public void reproduce() {
