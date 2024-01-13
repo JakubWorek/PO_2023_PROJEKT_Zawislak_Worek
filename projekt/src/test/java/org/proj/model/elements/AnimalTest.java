@@ -1,6 +1,7 @@
 package org.proj.model.elements;
 
 import org.junit.jupiter.api.Test;
+import org.proj.model.maps.GlobeMap;
 import org.proj.utils.Vector2d;
 
 import java.util.ArrayList;
@@ -23,5 +24,16 @@ public class AnimalTest {
         assert animal.getPlantsEaten().equals(0);
         assert animal.getGenome().equals(genome);
         assert animal.getPosition().equals(new Vector2d(1,1));
+    }
+
+    @Test
+    public void testAnimalIsAt() {
+        int[] genome = new int[8];
+        for (int i = 0; i < 8; i++) {
+            genome[i] = i;
+        }
+        Animal animal = new Animal(new Vector2d(1,1), 0, 0, 0, genome, EMoveStyle.FULLY_PREDESTINED);
+        assert animal.isAt(new Vector2d(1,1));
+        assert !animal.isAt(new Vector2d(1,2));
     }
 }
