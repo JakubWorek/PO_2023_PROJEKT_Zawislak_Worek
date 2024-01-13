@@ -141,14 +141,11 @@ public class SimulationPresenter implements IMapChangeListener {
                 else {
                     entity.setFill(Color.TRANSPARENT);
                     cell.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1))));
+                    emptyFieldsCount++;
                 }
 
                 if (worldMap.getForestedEquator().isPreferable(new Vector2d(i, simulationProps.getMapHeight()-j)))
                     cell.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1))));
-
-                else {
-                    emptyFieldsCount++;
-                }
             }
         }
     }

@@ -99,12 +99,9 @@ public class Simulation implements Runnable {
                 ((WaterMap)map).makeWaterDoAnything();
                 ((WaterMap)map).calculateFreePositions();
             }
-            // move animals
+            // move animals and decrease energy
             for(Animal animal : animals){
                 map.move(animal);
-            }
-            // decrease energy after move
-            for(Animal animal : animals){
                 animal.removeEnergy(simulationProps.getMoveEnergy());
             }
             // eat
@@ -126,7 +123,7 @@ public class Simulation implements Runnable {
             // grow new plants
             map.growPlants();
             try {
-                Thread.sleep(500);
+                Thread.sleep(300);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

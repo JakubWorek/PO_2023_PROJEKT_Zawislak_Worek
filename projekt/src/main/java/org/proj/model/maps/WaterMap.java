@@ -123,14 +123,16 @@ public class WaterMap extends AbstractWorldMap{
         return null;
     }
 
-//    @Override
-//    public synchronized Integer getEmptyCount() {
-//        Set<Vector2d> position = new HashSet<>();
-//        for (Vector2d pos : animals.keySet())
-//            if (!animals.get(pos).isEmpty())
-//                position.add(pos);
-//        position.addAll(plants.keySet());
-//        position.addAll(waters.keySet());
-//        return width*height - position.size();
-//    }
+    @Override
+    public synchronized Integer getEmptyCount() {
+        Set<Vector2d> position = new HashSet<>();
+        for (Vector2d pos : animals.keySet())
+            if (!animals.get(pos).isEmpty())
+                position.add(pos);
+        position.addAll(waters.keySet());
+        position.addAll(plants.keySet());
+        System.out.println(width*height);
+        System.out.println(position.size());
+        return width*height - position.size();
+    }
 }

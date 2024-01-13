@@ -23,7 +23,6 @@ public abstract class AbstractWorldMap implements IMoveValidator {
     protected int height;
     private final ForestedEquator forestedEquator;
     protected final List<IMapChangeListener> listeners;
-    //private final MapVisualizer mapVisualizer;
 
     protected String id;
     protected Simulation simulation;
@@ -165,7 +164,7 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         }
     }
 
-    public synchronized IWorldElement objectAt(Vector2d position){
+    public synchronized IWorldElement objectAt(Vector2d position) {
         if(animals.containsKey(position)) {
             if (animals.get(position).size() > 0)
                 return animals.get(position).get(0);
@@ -192,14 +191,12 @@ public abstract class AbstractWorldMap implements IMoveValidator {
     }
 
     public Integer getEmptyCount() {
-        int counter = 0;
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if (objectAt(new Vector2d(i, simulationProps.getMapHeight()-j-1)) == null)
-                    counter++;
-            }
-        }
-        return counter;
+        Set<Vector2d> position = new HashSet<>();
+        for (Vector2d pos : animals.keySet())
+            if (!animals.get(pos).isEmpty())
+                position.add(pos);
+        position.addAll(plants.keySet());
+        return width*height - position.size();
     }
 
     public ForestedEquator getForestedEquator() {
