@@ -10,15 +10,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import org.proj.model.SimulationProps;
 import org.proj.model.elements.Animal;
-import org.proj.model.elements.EElementType;
 import org.proj.model.elements.FieldPaint;
 import org.proj.model.elements.IWorldElement;
 import org.proj.model.maps.AbstractWorldMap;
-import org.proj.model.maps.EMapType;
 import org.proj.model.maps.GlobeMap;
 import org.proj.model.maps.WaterMap;
 import org.proj.utils.Vector2d;
@@ -26,7 +23,6 @@ import org.proj.Simulation;
 
 import java.util.Objects;
 
-import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public class SimulationPresenter implements IMapChangeListener {
@@ -145,16 +141,34 @@ public class SimulationPresenter implements IMapChangeListener {
                 IWorldElement object = worldMap.objectAt(new Vector2d(i, simulationProps.getMapHeight()-j-1));
                 if (object != null) {
                     FieldPaint fp = object.getFieldPaint();
-                    entity.setVisible(true);
-                    if (entity.getFill() != fp.entityColor())
-                        entity.setFill(fp.entityColor());
-                    if (fp.backgroundFill() != cell.getBackground().getFills().get(0).getFill())
-                        cell.setBackground(new Background(new BackgroundFill(fp.backgroundFill(), new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1))));
-
-                    if (showMostPopularGenome && object.getElementType() == EElementType.ANIMAL) {
-                        Animal animal = (Animal)object;
-                        if (animal.getGenome() == mostPopularGenotype) {
-                            cell.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(4, 4, 4, 4, false), new Insets(1, 1, 1, 1))));
+                    switch (object.getElementType()) {
+                        case WATER -> {
+                            entity.setVisible(false);
+                            if (fp.backgroundFill() != cell.getBackground().getFills().get(0).getFill())
+                                cell.setBackground(new Background(new BackgroundFill(fp.backgroundFill(), new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1))));
+                        }
+                        case PLANT ->  {
+                            entity.setVisible(true);
+                            if (entity.getFill() != fp.entityColor())
+                                entity.setFill(fp.entityColor());
+                            if (showPreferableGrassFields && worldMap.getForestedEquator().isPreferable(new Vector2d(i, simulationProps.getMapHeight() - j)) && cell.getBackground().getFills().get(0).getFill() != Color.LIGHTGREEN)
+                                cell.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(4, 4, 4, 4, false), new Insets(1, 1, 1, 1))));
+                            else if (cell.getBackground().getFills().get(0).getFill() != Color.TRANSPARENT)
+                                cell.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(4, 4, 4, 4, false), new Insets(1, 1, 1, 1))));
+                        }
+                        case ANIMAL -> {
+                            entity.setVisible(true);
+                            if (entity.getFill() != fp.entityColor())
+                                entity.setFill(fp.entityColor());
+                            Animal animal = (Animal)object;
+                            if (animal == animalToFollow)
+                                cell.setBackground(new Background(new BackgroundFill(Color.LIGHTSALMON, new CornerRadii(4, 4, 4, 4, false), new Insets(1, 1, 1, 1))));
+                            else if (showMostPopularGenome && animal.getGenome() == mostPopularGenotype)
+                                cell.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(4, 4, 4, 4, false), new Insets(1, 1, 1, 1))));
+                            else if (showPreferableGrassFields && worldMap.getForestedEquator().isPreferable(new Vector2d(i, simulationProps.getMapHeight() - j)) && cell.getBackground().getFills().get(0).getFill() != Color.LIGHTGREEN)
+                                cell.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(4, 4, 4, 4, false), new Insets(1, 1, 1, 1))));
+                            else if (cell.getBackground().getFills().get(0).getFill() != Color.TRANSPARENT)
+                                cell.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(4, 4, 4, 4, false), new Insets(1, 1, 1, 1))));
                         }
                     }
                 }
@@ -273,6 +287,7 @@ public class SimulationPresenter implements IMapChangeListener {
                         genes += String.valueOf(g);
                     genotype.setText(genes);
                     updateSelectedAnimalStats();
+                    mapChanged(worldMap, "Highlight selected animals");
                 }
             }
         }
