@@ -29,6 +29,8 @@ import static java.lang.Math.min;
 public class SimulationPresenter implements IMapChangeListener {
 
     @FXML
+    private Label dayCounter;
+    @FXML
     private Label mostPopularGenes;
     @FXML
     private Button saveBtn;
@@ -216,6 +218,7 @@ public class SimulationPresenter implements IMapChangeListener {
     public void mapChanged(AbstractWorldMap map, String message) {
         Platform.runLater(() -> {
             drawMap();
+            dayCounter.setText("Overall stats            | Day: " + simulationProps.getDaysElapsed().toString());
             animalsAliveValue.setText(simulation.getAliveAnimalsCount().toString());
             animalsDeadValue.setText(simulation.getDeadAnimalsCount().toString());
             plantsValue.setText(map.getPlantsCount().toString());

@@ -23,12 +23,13 @@ public class SimulationProps {
 
     private boolean saveToCSV;
     private String CSVName;
+    private int simulationStep;
 
     public SimulationProps(int width_, int height_, int equatorHeight_, int animalCount_, int plantCount_,
                            int spawnPlantPerDay_, int energy_, int maxEnergy_, int plantEnergy_,
                            EMoveStyle moveStyle_, EMutationStyle mutationStyle_, int genesCount_,
                            int energyLevelNeededToReproduce_, int energyLevelToPassToChild_, int moveEnergy_,
-                           boolean saveToCSV_, String CSVName_) {
+                           boolean saveToCSV_, String CSVName_, int simulationStep_) {
         width = width_;
         height = height_;
         equatorHeight = equatorHeight_;
@@ -47,6 +48,7 @@ public class SimulationProps {
         daysElapsed = 0;
         saveToCSV = saveToCSV_;
         CSVName = CSVName_;
+        simulationStep = simulationStep_;
     }
 
     public synchronized void incrementDaysElapsed() {
@@ -108,10 +110,14 @@ public class SimulationProps {
         return moveEnergy;
     }
 
-    public int getDaysElapsed() {
+    public Integer getDaysElapsed() {
         return daysElapsed;
     }
 
     public boolean shouldSaveCSV() { return saveToCSV; }
     public String getCSVName() {return CSVName; }
+
+    public int getSimulationStep() {
+        return simulationStep;
+    }
 }

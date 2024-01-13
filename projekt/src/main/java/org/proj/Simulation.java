@@ -123,7 +123,7 @@ public class Simulation implements Runnable {
             // grow new plants
             map.growPlants();
             try {
-                Thread.sleep(225);
+                Thread.sleep(simulationProps.getSimulationStep());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

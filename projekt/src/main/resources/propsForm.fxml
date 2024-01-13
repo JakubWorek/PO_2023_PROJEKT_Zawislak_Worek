@@ -86,6 +86,12 @@
          <Insets bottom="10.0" />
       </VBox.margin>
    </TextField>
+   <Label text="Simulation stop duration [ms]:" />
+   <TextField fx:id="simulationStepTime" text="250">
+      <VBox.margin>
+         <Insets bottom="10.0" />
+      </VBox.margin>
+   </TextField>
    <CheckBox fx:id="csvFlag" mnemonicParsing="false" onMouseClicked="#toggleCSVFlag" text="Save simulation results to CSV file">
       <VBox.margin>
          <Insets bottom="10.0" />
