@@ -111,7 +111,7 @@ public class SimulationPresenter implements IMapChangeListener {
                 VBox vbox = new VBox();
                 vbox.setAlignment(Pos.CENTER);
 
-                Circle entity = new Circle(CELL/2.5, Color.TRANSPARENT);
+                Circle entity = new Circle(CELL/2.6, Color.TRANSPARENT);
                 vbox.getChildren().add(entity);
 
                 grid.add(vbox, i, j);
@@ -171,7 +171,7 @@ public class SimulationPresenter implements IMapChangeListener {
             childrenCount.setText(animalToFollow.getChildrenMade().toString());
             descCount.setText(animalToFollow.countDescendants().toString());
             currMove.setText("Gene index: " + animalToFollow.getGeneIndex().toString() + " | Value: " + animalToFollow.getGenome()[animalToFollow.getGeneIndex()]);
-            if (animalToFollow.getEnergy() == 0) {
+            if (animalToFollow.getEnergy() == 0 && animalToFollow.getDeathDate() > -1) {
                 diedAt.setText(animalToFollow.getDeathDate().toString());
             }
         }

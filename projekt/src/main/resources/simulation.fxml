@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox minHeight="600.0" minWidth="840.0" prefHeight="600.0" prefWidth="840.0" stylesheets="style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.proj.presenter.SimulationPresenter">
+<VBox minHeight="600.0" minWidth="840.0" prefHeight="600.0" prefWidth="840.0" stylesheets="style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.proj.presenter.SimulationPresenter">
     <HBox prefHeight="500.0">
         <VBox.margin>
             <Insets bottom="15.0" top="15.0" />

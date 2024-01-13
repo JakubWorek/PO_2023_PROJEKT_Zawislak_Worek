@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox minHeight="800.0" minWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.proj.presenter.PropsFormPresenter">
+<VBox minHeight="800.0" minWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.proj.presenter.PropsFormPresenter">
    <Label text="Start energy level:" />
    <TextField fx:id="startEnergy" text="100">
       <VBox.margin>
