@@ -58,9 +58,9 @@ public class Animal implements IWorldElement {
     public EMapDirection getOrientation() { return this.orientation; }
     public EMoveStyle getMoveStyle() { return moveStyle; }
     public Integer getEnergy() { return energy; }
-    public int getMaxEnergy() { return maxEnergy; }
+    public Integer getMaxEnergy() { return maxEnergy; }
     public Integer getAge() { return age; }
-    public int getBirthDate() { return birthDate; }
+    public Integer getBirthDate() { return birthDate; }
     public Integer getDeathDate() { return deathDate; }
     public int[] getGenome() { return genome; }
     public Integer getGeneIndex() { return geneIndex; }
@@ -162,10 +162,10 @@ public class Animal implements IWorldElement {
         for (Animal child : children) {
             if (!visited.contains(child)) {
                 //visited.add(child);
-                count += countDescendantsRecursive(child, visited);
+                count += (countDescendantsRecursive(child, visited)+1);
             }
         }
-        return count + children.size();
+        return count;
     }
 
     @Override
