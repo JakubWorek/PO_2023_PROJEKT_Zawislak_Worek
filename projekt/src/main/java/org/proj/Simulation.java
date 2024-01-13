@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class Simulation implements Runnable {
     private final AbstractWorldMap map;
@@ -85,12 +84,14 @@ public class Simulation implements Runnable {
             Set<Animal> animalsToRemove = new HashSet<>(animals);
             for(Animal animal : animalsToRemove){
                 if(animal.getEnergy()<=0){
-                    animal.setDeathDate(simulationProps.getDaysElapsed());
-                    genesCount.put(animal.getGenome(), (Integer)genesCount.get(animal.getGenome())-1);
-                    deadAnimals += 1;
-                    accumulatedLifeSpan += animal.getAge();
-                    map.removeAnimal(animal);
-                    animals.remove(animal);
+                    synchronized (this) {
+                        animal.setDeathDate(simulationProps.getDaysElapsed());
+                        genesCount.put(animal.getGenome(), (Integer) genesCount.get(animal.getGenome()) - 1);
+                        deadAnimals += 1;
+                        accumulatedLifeSpan += animal.getAge();
+                        map.removeAnimal(animal);
+                        animals.remove(animal);
+                    }
                 }
             }
             // if map is WaterMap, then expand/contract water and calculate free positions for plants
@@ -114,7 +115,7 @@ public class Simulation implements Runnable {
             if (simulationProps.shouldSaveCSV()) {
                 String avgLifespan = "---";
                 if (deadAnimals > 0) avgLifespan = String.valueOf(getAverageLifeSpan());
-                csvContent += simulationProps.getDaysElapsed() + ";" + map.getAliveAnimalsCount() + ";" + map.getPlantsCount() + ";" + map.getEmptyCount() + ";" + getMostPopularGenotypeStr() + ";" + getAvarageEnergy() + ";" + avgLifespan + ";" + getAverageChildrenCount() + "\n";
+                csvContent += simulationProps.getDaysElapsed() + ";" + getAliveAnimalsCount() + ";" + map.getPlantsCount() + ";" + map.getEmptyCount() + ";" + getMostPopularGenotypeStr() + ";" + getAverageEnergy() + ";" + avgLifespan + ";" + getAverageChildrenCount() + "\n";
             }
             // add day
             simulationProps.incrementDaysElapsed();
@@ -130,9 +131,10 @@ public class Simulation implements Runnable {
                 e.printStackTrace();
             }
         }
+        map.mapChanged("Clearing last animal");
     }
 
-    public void addAnimal(Animal animal){
+    public synchronized void addAnimal(Animal animal){
         animals.add(animal);
         int[] genome = animal.getGenome();
         if (genesCount.get(genome) == null) genesCount.put(genome, 1);
@@ -143,7 +145,7 @@ public class Simulation implements Runnable {
         return deadAnimals;
     }
 
-    public float getAvarageEnergy() {
+    public synchronized float getAverageEnergy() {
         float sum = 0;
         for (Animal animal : animals)
             sum += animal.getEnergy();
@@ -151,12 +153,15 @@ public class Simulation implements Runnable {
         return sum / animals.size();
     }
 
+    public synchronized Integer getAliveAnimalsCount() {
+        return animals.size();
+    }
 
     public float getAverageLifeSpan() {
         return accumulatedLifeSpan / (float)deadAnimals;
     }
 
-    public float getAverageChildrenCount() {
+    public synchronized float getAverageChildrenCount() {
         float sum = 0;
         for (Animal animal : animals)
             sum += animal.getChildrenMade();
@@ -167,7 +172,7 @@ public class Simulation implements Runnable {
         isRunning = !isRunning;
     }
 
-    public String getMostPopularGenotypeStr() {
+    public synchronized String getMostPopularGenotypeStr() {
         if (genesCount.size() == 0)  return "---";
         int[] genome = (int[])Collections.max(genesCount.entrySet(), Map.Entry.comparingByValue()).getKey();
         String genomeStr = "";

@@ -2,12 +2,12 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.CheckBox?>
 <VBox minHeight="800.0" minWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.proj.presenter.PropsFormPresenter">
    <Label text="Start energy level:" />
    <TextField fx:id="startEnergy" text="100">
@@ -22,7 +22,7 @@
       </VBox.margin>
    </TextField>
    <Label text="Energy used while moving:" />
-   <TextField fx:id="moveEnergy" text="10">
+   <TextField fx:id="moveEnergy" text="2">
       <VBox.margin>
          <Insets bottom="10.0" />
       </VBox.margin>
@@ -34,7 +34,7 @@
       </VBox.margin>
    </TextField>
    <Label text="Energy level needed to reproduce:" />
-   <TextField fx:id="energyToReproduce" text="60">
+   <TextField fx:id="energyToReproduce" text="30">
       <VBox.margin>
          <Insets bottom="10.0" />
       </VBox.margin>
@@ -57,31 +57,31 @@
       </VBox.margin>
    </TextField>
    <Label text="Plants count:" />
-   <TextField fx:id="plantCount" text="10">
+   <TextField fx:id="plantCount" text="200">
       <VBox.margin>
          <Insets bottom="10.0" />
       </VBox.margin>
    </TextField>
    <Label text="Spawn plant per day:" />
-   <TextField fx:id="spawnPlantPerDay" text="10">
+   <TextField fx:id="spawnPlantPerDay" text="200">
       <VBox.margin>
          <Insets bottom="10.0" />
       </VBox.margin>
    </TextField>
    <Label text="Animals count:" />
-   <TextField fx:id="animalCount" text="10">
+   <TextField fx:id="animalCount" text="250">
       <VBox.margin>
          <Insets bottom="10.0" />
       </VBox.margin>
    </TextField>
    <Label text="Map width:" />
-   <TextField fx:id="mapWidth" text="10">
+   <TextField fx:id="mapWidth" text="30">
       <VBox.margin>
          <Insets bottom="10.0" />
       </VBox.margin>
    </TextField>
    <Label text="Map height:" />
-   <TextField fx:id="mapHeight" text="10">
+   <TextField fx:id="mapHeight" text="30">
       <VBox.margin>
          <Insets bottom="10.0" />
       </VBox.margin>
@@ -91,7 +91,10 @@
          <Insets bottom="10.0" />
       </VBox.margin>
    </CheckBox>
-   <TextField fx:id="csvFileName" disable="true" promptText="CSV filename" />
+   <TextField fx:id="csvFileName" disable="true" promptText="CSV filename">
+      <VBox.margin>
+         <Insets bottom="15.0" />
+      </VBox.margin></TextField>
    <Button mnemonicParsing="false" onAction="#onNewSimulationClicked" prefHeight="25.0" prefWidth="369.0" text="Start Simulation" />
    <opaqueInsets>
       <Insets />

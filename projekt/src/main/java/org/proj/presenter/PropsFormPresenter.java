@@ -76,8 +76,6 @@ public class PropsFormPresenter {
 
         simulationProps = props;
         SimulationApp app = new SimulationApp(props);
-        //Thread appThread = new Thread(app);
-        //appThread.start();
         app.run();
     }
 

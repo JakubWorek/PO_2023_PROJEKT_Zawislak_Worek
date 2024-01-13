@@ -47,10 +47,9 @@ public abstract class AbstractWorldMap implements IMoveValidator {
                 freePositionsForPlants.add(position);
             }
         }
-        //mapVisualizer = new MapVisualizer(this);
     }
 
-    public void placeAnimals(Vector2d animalPosition, Animal animal){
+    public synchronized void placeAnimals(Vector2d animalPosition, Animal animal){
         if (animals.containsKey(animalPosition)) {
             animals.get(animalPosition).add(animal);
         }
@@ -61,11 +60,11 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         }
     }
 
-    public void removeAnimal(Animal animal) {
+    public synchronized void removeAnimal(Animal animal) {
         animals.get(animal.getPosition()).remove(animal);
     }
 
-    public void placePlants(Vector2d plantPosition, Plant plant) {
+    public synchronized void placePlants(Vector2d plantPosition, Plant plant) {
         plants.put(plantPosition, plant);
         freePositionsForPlants.remove(plantPosition);
     }
@@ -100,14 +99,14 @@ public abstract class AbstractWorldMap implements IMoveValidator {
     }
 
 
-    public void move(Animal animal)  {
+    public synchronized void move(Animal animal)  {
         animals.get(animal.getPosition()).remove(animal);
         animal.move(this);
         placeAnimals(animal.getPosition(), animal);
         mapChanged("Animal moved to "  + animal.getPosition());
     }
 
-    public void reproduce() {
+    public synchronized void reproduce() {
         for (Vector2d position : animals.keySet()) {
             List<Animal> animalList = animals.get(position);
             if (animalList.size() > 1) {
@@ -140,7 +139,7 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         }
     }
 
-    public void eat() {
+    public synchronized void eat() {
         Set<Vector2d> keys = new HashSet<>(plants.keySet());
         for ( Vector2d position : keys ){
             if ( animals.containsKey(position) ) {
@@ -166,7 +165,7 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         }
     }
 
-    public IWorldElement objectAt(Vector2d position){
+    public synchronized IWorldElement objectAt(Vector2d position){
         if(animals.containsKey(position)) {
             if (animals.get(position).size() > 0)
                 return animals.get(position).get(0);
@@ -188,25 +187,19 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         return id;
     }
 
-    public Integer getAliveAnimalsCount() {
-        int count = 0;
-        for (List<Animal> animals : animals.values()) {
-            count += animals.size();
-        }
-        return count;
-    }
-
     public Integer getPlantsCount() {
         return plants.size();
     }
 
     public Integer getEmptyCount() {
-        Set<Vector2d> position = new HashSet<>();
-        for (Vector2d pos : animals.keySet())
-            if (!animals.get(pos).isEmpty())
-                position.add(pos);
-        position.addAll(plants.keySet());
-        return width*height - position.size();
+        int counter = 0;
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (objectAt(new Vector2d(i, simulationProps.getMapHeight()-j-1)) == null)
+                    counter++;
+            }
+        }
+        return counter;
     }
 
     public ForestedEquator getForestedEquator() {

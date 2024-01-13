@@ -3,16 +3,20 @@ package org.proj.presenter;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import org.proj.model.SimulationProps;
 import org.proj.model.elements.Animal;
+import org.proj.model.elements.FieldPaint;
 import org.proj.model.elements.IWorldElement;
 import org.proj.model.maps.AbstractWorldMap;
-import org.proj.model.maps.GlobeMap;
 import org.proj.model.maps.WaterMap;
 import org.proj.utils.Vector2d;
 import org.proj.Simulation;
@@ -78,8 +82,12 @@ public class SimulationPresenter implements IMapChangeListener {
 
     private Animal animalToFollow;
 
-    Thread appThread;
-    boolean running = false;
+    private Thread appThread;
+    private boolean running = false;
+
+    private Integer emptyFieldsCount = 0;
+
+    private int CELL;
 
     public void setProps(SimulationProps simulationProps) {
         this.simulationProps = simulationProps;
@@ -87,42 +95,61 @@ public class SimulationPresenter implements IMapChangeListener {
         mapHeightValue.setText(simulationProps.getMapHeight().toString());
     }
 
-    private void clearGrid() {
+    private void setupGrid() {
         grid.getChildren().retainAll();
         grid.getColumnConstraints().clear();
         grid.getRowConstraints().clear();
         grid.setHgap(1);
         grid.setVgap(1);
-    }
 
-    public void drawMap() {
-        clearGrid();
         int width =  simulationProps.getMapWidth();
         int height =  simulationProps.getMapHeight();
-        int CELL = min((520-width)/width, (520-height)/height);
-
-        //int limit = max(height, width);
+        CELL = min((520-width)/width, (520-height)/height);
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 VBox vbox = new VBox();
-                if (worldMap.getForestedEquator().isPreferable(new Vector2d(i, simulationProps.getMapHeight()-j)))
-                    vbox.getStyleClass().add("equator-cell");
+                vbox.setAlignment(Pos.CENTER);
+
+                Circle entity = new Circle(CELL/2.5, Color.TRANSPARENT);
+                vbox.getChildren().add(entity);
+
+                grid.add(vbox, i, j);
+                if (i == 0) grid.getRowConstraints().add(new RowConstraints(CELL));
+            }
+            grid.getColumnConstraints().add(new ColumnConstraints(CELL));
+        }
+    }
+
+    public void drawMap() {
+        int width =  simulationProps.getMapWidth();
+        int height =  simulationProps.getMapHeight();
+
+        emptyFieldsCount = 0;
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                VBox cell = (VBox) grid.getChildren().get(i * simulationProps.getMapWidth() + j);
+                Circle entity = (Circle) cell.getChildren().get(0);
+
                 IWorldElement object = worldMap.objectAt(new Vector2d(i, simulationProps.getMapHeight()-j-1));
                 if (object != null) {
-                    if (object.getShapeToPrint(CELL) == null)
-                        vbox.getStyleClass().add("water-cell");
-                    else
-                        vbox.getChildren().add(object.getShapeToPrint(CELL));
+                    FieldPaint fp = object.getFieldPaint();
+                    entity.setFill(fp.entityColor());
+                    cell.setBackground(new Background(fp.backgroundFill()));
                 }
-                grid.add(vbox, i, j);
-                vbox.setAlignment(Pos.CENTER);
-                if (i == 0) {
-                    grid.getRowConstraints().add(new RowConstraints(CELL));
+                else {
+                    entity.setFill(Color.TRANSPARENT);
+                    cell.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1))));
+                }
+
+                if (worldMap.getForestedEquator().isPreferable(new Vector2d(i, simulationProps.getMapHeight()-j)))
+                    cell.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1))));
+
+                else {
+                    emptyFieldsCount++;
                 }
             }
-
-            grid.getColumnConstraints().add(new ColumnConstraints(CELL));
         }
     }
 
@@ -153,7 +180,7 @@ public class SimulationPresenter implements IMapChangeListener {
     public void onStartBtnClicked(ActionEvent actionEvent) {
         worldMap = new WaterMap(simulationProps);
 
-        clearGrid();
+        setupGrid();
 
         Button btn = (Button) actionEvent.getSource();
         btn.setText("Reset");
@@ -188,11 +215,11 @@ public class SimulationPresenter implements IMapChangeListener {
     public void mapChanged(AbstractWorldMap map, String message) {
         Platform.runLater(() -> {
             drawMap();
-            animalsAliveValue.setText(map.getAliveAnimalsCount().toString());
+            animalsAliveValue.setText(simulation.getAliveAnimalsCount().toString());
             animalsDeadValue.setText(simulation.getDeadAnimalsCount().toString());
             plantsValue.setText(map.getPlantsCount().toString());
-            freeFieldsValue.setText(map.getEmptyCount().toString());
-            averageEnergyValue.setText(String.valueOf(simulation.getAvarageEnergy()));
+            freeFieldsValue.setText(emptyFieldsCount.toString());
+            averageEnergyValue.setText(String.valueOf(simulation.getAverageEnergy()));
             String avgLifespan = "---";
             if (simulation.getDeadAnimalsCount() > 0) avgLifespan = String.valueOf(simulation.getAverageLifeSpan());
             averageLifespanValue.setText(avgLifespan);
@@ -242,5 +269,9 @@ public class SimulationPresenter implements IMapChangeListener {
 
     public void onSaveBtnClicked(ActionEvent actionEvent) {
         simulation.saveToCSV();
+    }
+
+    public void shutdownSimulation() {
+        if(running) appThread.stop();
     }
 }

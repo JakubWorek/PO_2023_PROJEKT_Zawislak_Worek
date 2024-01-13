@@ -1,5 +1,8 @@
 package org.proj.model.elements;
 
+import javafx.geometry.Insets;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.shape.Shape;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -23,7 +26,7 @@ public class Plant implements IWorldElement {
     }
 
     @Override
-    public Shape getShapeToPrint(int cellSize) {
-        return new Circle(cellSize/3, Color.GREEN);
+    public FieldPaint getFieldPaint() {
+        return new FieldPaint(Color.GREEN, new BackgroundFill(Color.TRANSPARENT, new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1)));
     }
 }

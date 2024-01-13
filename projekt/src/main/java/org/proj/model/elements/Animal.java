@@ -1,5 +1,8 @@
 package org.proj.model.elements;
 
+import javafx.geometry.Insets;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
@@ -165,11 +168,11 @@ public class Animal implements IWorldElement {
         return count + children.size();
     }
 
-    public Shape getShapeToPrint(int cellSize) {
-        float k = (float)energy/(float)maxEnergy;
-        Color temp = Color.CHOCOLATE;
-        Color brown = new Color(temp.getRed()*k, temp.getGreen()*k, temp.getBlue()*k, 1.0);
-        return new Circle(cellSize/3, brown);
+    @Override
+    public FieldPaint getFieldPaint() {
+        float k = 0.2f + (float)(energy*0.8)/maxEnergy;
+        Color entityColor = new Color(Color.CHOCOLATE.getRed()*k, Color.CHOCOLATE.getGreen()*k, Color.CHOCOLATE.getBlue()*k, 1.0);
+        return new FieldPaint(entityColor, new BackgroundFill(Color.TRANSPARENT, new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1)));
     }
 
 }

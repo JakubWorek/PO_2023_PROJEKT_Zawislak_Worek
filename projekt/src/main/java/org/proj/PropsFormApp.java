@@ -19,6 +19,12 @@ public class PropsFormApp extends AbstractApp {
     }
 
     @Override
+    public void stop() throws Exception {
+        super.stop();
+        System.exit(0);
+    }
+
+    @Override
     public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("propsForm.fxml"));

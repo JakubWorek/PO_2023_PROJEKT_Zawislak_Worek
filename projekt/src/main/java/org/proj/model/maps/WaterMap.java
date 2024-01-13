@@ -113,7 +113,7 @@ public class WaterMap extends AbstractWorldMap{
     }
 
     @Override
-    public IWorldElement objectAt(Vector2d position){
+    public synchronized IWorldElement objectAt(Vector2d position){
         if(animals.containsKey(position)) {
             if (animals.get(position).size() > 0)
                 return animals.get(position).get(0);
@@ -123,14 +123,14 @@ public class WaterMap extends AbstractWorldMap{
         return null;
     }
 
-    @Override
-    public Integer getEmptyCount() {
-        Set<Vector2d> position = new HashSet<>();
-        for (Vector2d pos : animals.keySet())
-            if (!animals.get(pos).isEmpty())
-                position.add(pos);
-        position.addAll(plants.keySet());
-        position.addAll(waters.keySet());
-        return width*height - position.size();
-    }
+//    @Override
+//    public synchronized Integer getEmptyCount() {
+//        Set<Vector2d> position = new HashSet<>();
+//        for (Vector2d pos : animals.keySet())
+//            if (!animals.get(pos).isEmpty())
+//                position.add(pos);
+//        position.addAll(plants.keySet());
+//        position.addAll(waters.keySet());
+//        return width*height - position.size();
+//    }
 }

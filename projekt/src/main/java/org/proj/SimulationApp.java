@@ -17,6 +17,8 @@ import java.util.Objects;
 public class SimulationApp extends Application implements Runnable {
     SimulationProps simulationProps;
 
+    SimulationPresenter controller;
+
     public SimulationApp(SimulationProps simulationProps) {
         this.simulationProps = simulationProps;
     }
@@ -46,10 +48,16 @@ public class SimulationApp extends Application implements Runnable {
 
         configureStage(primaryStage, viewRoot);
 
-        SimulationPresenter controller = loader.getController();
+        controller = loader.getController();
         controller.setProps(simulationProps);
 
         primaryStage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        controller.shutdownSimulation();
     }
 
     @Override

@@ -1,5 +1,8 @@
 package org.proj.model.elements;
 
+import javafx.geometry.Insets;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
@@ -22,7 +25,8 @@ public class Water implements IWorldElement{
         return "W";
     }
 
-    public Shape getShapeToPrint(int cellSize) {
-        return null;
+    @Override
+    public FieldPaint getFieldPaint() {
+        return new FieldPaint(Color.TRANSPARENT, new BackgroundFill(Color.LIGHTBLUE, new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1)));
     }
 }

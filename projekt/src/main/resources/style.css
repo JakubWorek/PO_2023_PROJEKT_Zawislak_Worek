@@ -11,18 +11,8 @@
     -fx-font-size: 16;
 }
 
-.equator-cell {
-    -fx-background-color: lightgreen;
-    -fx-background-insets: 1;
-}
-
-.water-cell {
-    -fx-background-color: lightblue;
-    -fx-background-insets: 1;
-}
-
 .grid-style VBox {
     -fx-border-color: black;
     -fx-border-width: 1;
-    -fx-border-radius: 5;
+    -fx-border-radius: 4;
 }
