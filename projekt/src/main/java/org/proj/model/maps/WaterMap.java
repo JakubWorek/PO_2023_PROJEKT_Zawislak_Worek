@@ -31,7 +31,7 @@ public class WaterMap extends AbstractWorldMap{
         Collections.shuffle(waterToChange);
 
         // Wylosuj czy jest przypływ czy odpływ
-        boolean isFlow = (random.nextInt(3) != 2);
+        boolean isFlow = (random.nextInt(5) != 4);
 
         for (int i = 0; i < waterToChangeCount && i < waterToChange.size(); i++) {
             Vector2d currentPosition = waterToChange.get(i);
@@ -66,6 +66,10 @@ public class WaterMap extends AbstractWorldMap{
                         waters.put(newPosition, new Water(newPosition));
                     }
 
+                    if (newPosition.getX() <0 || newPosition.getX() > width-1 || newPosition.getY() < 0 || newPosition.getY() > height-1){
+                        waters.remove(newPosition);
+                    }
+
                 }
             } else {
                 // Jeśli odpływ, usuń wodę
@@ -76,7 +80,7 @@ public class WaterMap extends AbstractWorldMap{
         }
     }
 
-    public void calculateFreePositions(){
+    public synchronized void calculateFreePositions(){
         freePositionsForPlants.clear();
         for (int x=0; x<width; x++) {
             for (int y=0; y<height; y++) {
@@ -88,11 +92,7 @@ public class WaterMap extends AbstractWorldMap{
 
 
     @Override
-    public PositionOrientationTuple correctPosition(Vector2d oldPosition, Vector2d newPosition, EMapDirection orientation){
-        // check if it is water on position
-        if(waters.containsKey(newPosition)){
-            return new PositionOrientationTuple(oldPosition, orientation.rotate(4));
-        }
+    public synchronized PositionOrientationTuple correctPosition(Vector2d oldPosition, Vector2d newPosition, EMapDirection orientation){
         int x = (newPosition.getX()+width)%width;
         int y = newPosition.getY();
         EMapDirection orient = orientation;
@@ -107,6 +107,10 @@ public class WaterMap extends AbstractWorldMap{
             if (orientation == EMapDirection.NORTH) orient = EMapDirection.SOUTH;
             else if (orientation == EMapDirection.NORTH_EAST) orient = EMapDirection.SOUTH_EAST;
             else if (orientation == EMapDirection.NORTH_WEST) orient = EMapDirection.SOUTH_WEST;
+        }
+        // check if it is water on position
+        if(waters.containsKey(new Vector2d(x, y))){
+            return new PositionOrientationTuple(oldPosition, orientation);
         }
 
         return new PositionOrientationTuple(new Vector2d(x, y), orient);
@@ -131,8 +135,6 @@ public class WaterMap extends AbstractWorldMap{
                 position.add(pos);
         position.addAll(waters.keySet());
         position.addAll(plants.keySet());
-        System.out.println(width*height);
-        System.out.println(position.size());
         return width*height - position.size();
     }
 }
