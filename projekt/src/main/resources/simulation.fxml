@@ -20,7 +20,7 @@
             </HBox.margin>
         </GridPane>
         <VBox styleClass="stats-section">
-      <Label styleClass="header" text="Overall stats:">
+      <Label styleClass="header" text="Overall stats            | Day: ">
          <HBox.margin>
             <Insets left="10.0" />
          </HBox.margin>

@@ -48,19 +48,25 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         }
     }
 
-    public synchronized void placeAnimals(Vector2d animalPosition, Animal animal){
+    public void placeAnimals(Vector2d animalPosition, Animal animal){
         if (animals.containsKey(animalPosition)) {
-            animals.get(animalPosition).add(animal);
+            synchronized (this) {
+                animals.get(animalPosition).add(animal);
+                animals.get(animalPosition).sort(Comparator.comparing(Animal::getEnergy));
+            }
         }
         else {
             List<Animal> animalList = new ArrayList<>();
             animalList.add(animal);
-            animals.put(animalPosition, animalList);
+            synchronized (this) {
+                animals.put(animalPosition, animalList);
+            }
         }
     }
 
     public synchronized void removeAnimal(Animal animal) {
         animals.get(animal.getPosition()).remove(animal);
+        mapChanged("Animal removed from map");
     }
 
     public synchronized void placePlants(Vector2d plantPosition, Plant plant) {
@@ -105,52 +111,43 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         mapChanged("Animal moved to "  + animal.getPosition());
     }
 
-    public synchronized void reproduce() {
+    public void reproduce() {
         for (Vector2d position : animals.keySet()) {
             List<Animal> animalList = animals.get(position);
             if (animalList.size() > 1) {
                 Animal a1 = animalList.get(0);
                 Animal a2 = animalList.get(1);
-                for (Animal animal : animalList) {
-                    if (animal == a1 || animal == a2) continue;
-                    Animal a3 = a1;
-                    a1 = a1.compareWith(animal);
-                    if (a3 != a1) {
-                        a2 = a3;
-                    } else {
-                        a2 = a2.compareWith(animal);
-                    }
-                }
                 if (a1.getEnergy() > simulationProps.getEnergyLevelNeededToReproduce() && a2.getEnergy() > simulationProps.getEnergyLevelNeededToReproduce()) {
                     Animal child = new Animal(position, 2 * simulationProps.getEnergyLevelToPassToChild(),
                             simulationProps.getMaxEnergy(), simulationProps.getDaysElapsed(), Genotype.getGenesFromParents(a1, a2, simulationProps.getMutationStyle(), simulationProps.getGenesCount()),
                             simulationProps.getMoveStyle());
-                    animals.get(position).add(child);
-                    a1.removeEnergy(simulationProps.getEnergyLevelToPassToChild());
-                    a1.addChild();
-                    a1.addChildToList(child);
-                    a2.removeEnergy(simulationProps.getEnergyLevelToPassToChild());
-                    a2.addChild();
-                    a2.addChildToList(child);
-                    simulation.addAnimal(child);
+                    synchronized (this) {
+                        animals.get(position).add(child);
+                        a1.removeEnergy(simulationProps.getEnergyLevelToPassToChild());
+                        a1.addChild();
+                        a1.addChildToList(child);
+                        a2.removeEnergy(simulationProps.getEnergyLevelToPassToChild());
+                        a2.addChild();
+                        a2.addChildToList(child);
+                        simulation.addAnimal(child);
+                    }
                 }
             }
         }
     }
 
-    public synchronized void eat() {
+    public void eat() {
         Set<Vector2d> keys = new HashSet<>(plants.keySet());
         for ( Vector2d position : keys ){
             if ( animals.containsKey(position) ) {
                 List<Animal> animalList = animals.get(position);
                 if (animalList.size() > 0) {
                     Animal animal = animalList.get(0);
-                    for (Animal animal1 : animalList) {
-                        animal = animal.compareWith(animal1);
+                    synchronized (this) {
+                        animal.eat(simulationProps.getPlantEnergy());
+                        plants.remove(position);
+                        freePositionsForPlants.add(position);
                     }
-                    animal.eat(simulationProps.getPlantEnergy());
-                    plants.remove(position);
-                    freePositionsForPlants.add(position);
                 }
             }
 

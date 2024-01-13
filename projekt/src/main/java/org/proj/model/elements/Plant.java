@@ -27,6 +27,6 @@ public class Plant implements IWorldElement {
 
     @Override
     public FieldPaint getFieldPaint() {
-        return new FieldPaint(Color.GREEN, new BackgroundFill(Color.TRANSPARENT, new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1)));
+        return new FieldPaint(Color.GREEN, Color.TRANSPARENT);
     }
 }

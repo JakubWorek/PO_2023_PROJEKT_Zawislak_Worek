@@ -110,7 +110,7 @@ public class SimulationPresenter implements IMapChangeListener {
             for (int j = 0; j < height; j++) {
                 VBox vbox = new VBox();
                 vbox.setAlignment(Pos.CENTER);
-
+                vbox.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1))));
                 Circle entity = new Circle(CELL/2.6, Color.TRANSPARENT);
                 vbox.getChildren().add(entity);
 
@@ -135,17 +135,21 @@ public class SimulationPresenter implements IMapChangeListener {
                 IWorldElement object = worldMap.objectAt(new Vector2d(i, simulationProps.getMapHeight()-j-1));
                 if (object != null) {
                     FieldPaint fp = object.getFieldPaint();
-                    entity.setFill(fp.entityColor());
-                    cell.setBackground(new Background(fp.backgroundFill()));
+                    entity.setVisible(true);
+                    if (entity.getFill() != fp.entityColor())
+                        entity.setFill(fp.entityColor());
+                    if (fp.backgroundFill() != Color.TRANSPARENT)
+                        cell.setBackground(new Background(new BackgroundFill(fp.backgroundFill(), new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1))));
                 }
                 else {
-                    entity.setFill(Color.TRANSPARENT);
-                    cell.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1))));
+                    entity.setVisible(false);
+                    if (cell.getBackground().getFills().get(0).getFill() != Color.TRANSPARENT)
+                        cell.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1))));
                     emptyFieldsCount++;
                 }
 
-                if (worldMap.getForestedEquator().isPreferable(new Vector2d(i, simulationProps.getMapHeight()-j)))
-                    cell.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1))));
+                //if (worldMap.getForestedEquator().isPreferable(new Vector2d(i, simulationProps.getMapHeight()-j)) && cell.getBackground().getFills().get(0).getFill() != Color.LIGHTGREEN)
+                //    cell.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1))));
             }
         }
     }

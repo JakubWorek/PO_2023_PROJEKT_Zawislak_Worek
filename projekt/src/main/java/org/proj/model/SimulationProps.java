@@ -53,65 +53,65 @@ public class SimulationProps {
         daysElapsed++;
     }
 
-    public synchronized Integer getMapWidth(){
+    public Integer getMapWidth(){
         return width;
     }
 
-    public synchronized Integer getMapHeight(){
+    public Integer getMapHeight(){
         return height;
     }
-    public synchronized int getSpawnPlantPerDay(){
+    public int getSpawnPlantPerDay(){
         return spawnPlantPerDay;
     }
-    public synchronized int getEquatorHeight(){
+    public int getEquatorHeight(){
         return equatorHeight;
     }
 
-    public synchronized int getStartAnimalCount(){
+    public int getStartAnimalCount(){
         return animalCount;
     }
 
-    public synchronized int getStartPlantCount(){
+    public int getStartPlantCount(){
         return plantCount;
     }
 
-    public synchronized int getStartEnergy() {
+    public int getStartEnergy() {
         return energy;
     }
 
-    public synchronized EMoveStyle getMoveStyle() {
+    public EMoveStyle getMoveStyle() {
         return moveStyle;
     }
 
-    public synchronized EMutationStyle getMutationStyle() { return mutationStyle; }
+    public EMutationStyle getMutationStyle() { return mutationStyle; }
 
-    public synchronized int getMaxEnergy() {
+    public int getMaxEnergy() {
         return maxEnergy;
     }
 
-    public synchronized int getPlantEnergy(){
+    public int getPlantEnergy(){
         return plantEnergy;
     }
 
-    public synchronized int getGenesCount() {
+    public int getGenesCount() {
         return genesCount;
     }
 
-    public synchronized int getEnergyLevelNeededToReproduce() {
+    public int getEnergyLevelNeededToReproduce() {
         return energyLevelNeededToReproduce;
     }
 
-    public synchronized int getEnergyLevelToPassToChild() {
+    public int getEnergyLevelToPassToChild() {
         return energyLevelToPassToChild;
     }
-    public synchronized int getMoveEnergy() {
+    public int getMoveEnergy() {
         return moveEnergy;
     }
 
-    public synchronized int getDaysElapsed() {
+    public int getDaysElapsed() {
         return daysElapsed;
     }
 
-    public synchronized boolean shouldSaveCSV() { return saveToCSV; }
-    public synchronized String getCSVName() {return CSVName; }
+    public boolean shouldSaveCSV() { return saveToCSV; }
+    public String getCSVName() {return CSVName; }
 }

@@ -172,7 +172,7 @@ public class Animal implements IWorldElement {
     public FieldPaint getFieldPaint() {
         float k = 0.2f + (float)(energy*0.8)/maxEnergy;
         Color entityColor = new Color(Color.CHOCOLATE.getRed()*k, Color.CHOCOLATE.getGreen()*k, Color.CHOCOLATE.getBlue()*k, 1.0);
-        return new FieldPaint(entityColor, new BackgroundFill(Color.TRANSPARENT, new CornerRadii(4,4,4,4, false), new Insets(1,1,1,1)));
+        return new FieldPaint(entityColor, Color.TRANSPARENT);
     }
 
 }

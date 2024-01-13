@@ -123,12 +123,11 @@ public class Simulation implements Runnable {
             // grow new plants
             map.growPlants();
             try {
-                Thread.sleep(300);
+                Thread.sleep(225);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        map.mapChanged("Clearing last animal");
     }
 
     public synchronized void addAnimal(Animal animal){
@@ -150,7 +149,7 @@ public class Simulation implements Runnable {
         return sum / animals.size();
     }
 
-    public synchronized Integer getAliveAnimalsCount() {
+    public Integer getAliveAnimalsCount() {
         return animals.size();
     }
 

@@ -124,7 +124,7 @@ public class WaterMap extends AbstractWorldMap{
     }
 
     @Override
-    public synchronized Integer getEmptyCount() {
+    public Integer getEmptyCount() {
         Set<Vector2d> position = new HashSet<>();
         for (Vector2d pos : animals.keySet())
             if (!animals.get(pos).isEmpty())
