@@ -12,6 +12,8 @@ import org.proj.model.elements.EMutationStyle;
 public class PropsFormPresenter {
 
     @FXML
+    private TextField simulationStepTime;
+    @FXML
     private TextField csvFileName;
     @FXML
     private CheckBox csvFlag;
@@ -71,7 +73,8 @@ public class PropsFormPresenter {
                 Integer.parseInt(energyToPass.getText()),
                 Integer.parseInt(moveEnergy.getText()),
                 !csvFileName.isDisable(),
-                csvFileName.getText()
+                csvFileName.getText(),
+                Integer.parseInt(simulationStepTime.getText())
         );
 
         simulationProps = props;
