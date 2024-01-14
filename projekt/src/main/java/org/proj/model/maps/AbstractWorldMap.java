@@ -159,7 +159,6 @@ public abstract class AbstractWorldMap implements IMoveValidator {
                     }
                 }
             }
-
         }
     }
 

@@ -14,6 +14,8 @@ import org.proj.model.maps.EMapType;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -140,8 +142,43 @@ public class PropsFormPresenter {
                 simulationStepTime.setText(lines.get(12));
                 mapWidth.setText(lines.get(13));
                 mapHeight.setText(lines.get(14));
+                minMutations.setText(lines.get(15));
+                maxMutations.setText(lines.get(16));
             } catch (FileNotFoundException e) {
             }
+        }
+    }
+
+    public void onSaveConfigClicked(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CFG", "*.cfg"));
+
+        //Show save file dialog
+        File file = fileChooser.showSaveDialog(null);
+
+        if (file != null) {
+            try {
+                PrintWriter writer;
+                writer = new PrintWriter(file);
+                writer.println(startEnergy.getText());
+                writer.println(maxEnergy.getText());
+                writer.println(moveEnergy.getText());
+                writer.println(genesCount.getText());
+                writer.println(energyToReproduce.getText());
+                writer.println(energyToPass.getText());
+                writer.println(moveStyleCBox.getValue());
+                writer.println(mapStyleCBox.getValue());
+                writer.println(energyFromPlant.getText());
+                writer.println(plantCount.getText());
+                writer.println(spawnPlantPerDay.getText());
+                writer.println(animalCount.getText());
+                writer.println(simulationStepTime.getText());
+                writer.println(mapWidth.getText());
+                writer.println(mapHeight.getText());
+                writer.println(minMutations.getText());
+                writer.println(maxMutations.getText());
+                writer.close();
+            } catch (IOException ex) { }
         }
     }
 }

@@ -76,12 +76,6 @@ public class Animal implements IWorldElement {
     public void removeEnergy(int energy) { this.energy -= energy; }
     public void addChild() { this.childrenMade++; }
 
-    // other methods
-    @Override
-    public String toString() {
-        Integer val = this.energy;
-        return val.toString();
-    }
     public boolean isAt(Vector2d position){ return this.position.equals(position);}
 
     // simulation methods (move, eat, ...)
@@ -158,11 +152,10 @@ public class Animal implements IWorldElement {
     }
 
     public Integer countDescendantsRecursive(Animal animal, Set<Animal> visited) {
-        Integer count = 0;
+        int count = 0;
         visited.add(animal);
         for (Animal child : children) {
             if (!visited.contains(child)) {
-                //visited.add(child);
                 count += (countDescendantsRecursive(child, visited)+1);
             }
         }

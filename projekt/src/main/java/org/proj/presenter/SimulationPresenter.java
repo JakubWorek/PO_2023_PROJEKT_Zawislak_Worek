@@ -308,7 +308,7 @@ public class SimulationPresenter implements IMapChangeListener {
     }
 
     public void onSaveBtnClicked(ActionEvent actionEvent) {
-        simulation.saveToCSV();
+        simulation.getCsvLogger().SaveToFile();
     }
 
     public void shutdownSimulation() {

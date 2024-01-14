@@ -127,7 +127,7 @@
          <Label text="Max mutations:" />
          <TextField fx:id="maxMutations" text="0">
             <VBox.margin>
-               <Insets bottom="20.0" />
+               <Insets bottom="192.0" />
             </VBox.margin>
          </TextField>
          <CheckBox fx:id="csvFlag" mnemonicParsing="false" onMouseClicked="#toggleCSVFlag" text="Save simulation results to CSV file">
@@ -141,6 +141,11 @@
             </VBox.margin>
          </TextField>
          <Button onAction="#onOpenDialogClicked" mnemonicParsing="false" prefHeight="25.0" prefWidth="359.0" text="Load config from file">
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin>
+         </Button>
+         <Button onAction="#onSaveConfigClicked" mnemonicParsing="false" prefHeight="25.0" prefWidth="359.0" text="Save config to file">
             <VBox.margin>
                <Insets bottom="15.0" top="10.0" />
             </VBox.margin>
