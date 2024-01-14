@@ -1,6 +1,6 @@
 package org.proj.utils;
 
-public enum MoveDirection {
+public enum EMoveDirection {
     FORWARD,
     BACKWARD,
     RIGHT,

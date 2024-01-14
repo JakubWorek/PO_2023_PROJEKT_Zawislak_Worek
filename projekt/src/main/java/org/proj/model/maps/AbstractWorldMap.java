@@ -52,7 +52,12 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         if (animals.containsKey(animalPosition)) {
             synchronized (this) {
                 animals.get(animalPosition).add(animal);
-                animals.get(animalPosition).sort(Comparator.comparing(Animal::getEnergy));
+                animals.get(animalPosition).sort(
+                        Comparator.comparing(Animal::getEnergy, Comparator.reverseOrder())
+                                .thenComparing(Animal::getAge, Comparator.reverseOrder())
+                                .thenComparing(Animal::getChildrenMade, Comparator.reverseOrder())
+                                .thenComparing(Animal::getPlantsEaten, Comparator.reverseOrder())
+                );
             }
         }
         else {
@@ -62,6 +67,10 @@ public abstract class AbstractWorldMap implements IMoveValidator {
                 animals.put(animalPosition, animalList);
             }
         }
+    }
+
+    public HashMap<Vector2d, List<Animal>> getAnimals(){
+        return animals;
     }
 
     public synchronized void removeAnimal(Animal animal) {
