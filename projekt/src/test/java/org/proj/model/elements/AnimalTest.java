@@ -1,10 +1,7 @@
 package org.proj.model.elements;
 
 import org.junit.jupiter.api.Test;
-import org.proj.model.maps.GlobeMap;
 import org.proj.utils.Vector2d;
-
-import java.util.ArrayList;
 
 public class AnimalTest {
     @Test

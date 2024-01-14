@@ -54,6 +54,10 @@ public class PropsFormPresenter {
     private TextField energyFromPlant;
     @FXML
     private TextField startEnergy;
+    @FXML
+    private TextField minMutations;
+    @FXML
+    private TextField maxMutations;
 
     SimulationProps simulationProps;
 
@@ -95,7 +99,9 @@ public class PropsFormPresenter {
                 Integer.parseInt(moveEnergy.getText()),
                 !csvFileName.isDisable(),
                 csvFileName.getText(),
-                Integer.parseInt(simulationStepTime.getText())
+                Integer.parseInt(simulationStepTime.getText()),
+                Integer.parseInt(minMutations.getText()),
+                Integer.parseInt(maxMutations.getText())
         );
 
         simulationProps = props;

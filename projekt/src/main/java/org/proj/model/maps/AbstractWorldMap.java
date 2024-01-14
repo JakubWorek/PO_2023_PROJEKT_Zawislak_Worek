@@ -119,7 +119,7 @@ public abstract class AbstractWorldMap implements IMoveValidator {
                 Animal a2 = animalList.get(1);
                 if (a1.getEnergy() > simulationProps.getEnergyLevelNeededToReproduce() && a2.getEnergy() > simulationProps.getEnergyLevelNeededToReproduce()) {
                     Animal child = new Animal(position, 2 * simulationProps.getEnergyLevelToPassToChild(),
-                            simulationProps.getMaxEnergy(), simulationProps.getDaysElapsed(), Genotype.getGenesFromParents(a1, a2, simulationProps.getMutationStyle(), simulationProps.getGenesCount()),
+                            simulationProps.getMaxEnergy(), simulationProps.getDaysElapsed(), Genotype.getGenesFromParents(a1, a2, simulationProps),
                             simulationProps.getMoveStyle());
                     synchronized (this) {
                         animals.get(position).add(child);

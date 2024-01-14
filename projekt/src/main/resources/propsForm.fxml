@@ -118,6 +118,18 @@
                <Insets bottom="10.0" />
             </VBox.margin>
          </TextField>
+         <Label text="Min mutations:" />
+         <TextField fx:id="minMutations" text="0">
+            <VBox.margin>
+               <Insets bottom="10.0" />
+            </VBox.margin>
+         </TextField>
+         <Label text="Max mutations:" />
+         <TextField fx:id="maxMutations" text="0">
+            <VBox.margin>
+               <Insets bottom="20.0" />
+            </VBox.margin>
+         </TextField>
          <CheckBox fx:id="csvFlag" mnemonicParsing="false" onMouseClicked="#toggleCSVFlag" text="Save simulation results to CSV file">
             <VBox.margin>
                <Insets bottom="10.0" />
