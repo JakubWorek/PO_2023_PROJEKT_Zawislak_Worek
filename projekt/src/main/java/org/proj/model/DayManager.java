@@ -3,7 +3,9 @@ package org.proj.model;
 import org.proj.Simulation;
 import org.proj.model.elements.Animal;
 import org.proj.model.maps.AbstractWorldMap;
+import org.proj.model.maps.EMapType;
 import org.proj.model.maps.WaterMap;
+import org.proj.utils.Vector2d;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -35,7 +37,7 @@ public class DayManager {
             }
         }
         // if map is WaterMap, then expand/contract water and calculate free positions for plants
-        if(map.getClass().getSimpleName().equals("WaterMap") && simulationProps.getDaysElapsed() % 2 == 0){
+        if(map.getMapType() == EMapType.WATER && simulationProps.getDaysElapsed() % 2 == 0){
             ((WaterMap)map).makeWaterDoAnything(simulationProps.getDaysElapsed() % 10 != 0);
             ((WaterMap)map).calculateFreePositions();
         }
@@ -45,9 +47,9 @@ public class DayManager {
             animal.removeEnergy(simulationProps.getMoveEnergy());
         }
         // eat
-        map.eat();
+        eat();
         // reproduce animals
-        map.reproduce();
+        reproduce();
 
         // add day
         simulationProps.incrementDaysElapsed();
@@ -56,8 +58,57 @@ public class DayManager {
             animal.addAge();
         }
         // grow new plants
-        map.growPlants();
+        growPlants();
 
         map.mapChanged("Day elapsed");
+    }
+
+    public void reproduce() {
+        for (Vector2d position : map.getAnimals().keySet()) {
+            List<Animal> animalList = map.getAnimals().get(position);
+            if (animalList.size() > 1) {
+                Animal a1 = animalList.get(0);
+                Animal a2 = animalList.get(1);
+                if (a1.getEnergy() > simulationProps.getEnergyLevelNeededToReproduce() && a2.getEnergy() > simulationProps.getEnergyLevelNeededToReproduce()) {
+                    Animal child = new Animal(position, 2 * simulationProps.getEnergyLevelToPassToChild(),
+                            simulationProps.getMaxEnergy(), simulationProps.getDaysElapsed(), Genotype.getGenesFromParents(a1, a2, simulationProps),
+                            simulationProps.getMoveStyle());
+                    synchronized (this) {
+                        map.getAnimals().get(position).add(child);
+                        a1.removeEnergy(simulationProps.getEnergyLevelToPassToChild());
+                        a1.addChild();
+                        a1.addChildToList(child);
+                        a2.removeEnergy(simulationProps.getEnergyLevelToPassToChild());
+                        a2.addChild();
+                        a2.addChildToList(child);
+                        simulation.addAnimal(child);
+                    }
+                }
+            }
+        }
+    }
+
+    public void eat() {
+        Set<Vector2d> keys = new HashSet<>(map.getPlants().keySet());
+        for ( Vector2d position : keys ){
+            if ( map.getAnimals().containsKey(position) ) {
+                List<Animal> animalList = map.getAnimals().get(position);
+                if (!animalList.isEmpty()) {
+                    Animal animal = animalList.get(0);
+                    synchronized (this) {
+                        animal.eat(simulationProps.getPlantEnergy());
+                        map.getPlants().remove(position);
+                        map.getFreePositionsForPlants().add(position);
+                    }
+                }
+            }
+        }
+    }
+
+    private void growPlants() {
+        int plantsToAdd = simulationProps.getSpawnPlantPerDay();
+        for (int i = 0; i<plantsToAdd; i++) {
+            map.spawnPlant();
+        }
     }
 }

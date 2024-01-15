@@ -135,4 +135,9 @@ public class WaterMap extends AbstractWorldMap{
         position.addAll(plants.keySet());
         return width*height - position.size();
     }
+
+    @Override
+    public EMapType getMapType() {
+        return EMapType.WATER;
+    }
 }

@@ -73,9 +73,12 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         return animals;
     }
 
+    public HashMap<Vector2d, Plant> getPlants() { return plants; }
+
+    public List<Vector2d> getFreePositionsForPlants() { return freePositionsForPlants; }
+
     public synchronized void removeAnimal(Animal animal) {
         animals.get(animal.getPosition()).remove(animal);
-        //mapChanged("Animal removed from map");
     }
 
     public synchronized void placePlants(Vector2d plantPosition, Plant plant) {
@@ -88,7 +91,7 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         if (freePositionsForPlants.size() == 0) return;
         // calculate free positions for plants
         Vector2d plantPosition = freePositionsForPlants.get(random.nextInt(freePositionsForPlants.size()));
-        //System.out.println(plantPosition);
+
         if (forestedEquator.willBePlanted(plantPosition)) {
             Plant plant = new Plant(plantPosition);
             placePlants(plantPosition, plant);
@@ -112,61 +115,10 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         }
     }
 
-
     public synchronized void move(Animal animal)  {
         animals.get(animal.getPosition()).remove(animal);
         animal.move(this);
         placeAnimals(animal.getPosition(), animal);
-        //mapChanged("Animal moved to "  + animal.getPosition());
-    }
-
-    public void reproduce() {
-        for (Vector2d position : animals.keySet()) {
-            List<Animal> animalList = animals.get(position);
-            if (animalList.size() > 1) {
-                Animal a1 = animalList.get(0);
-                Animal a2 = animalList.get(1);
-                if (a1.getEnergy() > simulationProps.getEnergyLevelNeededToReproduce() && a2.getEnergy() > simulationProps.getEnergyLevelNeededToReproduce()) {
-                    Animal child = new Animal(position, 2 * simulationProps.getEnergyLevelToPassToChild(),
-                            simulationProps.getMaxEnergy(), simulationProps.getDaysElapsed(), Genotype.getGenesFromParents(a1, a2, simulationProps),
-                            simulationProps.getMoveStyle());
-                    synchronized (this) {
-                        animals.get(position).add(child);
-                        a1.removeEnergy(simulationProps.getEnergyLevelToPassToChild());
-                        a1.addChild();
-                        a1.addChildToList(child);
-                        a2.removeEnergy(simulationProps.getEnergyLevelToPassToChild());
-                        a2.addChild();
-                        a2.addChildToList(child);
-                        simulation.addAnimal(child);
-                    }
-                }
-            }
-        }
-    }
-
-    public void eat() {
-        Set<Vector2d> keys = new HashSet<>(plants.keySet());
-        for ( Vector2d position : keys ){
-            if ( animals.containsKey(position) ) {
-                List<Animal> animalList = animals.get(position);
-                if (animalList.size() > 0) {
-                    Animal animal = animalList.get(0);
-                    synchronized (this) {
-                        animal.eat(simulationProps.getPlantEnergy());
-                        plants.remove(position);
-                        freePositionsForPlants.add(position);
-                    }
-                }
-            }
-        }
-    }
-
-    public void growPlants() {
-        int plantsToAdd = simulationProps.getSpawnPlantPerDay();
-        for (int i = 0; i<plantsToAdd; i++) {
-            spawnPlant();
-        }
     }
 
     public synchronized IWorldElement objectAt(Vector2d position) {
@@ -207,4 +159,6 @@ public abstract class AbstractWorldMap implements IMoveValidator {
     public ForestedEquator getForestedEquator() {
         return forestedEquator;
     }
+
+    public abstract EMapType getMapType();
 }

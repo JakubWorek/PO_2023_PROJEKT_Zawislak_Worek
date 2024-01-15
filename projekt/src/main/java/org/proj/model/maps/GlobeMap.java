@@ -32,4 +32,9 @@ public class GlobeMap extends AbstractWorldMap {
 
         return new PositionOrientationTuple(new Vector2d(x, y), orient);
     }
+
+    @Override
+    public EMapType getMapType() {
+        return EMapType.GLOBE;
+    }
 }

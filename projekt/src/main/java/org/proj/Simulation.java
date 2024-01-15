@@ -86,6 +86,10 @@ public class Simulation implements Runnable {
         return deadAnimals;
     }
 
+    public DayManager getDayManager() {
+        return dayManager;
+    }
+
     public synchronized void incrementDeadAnimalCount() {deadAnimals++;}
 
     public synchronized void addToAccumulatedLifeSpan(int value) {accumulatedLifeSpan += value;}
