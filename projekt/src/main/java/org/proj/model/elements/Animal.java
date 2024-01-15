@@ -1,17 +1,11 @@
 package org.proj.model.elements;
 
-import javafx.geometry.Insets;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
 import org.proj.utils.IMoveValidator;
 import org.proj.utils.EMapDirection;
 import org.proj.utils.PositionOrientationTuple;
 import org.proj.utils.Vector2d;
 
-import java.lang.annotation.ElementType;
 import java.util.*;
 
 public class Animal implements IWorldElement {

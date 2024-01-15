@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+
 import org.proj.model.SimulationProps;
 import org.proj.model.elements.Animal;
 import org.proj.model.elements.FieldPaint;
@@ -26,7 +27,6 @@ import java.util.Objects;
 import static java.lang.Math.min;
 
 public class SimulationPresenter implements IMapChangeListener {
-
     @FXML
     private Label dayCounter;
     @FXML
@@ -71,15 +71,14 @@ public class SimulationPresenter implements IMapChangeListener {
     private Label mapHeightValue;
     @FXML
     private Label mapWidthValue;
+    @FXML
+    private Button pauseToggleBtn;
+    @FXML
+    private GridPane grid;
+
     private SimulationProps simulationProps;
     private AbstractWorldMap worldMap;
     private Simulation simulation;
-
-    @FXML
-    private Button pauseToggleBtn;
-
-    @FXML
-    private GridPane grid;
 
     private Animal animalToFollow;
 

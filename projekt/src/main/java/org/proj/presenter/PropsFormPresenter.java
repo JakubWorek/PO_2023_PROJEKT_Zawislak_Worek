@@ -4,8 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+
 import org.proj.SimulationApp;
 import org.proj.model.SimulationProps;
 import org.proj.model.elements.EMoveStyle;
@@ -16,12 +16,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class PropsFormPresenter {
-
     @FXML
     private ComboBox mapStyleCBox;
     @FXML

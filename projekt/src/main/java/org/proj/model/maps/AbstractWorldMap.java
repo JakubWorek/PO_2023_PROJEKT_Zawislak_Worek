@@ -4,12 +4,10 @@ import org.proj.Simulation;
 import org.proj.model.Genotype;
 import org.proj.model.SimulationProps;
 import org.proj.model.elements.Animal;
-import org.proj.model.elements.EMoveStyle;
 import org.proj.model.elements.IWorldElement;
 import org.proj.model.elements.Plant;
 import org.proj.presenter.IMapChangeListener;
 import org.proj.utils.IMoveValidator;
-import org.proj.utils.RandomPositionGenerator;
 import org.proj.utils.Vector2d;
 
 import java.util.*;
