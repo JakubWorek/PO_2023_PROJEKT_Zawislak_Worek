@@ -20,6 +20,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PropsFormPresenter {
     @FXML
@@ -73,13 +75,17 @@ public class PropsFormPresenter {
         mapStyleCBox.getItems().addAll("WATER", "GLOBE");
         mapStyleCBox.getSelectionModel().select("WATER");
 
-        //FileChooser fileChooser = new FileChooser();
-        //File selectedFile = fileChooser.showOpenDialog(null);
-
         csvFlag.setSelected(false);
     }
 
     public void onNewSimulationClicked(ActionEvent actionEvent) {
+        if (!csvFileName.isDisable()) {
+            Pattern pattern = Pattern.compile("^.+\\.csv$");
+            Matcher matcher = pattern.matcher(csvFileName.getText());
+            if (!matcher.matches()) {
+                throw new RuntimeException("Not valid csv file name!");
+            }
+        }
         EMoveStyle moveStyle = (moveStyleCBox.getValue() == "FULLY_PREDESTINED" ? EMoveStyle.FULLY_PREDESTINED : EMoveStyle.BACK_AND_FORTH);
         EMapType mapType = (mapStyleCBox.getValue() == "WATER" ? EMapType.WATER : EMapType.GLOBE);
         SimulationProps props = new SimulationProps(

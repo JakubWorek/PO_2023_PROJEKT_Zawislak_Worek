@@ -6,6 +6,10 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
@@ -27,6 +31,8 @@ import java.util.Objects;
 import static java.lang.Math.min;
 
 public class SimulationPresenter implements IMapChangeListener {
+    @FXML
+    private VBox chartSection;
     @FXML
     private Label dayCounter;
     @FXML
@@ -91,6 +97,47 @@ public class SimulationPresenter implements IMapChangeListener {
 
     private boolean showPreferableGrassFields = false;
     private boolean showMostPopularGenome = false;
+
+    final NumberAxis xAxisAnimals = new NumberAxis();
+    final NumberAxis yAxisAnimals = new NumberAxis();
+
+    XYChart.Series<Number, Number> seriesAnimals = new XYChart.Series<>();
+
+    final NumberAxis xAxisPlants = new NumberAxis();
+    final NumberAxis yAxisPlants = new NumberAxis();
+
+    XYChart.Series<Number, Number> seriesPlants = new XYChart.Series<>();
+
+    @FXML
+    public void initialize() {
+        final LineChart<Number, Number> lineChartAnimals = new LineChart<>(xAxisAnimals, yAxisAnimals);
+        lineChartAnimals.setTitle("Animals count");
+        lineChartAnimals.setAnimated(false);
+        lineChartAnimals.setLegendVisible(false);
+        lineChartAnimals.setCreateSymbols(false);
+
+        seriesAnimals.setName("Data Series");
+
+        lineChartAnimals.getData().add(seriesAnimals);
+        lineChartAnimals.setPrefHeight(270);
+
+
+        chartSection.getChildren().add(lineChartAnimals);
+
+        final LineChart<Number, Number> lineChartPlants = new LineChart<>(xAxisPlants, yAxisPlants);
+        lineChartPlants.setTitle("Plants count");
+        lineChartPlants.setAnimated(false);
+        lineChartPlants.setLegendVisible(false);
+        lineChartPlants.setCreateSymbols(false);
+
+        seriesPlants.setName("Data Series");
+
+        lineChartPlants.getData().add(seriesPlants);
+        lineChartPlants.setPrefHeight(270);
+
+        chartSection.getChildren().add(lineChartPlants);
+
+    }
 
     public void setProps(SimulationProps simulationProps) {
         this.simulationProps = simulationProps;
@@ -217,7 +264,11 @@ public class SimulationPresenter implements IMapChangeListener {
             case GLOBE -> worldMap = new GlobeMap(simulationProps);
         }
 
+        simulationProps.resetDaysElapsed();
+
         setupGrid();
+        seriesAnimals.getData().clear();
+        seriesPlants.getData().clear();
 
         Button btn = (Button) actionEvent.getSource();
         btn.setText("Reset");
@@ -263,6 +314,10 @@ public class SimulationPresenter implements IMapChangeListener {
             averageLifespanValue.setText(avgLifespan);
             averageChildrenValue.setText(String.valueOf(simulation.getAverageChildrenCount()));
             mostPopularGenes.setText(simulation.getMostPopularGenotypeStr());
+
+            seriesAnimals.getData().add(new XYChart.Data<>(simulationProps.getDaysElapsed(), simulation.getAliveAnimalsCount()));
+
+            seriesPlants.getData().add(new XYChart.Data<>(simulationProps.getDaysElapsed(), map.getPlantsCount()));
 
             updateSelectedAnimalStats();
         });

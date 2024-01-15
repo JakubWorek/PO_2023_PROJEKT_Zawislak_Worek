@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Set;
 
 public class DayManager {
-    private AbstractWorldMap map;
-    private SimulationProps simulationProps;
-    private Simulation simulation;
+    private final AbstractWorldMap map;
+    private final SimulationProps simulationProps;
+    private final Simulation simulation;
 
     public DayManager (AbstractWorldMap map_, SimulationProps simulationProps_, Simulation simulation_) {
         map = map_;
@@ -23,7 +23,44 @@ public class DayManager {
     }
 
     public void Update() {
-        // remove dead animals
+        removeDeadAnimals();
+
+        // if map is WaterMap, then expand/contract water and calculate free positions for plants
+        updateWater();
+
+        moveAnimals();
+        eat();
+        reproduce();
+
+        incrementDayCounters();
+
+        growPlants();
+
+        map.mapChanged("Day elapsed");
+    }
+
+    private void incrementDayCounters() {
+        simulationProps.incrementDaysElapsed();
+        for(Animal animal : simulation.getAnimals()){
+            animal.addAge();
+        }
+    }
+
+    private void moveAnimals() {
+        for(Animal animal : simulation.getAnimals()){
+            map.move(animal);
+            animal.removeEnergy(simulationProps.getMoveEnergy());
+        }
+    }
+
+    private void updateWater() {
+        if(map.getMapType() == EMapType.WATER && simulationProps.getDaysElapsed() % 2 == 0){
+            ((WaterMap)map).makeWaterDoAnything(simulationProps.getDaysElapsed() % 10 != 0);
+            ((WaterMap)map).calculateFreePositions();
+        }
+    }
+
+    private void removeDeadAnimals() {
         Set<Animal> animalsToRemove = new HashSet<>(simulation.getAnimals());
         for(Animal animal : animalsToRemove){
             if(animal.getEnergy()<=0){
@@ -35,31 +72,6 @@ public class DayManager {
                 simulation.getAnimals().remove(animal);
             }
         }
-        // if map is WaterMap, then expand/contract water and calculate free positions for plants
-        if(map.getMapType() == EMapType.WATER && simulationProps.getDaysElapsed() % 2 == 0){
-            ((WaterMap)map).makeWaterDoAnything(simulationProps.getDaysElapsed() % 10 != 0);
-            ((WaterMap)map).calculateFreePositions();
-        }
-        // move animals and decrease energy
-        for(Animal animal : simulation.getAnimals()){
-            map.move(animal);
-            animal.removeEnergy(simulationProps.getMoveEnergy());
-        }
-        // eat
-        eat();
-        // reproduce animals
-        reproduce();
-
-        // add day
-        simulationProps.incrementDaysElapsed();
-        // add age
-        for(Animal animal : simulation.getAnimals()){
-            animal.addAge();
-        }
-        // grow new plants
-        growPlants();
-
-        map.mapChanged("Day elapsed");
     }
 
     public void reproduce() {

@@ -9,8 +9,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox minHeight="600.0" minWidth="840.0" prefHeight="600.0" prefWidth="840.0" stylesheets="style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.proj.presenter.SimulationPresenter">
+<VBox minHeight="600.0" minWidth="1080.0" prefHeight="600.0" prefWidth="1080.0" stylesheets="style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.proj.presenter.SimulationPresenter">
     <HBox prefHeight="500.0">
+        <VBox fx:id="chartSection" minWidth="270.0" prefWidth="270.0">
+
+        </VBox>
         <VBox.margin>
             <Insets bottom="15.0" top="15.0" />
         </VBox.margin>
@@ -122,7 +125,7 @@
             <Insets />
          </opaqueInsets>
          <HBox.margin>
-            <Insets left="15.0" />
+            <Insets left="285.0" />
          </HBox.margin></Button>
       <Button fx:id="pauseToggleBtn" mnemonicParsing="false" onAction="#onPauseToggle" prefHeight="25.0" prefWidth="100.0" text="Pause">
          <HBox.margin>
@@ -131,7 +134,7 @@
       </Button>
       <Button onAction="#onBestGenomeClicked" fx:id="bestAnimalsBtn" mnemonicParsing="false" text="Best animals" visible="false">
          <HBox.margin>
-            <Insets left="100.0" />
+            <Insets left="77.0" />
          </HBox.margin>
       </Button>
       <Button onAction="#onBestGrassClicked" fx:id="bestGrassBtn" mnemonicParsing="false" text="Best grass" visible="false">
@@ -139,9 +142,9 @@
             <Insets left="15.0" />
          </HBox.margin>
       </Button>
-      <Button fx:id="saveBtn" onAction="#onSaveBtnClicked" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Save to CSV" visible="false">
+      <Button fx:id="saveBtn" onAction="#onSaveBtnClicked" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Save statistics to CSV" visible="false">
          <HBox.margin>
-            <Insets left="59.0" />
+            <Insets left="55.0" />
          </HBox.margin>
       </Button>
     </HBox>
