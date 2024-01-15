@@ -1,7 +1,6 @@
 package org.proj.model.maps;
 
 import org.proj.model.SimulationProps;
-import org.proj.model.elements.EMoveStyle;
 import org.proj.utils.EMapDirection;
 import org.proj.utils.PositionOrientationTuple;
 import org.proj.utils.Vector2d;

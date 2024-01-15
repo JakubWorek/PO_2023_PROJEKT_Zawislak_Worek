@@ -5,9 +5,7 @@ import org.proj.model.elements.Animal;
 import org.proj.model.maps.AbstractWorldMap;
 import org.proj.model.maps.WaterMap;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class DayManager {

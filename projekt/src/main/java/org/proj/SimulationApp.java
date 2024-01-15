@@ -1,19 +1,15 @@
 package org.proj;
 
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import org.proj.model.SimulationProps;
 import org.proj.presenter.SimulationPresenter;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class SimulationApp extends Application implements Runnable {
     SimulationProps simulationProps;

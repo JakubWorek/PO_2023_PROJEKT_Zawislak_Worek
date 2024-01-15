@@ -6,14 +6,10 @@ import org.proj.model.SimulationProps;
 import org.proj.model.elements.Animal;
 import org.proj.model.elements.Plant;
 import org.proj.model.maps.AbstractWorldMap;
-import org.proj.model.maps.WaterMap;
 import org.proj.utils.CSVLogger;
 import org.proj.utils.RandomPositionGenerator;
 import org.proj.utils.Vector2d;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
 
 public class Simulation implements Runnable {
