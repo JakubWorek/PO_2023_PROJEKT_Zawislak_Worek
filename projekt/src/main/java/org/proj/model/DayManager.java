@@ -8,6 +8,7 @@ import org.proj.model.maps.WaterMap;
 import org.proj.utils.Vector2d;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class DayManager {
