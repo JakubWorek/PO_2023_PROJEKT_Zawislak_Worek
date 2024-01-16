@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SimulationPropsTest {
     @Test
     public void testEverything(){
-        SimulationProps simulationProps = new SimulationProps(10, 10, 5, 5, 5, 5, 5, 5, 5, EMoveStyle.FULLY_PREDESTINED , EMutationStyle.FULLY_RANDOM , EMapType.GLOBE, 5, 5, 5, 5, true, "test", 5, 0, 2);
+        SimulationProps simulationProps = new SimulationProps(10, 10, 5, 5, 5, 5, 5, 5, EMoveStyle.FULLY_PREDESTINED , EMutationStyle.FULLY_RANDOM , EMapType.GLOBE, 5, 5, 5, 5, true, "test", 5, 0, 2);
         assertEquals(10, simulationProps.getMapWidth());
         assertEquals(10, simulationProps.getMapHeight());
         assertEquals(5, simulationProps.getEquatorHeight());
@@ -17,7 +17,6 @@ public class SimulationPropsTest {
         assertEquals(5, simulationProps.getStartPlantCount());
         assertEquals(5, simulationProps.getSpawnPlantPerDay());
         assertEquals(5, simulationProps.getStartEnergy());
-        assertEquals(5, simulationProps.getMaxEnergy());
         assertEquals(5, simulationProps.getPlantEnergy());
         assertEquals(EMoveStyle.FULLY_PREDESTINED , simulationProps.getMoveStyle());
         assertEquals(EMutationStyle.FULLY_RANDOM , simulationProps.getMutationStyle());

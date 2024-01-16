@@ -20,12 +20,13 @@ public class GenotypeTest {
 
     @Test
     public void testGetGenesFromParentsWithoutMutations() {
-        Animal parent1 = new Animal(new Vector2d(0, 0), 40, 0, 0, Genotype.getRandomGenes(6), EMoveStyle.FULLY_PREDESTINED);
-        Animal parent2 = new Animal(new Vector2d(0, 0), 40, 0, 0, Genotype.getRandomGenes(6), EMoveStyle.FULLY_PREDESTINED);
+        SimulationProps simulationProps = new SimulationProps(5, 5, 1, 0, 0, 0, 100, 10, EMoveStyle.FULLY_PREDESTINED, EMutationStyle.FULLY_RANDOM, EMapType.WATER, 6, 40, 20, 0, false, "csv.csv", 1, 0, 0);
+        Animal parent1 = new Animal(new Vector2d(0, 0), simulationProps);
+        Animal parent2 = new Animal(new Vector2d(0, 0), simulationProps);
 
         int[] genes = Genotype.getGenesFromParents( parent1,
                                                     parent2,
-                                                    new SimulationProps(0, 0, 0, 0, 0, 0, 0, 100, 0, EMoveStyle.FULLY_PREDESTINED, EMutationStyle.FULLY_RANDOM, EMapType.WATER, 6, 40, 20, 0, false, "csv.csv", 1, 0, 0)
+                                                    simulationProps
         );
         assertEquals(6, genes.length);
         for (int gene : genes) {
@@ -39,13 +40,13 @@ public class GenotypeTest {
 
     @Test
     public void testGetGenesFromParentsWith2Mutations(){
-        Animal parent1 = new Animal(new Vector2d(0, 0), 40, 0, 0, Genotype.getRandomGenes(6), EMoveStyle.FULLY_PREDESTINED);
-        Animal parent2 = new Animal(new Vector2d(0, 0), 40, 0, 0, Genotype.getRandomGenes(6), EMoveStyle.FULLY_PREDESTINED);
+        SimulationProps simulationProps = new SimulationProps(5, 5, 1, 0, 0, 0, 100, 10, EMoveStyle.FULLY_PREDESTINED, EMutationStyle.FULLY_RANDOM, EMapType.WATER, 6, 40, 20, 0, false, "csv.csv", 1, 0, 0);
+        Animal parent1 = new Animal(new Vector2d(0, 0), simulationProps);
+        Animal parent2 = new Animal(new Vector2d(0, 0), simulationProps);
 
         int[] genes = Genotype.getGenesFromParents( parent1,
                                                     parent2,
-                                                    new SimulationProps(0, 0, 0, 0, 0, 0, 0, 100, 0, EMoveStyle.FULLY_PREDESTINED, EMutationStyle.FULLY_RANDOM, EMapType.WATER, 6, 40, 20, 0, false, "csv.csv", 1, 0, 2)
-        );
+                                                    simulationProps);
         assertEquals(6, genes.length);
         for (int gene : genes) {
             assertTrue(gene >= 0 && gene <= 7);

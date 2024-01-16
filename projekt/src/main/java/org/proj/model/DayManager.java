@@ -28,19 +28,26 @@ public class DayManager {
 
     public void Update() {
         removeDeadAnimals();
-
         // if map is WaterMap, then expand/contract water and calculate free positions for plants
         updateWater();
-
         moveAnimals();
         eat();
         reproduce();
-
-        incrementDayCounters();
-
         growPlants();
+        incrementDayCounters();
+        calculateMaxEnergy();
 
         map.mapChanged("Day elapsed");
+    }
+
+    private void calculateMaxEnergy(){
+        int maxEnergy = 0;
+        for(Animal animal : simulation.getAnimals()){
+            if(animal.getEnergy() > maxEnergy){
+                maxEnergy = animal.getEnergy();
+            }
+        }
+        simulationProps.setMaxEnergy(maxEnergy);
     }
 
     private void incrementDayCounters() {
@@ -85,9 +92,7 @@ public class DayManager {
                 Animal a1 = animalList.get(0);
                 Animal a2 = animalList.get(1);
                 if (a1.getEnergy() > simulationProps.getEnergyLevelNeededToReproduce() && a2.getEnergy() > simulationProps.getEnergyLevelNeededToReproduce()) {
-                    Animal child = new Animal(position, 2 * simulationProps.getEnergyLevelToPassToChild(),
-                            simulationProps.getMaxEnergy(), simulationProps.getDaysElapsed(), Genotype.getGenesFromParents(a1, a2, simulationProps),
-                            simulationProps.getMoveStyle());
+                    Animal child = new Animal(position, simulationProps);
                     synchronized (this) {
                         map.getAnimals().get(position).add(child);
                         simulation.addAnimal(child);
