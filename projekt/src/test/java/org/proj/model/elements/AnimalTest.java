@@ -35,4 +35,26 @@ public class AnimalTest {
         assert animal.isAt(new Vector2d(1,1));
         assert !animal.isAt(new Vector2d(1,2));
     }
+
+    @Test
+    public void testCountingDescendants() {
+        int[] genome = new int[8];
+        for (int i = 0; i < 8; i++) {
+            genome[i] = i;
+        }
+        Animal a1 = new Animal(new Vector2d(0,0), 1, 100, 1, genome, EMoveStyle.FULLY_PREDESTINED);
+        Animal a2 = new Animal(new Vector2d(0,0), 2, 100, 1, genome, EMoveStyle.FULLY_PREDESTINED);
+        Animal a3 = new Animal(new Vector2d(0,0), 3, 100, 1, genome, EMoveStyle.FULLY_PREDESTINED);
+        Animal a4 = new Animal(new Vector2d(0,0), 4, 100, 1, genome, EMoveStyle.FULLY_PREDESTINED);
+
+        a2.addChild();
+        a2.addChildToList(a3);
+        a2.addChild();
+        a2.addChildToList(a4);
+
+        a1.addChild();
+        a1.addChildToList(a2);
+
+        assertEquals(3, a1.countDescendants());
+    }
 }

@@ -124,6 +124,9 @@ public class PropsFormPresenter {
     public void onOpenDialogClicked(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CFG", "*.cfg"));
+        File initialDirectory = new File("src/main/resources/configs/");
+        fileChooser.setInitialDirectory(initialDirectory);
+
         File selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null) {
             try {
@@ -158,6 +161,8 @@ public class PropsFormPresenter {
     public void onSaveConfigClicked(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CFG", "*.cfg"));
+        File initialDirectory = new File("src/main/resources/configs/");
+        fileChooser.setInitialDirectory(initialDirectory);
 
         //Show save file dialog
         File file = fileChooser.showSaveDialog(null);

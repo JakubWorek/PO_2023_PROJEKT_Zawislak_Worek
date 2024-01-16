@@ -111,7 +111,7 @@ public class Animal implements IWorldElement {
         this.children.add(child);
     }
 
-    public Integer countDescendants() {
+    public synchronized Integer countDescendants() {
         Set<Animal> visited = new HashSet<>();
         return countDescendantsRecursive(this, visited);
     }
