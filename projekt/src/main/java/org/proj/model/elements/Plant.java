@@ -16,11 +16,6 @@ public class Plant implements IWorldElement {
     }
 
     @Override
-    public String toString() {
-        return "*";
-    }
-
-    @Override
     public FieldPaint getFieldPaint() {
         return new FieldPaint(Color.GREEN, Color.TRANSPARENT);
     }

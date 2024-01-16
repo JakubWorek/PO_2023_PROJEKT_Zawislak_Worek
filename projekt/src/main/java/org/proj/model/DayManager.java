@@ -2,6 +2,7 @@ package org.proj.model;
 
 import org.proj.Simulation;
 import org.proj.model.elements.Animal;
+import org.proj.model.elements.Plant;
 import org.proj.model.maps.AbstractWorldMap;
 import org.proj.model.maps.EMapType;
 import org.proj.model.maps.WaterMap;
@@ -9,12 +10,15 @@ import org.proj.utils.Vector2d;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 public class DayManager {
     private final AbstractWorldMap map;
     private final SimulationProps simulationProps;
     private final Simulation simulation;
+
+    protected static final Random random = new Random();
 
     public DayManager (AbstractWorldMap map_, SimulationProps simulationProps_, Simulation simulation_) {
         map = map_;
@@ -66,10 +70,10 @@ public class DayManager {
             if(animal.getEnergy()<=0){
                 animal.setDeathDate(simulationProps.getDaysElapsed());
                 simulation.GetGenomeCount().put(animal.getGenome(), (Integer) simulation.GetGenomeCount().get(animal.getGenome()) - 1);
-                simulation.incrementDeadAnimalCount();
                 simulation.addToAccumulatedLifeSpan(animal.getAge());
                 map.removeAnimal(animal);
-                simulation.getAnimals().remove(animal);
+                Animal removedAnimal = simulation.getAnimals().remove(simulation.getAnimals().indexOf(animal));
+                simulation.addDeadAnimal(removedAnimal);
             }
         }
     }
@@ -86,13 +90,13 @@ public class DayManager {
                             simulationProps.getMoveStyle());
                     synchronized (this) {
                         map.getAnimals().get(position).add(child);
+                        simulation.addAnimal(child);
                         a1.removeEnergy(simulationProps.getEnergyLevelToPassToChild());
                         a1.addChild();
-                        a1.addChildToList(child);
+                        a1.addChildToList(simulation.getAnimals().get(simulation.getAnimals().indexOf(child)));
                         a2.removeEnergy(simulationProps.getEnergyLevelToPassToChild());
                         a2.addChild();
-                        a2.addChildToList(child);
-                        simulation.addAnimal(child);
+                        a2.addChildToList(simulation.getAnimals().get(simulation.getAnimals().indexOf(child)));
                     }
                 }
             }
@@ -116,10 +120,24 @@ public class DayManager {
         }
     }
 
+    public void spawnPlant(){
+        if (map.getFreePositionsForPlants().isEmpty()) return;
+
+        Vector2d plantPosition = map.getFreePositionsForPlants().get(random.nextInt(map.getFreePositionsForPlants().size()));
+
+        if (map.getForestedEquator().willBePlanted(plantPosition)) {
+            Plant plant = new Plant(plantPosition);
+            map.placePlants(plantPosition, plant);
+        }
+        else {
+            spawnPlant();
+        }
+    }
+
     private void growPlants() {
         int plantsToAdd = simulationProps.getSpawnPlantPerDay();
         for (int i = 0; i<plantsToAdd; i++) {
-            map.spawnPlant();
+            spawnPlant();
         }
     }
 }

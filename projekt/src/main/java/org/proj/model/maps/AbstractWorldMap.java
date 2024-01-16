@@ -13,7 +13,6 @@ import org.proj.utils.Vector2d;
 import java.util.*;
 
 public abstract class AbstractWorldMap implements IMoveValidator {
-    protected static final Random random = new Random();
     protected HashMap<Vector2d, List<Animal>> animals;
     protected HashMap<Vector2d, Plant> plants;
     protected List<Vector2d> freePositionsForPlants = new ArrayList<>();
@@ -84,21 +83,6 @@ public abstract class AbstractWorldMap implements IMoveValidator {
         freePositionsForPlants.remove(plantPosition);
     }
 
-    public void spawnPlant(){
-        // chceck if there are any free positions
-        if (freePositionsForPlants.size() == 0) return;
-        // calculate free positions for plants
-        Vector2d plantPosition = freePositionsForPlants.get(random.nextInt(freePositionsForPlants.size()));
-
-        if (forestedEquator.willBePlanted(plantPosition)) {
-            Plant plant = new Plant(plantPosition);
-            placePlants(plantPosition, plant);
-        }
-        else {
-            spawnPlant();
-        }
-    }
-
     public void addListener(IMapChangeListener listener) {
         listeners.add(listener);
     }
@@ -121,7 +105,7 @@ public abstract class AbstractWorldMap implements IMoveValidator {
 
     public synchronized IWorldElement objectAt(Vector2d position) {
         if(animals.containsKey(position)) {
-            if (animals.get(position).size() > 0)
+            if (!animals.get(position).isEmpty())
                 return animals.get(position).get(0);
         }
         if(plants.containsKey(position)) return plants.get(position);
@@ -130,15 +114,6 @@ public abstract class AbstractWorldMap implements IMoveValidator {
 
     public void setSimulation(Simulation simulation) {
         this.simulation = simulation;
-    }
-
-    @Override
-    public String toString() {
-        return "";
-    }
-
-    public String getId() {
-        return id;
     }
 
     public Integer getPlantsCount() {

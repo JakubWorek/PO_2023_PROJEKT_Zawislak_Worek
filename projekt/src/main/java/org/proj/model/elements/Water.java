@@ -16,11 +16,6 @@ public class Water implements IWorldElement{
     }
 
     @Override
-    public String toString() {
-        return "W";
-    }
-
-    @Override
     public FieldPaint getFieldPaint() {
         return new FieldPaint(Color.TRANSPARENT, Color.LIGHTBLUE);
     }

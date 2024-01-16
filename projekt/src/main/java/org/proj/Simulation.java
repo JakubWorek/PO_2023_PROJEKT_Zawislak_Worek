@@ -18,7 +18,7 @@ public class Simulation implements Runnable {
     private boolean isRunning = true;
     private final SimulationProps simulationProps;
     private int accumulatedLifeSpan = 0;
-    private int deadAnimals = 0;
+    private List<Animal> deadAnimals = new ArrayList<>();
     private final CSVLogger csvLogger;
     private final DayManager dayManager;
     private final Map<int[], Integer> genesCount = new HashMap<>();
@@ -78,15 +78,17 @@ public class Simulation implements Runnable {
         genesCount.merge(genome, 1, Integer::sum);
     }
 
+    public synchronized void addDeadAnimal(Animal animal) {
+        deadAnimals.add(animal);
+    }
+
     public Integer getDeadAnimalsCount() {
-        return deadAnimals;
+        return deadAnimals.size();
     }
 
     public DayManager getDayManager() {
         return dayManager;
     }
-
-    public synchronized void incrementDeadAnimalCount() {deadAnimals++;}
 
     public synchronized void addToAccumulatedLifeSpan(int value) {accumulatedLifeSpan += value;}
 
@@ -105,7 +107,7 @@ public class Simulation implements Runnable {
     }
 
     public float getAverageLifeSpan() {
-        return accumulatedLifeSpan / (float)deadAnimals;
+        return accumulatedLifeSpan / (float)deadAnimals.size();
     }
 
     public synchronized float getAverageChildrenCount() {

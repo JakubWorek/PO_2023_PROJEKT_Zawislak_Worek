@@ -3,6 +3,8 @@ package org.proj.model.elements;
 import org.junit.jupiter.api.Test;
 import org.proj.utils.Vector2d;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class AnimalTest {
     @Test
     public void testAnimalConstructor() {

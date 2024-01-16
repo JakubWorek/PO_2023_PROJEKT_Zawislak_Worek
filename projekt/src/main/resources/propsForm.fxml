@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 
-<HBox minHeight="648.0" minWidth="800.0" prefHeight="648.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.proj.presenter.PropsFormPresenter">
+<HBox minHeight="648.0" minWidth="800.0" prefHeight="648.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.proj.presenter.PropsFormPresenter">
    <VBox minHeight="488.0" minWidth="400.0" prefHeight="488.0" prefWidth="400.0">
       <Label text="Start energy level:" />
       <TextField fx:id="startEnergy" text="100">

@@ -29,7 +29,7 @@ public class Animal implements IWorldElement {
     private int childrenMade;
     private int plantsEaten;
 
-    private List<Animal> children = new ArrayList<>();
+    private final List<Animal> children = new ArrayList<>();
 
     // constructor
     public Animal(Vector2d position, int energy, int maxEnergy, int birthDate, int[] genome, EMoveStyle moveStyle) {
@@ -45,6 +45,10 @@ public class Animal implements IWorldElement {
         this.geneIndex = 0;
         this.childrenMade = 0;
         this.plantsEaten = 0;
+    }
+
+    public List<Animal> getChildren() {
+        return children;
     }
 
     // getters
@@ -72,7 +76,6 @@ public class Animal implements IWorldElement {
 
     public boolean isAt(Vector2d position){ return this.position.equals(position);}
 
-    // simulation methods (move, eat, ...)
     public void move(IMoveValidator moveValidator) {
         if(moveStyle == EMoveStyle.FULLY_PREDESTINED) {
             this.geneIndex = (this.geneIndex + 1) % this.genome.length;
@@ -104,38 +107,6 @@ public class Animal implements IWorldElement {
         this.plantsEaten++;
     }
 
-    public Animal compareWith(Animal other){
-        if (this.energy > other.energy) {
-            return this;
-        } else if (this.energy < other.energy) {
-            return other;
-        } else {
-            if (this.age > other.age) {
-                return this;
-            } else if (this.age < other.age) {
-                return other;
-            } else {
-                if (this.childrenMade > other.childrenMade) {
-                    return this;
-                } else if (this.childrenMade < other.childrenMade) {
-                    return other;
-                } else {
-                    if (this.plantsEaten > other.plantsEaten) {
-                        return this;
-                    } else if (this.plantsEaten < other.plantsEaten) {
-                        return other;
-                    } else {
-                        if (random.nextBoolean()) {
-                            return this;
-                        } else {
-                            return other;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     public void addChildToList(Animal child) {
         this.children.add(child);
     }
@@ -148,9 +119,9 @@ public class Animal implements IWorldElement {
     public Integer countDescendantsRecursive(Animal animal, Set<Animal> visited) {
         int count = 0;
         visited.add(animal);
-        for (Animal child : children) {
+        for (Animal child : animal.getChildren()) {
             if (!visited.contains(child)) {
-                count += (countDescendantsRecursive(child, visited)+1);
+                count += countDescendantsRecursive(child, visited)+1;
             }
         }
         return count;
