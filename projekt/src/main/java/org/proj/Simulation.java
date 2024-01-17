@@ -35,12 +35,7 @@ public class Simulation implements Runnable {
 
         RandomPositionGenerator randomPositionGeneratorAnimals = new RandomPositionGenerator(simulationProps.getMapWidth(), simulationProps.getMapHeight(), simulationProps.getStartAnimalCount());
         for(Vector2d animalPosition : randomPositionGeneratorAnimals) {
-            Animal animal = new Animal( animalPosition,
-                                        simulationProps.getStartEnergy(),
-                                        simulationProps.getMaxEnergy(),
-                                        0,
-                                        Genotype.getRandomGenes(simulationProps.getGenesCount()),
-                                        simulationProps.getMoveStyle());
+            Animal animal = new Animal( animalPosition, simulationProps);
             animals.add(animal);
             int[] genome = animal.getGenome();
             genesCount.merge(genome, 1, Integer::sum);

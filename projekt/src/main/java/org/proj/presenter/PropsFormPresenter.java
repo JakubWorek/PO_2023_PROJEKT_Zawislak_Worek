@@ -41,8 +41,6 @@ public class PropsFormPresenter {
     @FXML
     private TextField plantCount;
     @FXML
-    private TextField maxEnergy;
-    @FXML
     private TextField moveEnergy;
     @FXML
     private TextField genesCount;
@@ -105,7 +103,6 @@ public class PropsFormPresenter {
                 Integer.parseInt(plantCount.getText()),
                 Integer.parseInt(spawnPlantPerDay.getText()),
                 Integer.parseInt(startEnergy.getText()),
-                Integer.parseInt(maxEnergy.getText()),
                 Integer.parseInt(energyFromPlant.getText()),
                 moveStyle,
                 EMutationStyle.FULLY_RANDOM,
@@ -146,7 +143,6 @@ public class PropsFormPresenter {
                 }
                 myReader.close();
                 startEnergy.setText(lines.get(0));
-                maxEnergy.setText(lines.get(1));
                 moveEnergy.setText(lines.get(2));
                 genesCount.setText(lines.get(3));
                 energyToReproduce.setText(lines.get(4));
@@ -181,7 +177,6 @@ public class PropsFormPresenter {
                 PrintWriter writer;
                 writer = new PrintWriter(file);
                 writer.println(startEnergy.getText());
-                writer.println(maxEnergy.getText());
                 writer.println(moveEnergy.getText());
                 writer.println(genesCount.getText());
                 writer.println(energyToReproduce.getText());

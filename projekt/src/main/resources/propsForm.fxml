@@ -18,12 +18,6 @@
             <Insets bottom="10.0" />
          </VBox.margin>
       </TextField>
-      <Label text="Max energy level:" />
-      <TextField fx:id="maxEnergy" text="100">
-         <VBox.margin>
-            <Insets bottom="10.0" />
-         </VBox.margin>
-      </TextField>
       <Label text="Energy used while moving:" />
       <TextField fx:id="moveEnergy" text="2">
          <VBox.margin>
@@ -127,7 +121,7 @@
          <Label text="Max mutations:" />
          <TextField fx:id="maxMutations" text="0">
             <VBox.margin>
-               <Insets bottom="192.0" />
+               <Insets bottom="145.0" />
             </VBox.margin>
          </TextField>
          <CheckBox fx:id="csvFlag" mnemonicParsing="false" onMouseClicked="#toggleCSVFlag" text="Save simulation results to CSV file">

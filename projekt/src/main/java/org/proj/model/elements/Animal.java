@@ -1,12 +1,16 @@
 package org.proj.model.elements;
 
 import javafx.scene.paint.Color;
+import org.proj.model.Genotype;
+import org.proj.model.SimulationProps;
 import org.proj.utils.IMoveValidator;
 import org.proj.utils.EMapDirection;
 import org.proj.utils.PositionOrientationTuple;
 import org.proj.utils.Vector2d;
 
 import java.util.*;
+
+import static java.lang.Math.min;
 
 public class Animal implements IWorldElement {
     // for random orientation etc
@@ -20,31 +24,37 @@ public class Animal implements IWorldElement {
 
     // simulation values
     private int energy;
-    private final int maxEnergy;
     private int age;
     private final int birthDate;
     private int deathDate;
-    private final int[] genome;
+    private int[] genome;
     private int geneIndex;
     private int childrenMade;
     private int plantsEaten;
+    private SimulationProps simulationProps;
 
     private final List<Animal> children = new ArrayList<>();
 
     // constructor
-    public Animal(Vector2d position, int energy, int maxEnergy, int birthDate, int[] genome, EMoveStyle moveStyle) {
+    public Animal(Vector2d position, SimulationProps simulationProps) {
         this.position = position;
         this.orientation = EMapDirection.values()[random.nextInt(8)];
-        this.moveStyle = moveStyle;
-        this.energy = energy;
-        this.maxEnergy = maxEnergy;
+        this.moveStyle = simulationProps.getMoveStyle();
+        this.energy = simulationProps.getStartEnergy();
+        if(simulationProps.getDaysElapsed() > 0){
+            this.energy = 2*simulationProps.getEnergyLevelToPassToChild();
+        }
+        else{
+            this.energy = simulationProps.getStartEnergy();
+        }
         this.age = 0;
-        this.birthDate = birthDate;
+        this.birthDate = simulationProps.getDaysElapsed();
         this.deathDate = -1;
-        this.genome = genome;
+        this.genome = Genotype.getRandomGenes(simulationProps.getGenesCount());
         this.geneIndex = 0;
         this.childrenMade = 0;
         this.plantsEaten = 0;
+        this.simulationProps = simulationProps;
     }
 
     public List<Animal> getChildren() {
@@ -57,7 +67,6 @@ public class Animal implements IWorldElement {
     public EMapDirection getOrientation() { return this.orientation; }
     public EMoveStyle getMoveStyle() { return moveStyle; }
     public Integer getEnergy() { return energy; }
-    public Integer getMaxEnergy() { return maxEnergy; }
     public Integer getAge() { return age; }
     public Integer getBirthDate() { return birthDate; }
     public Integer getDeathDate() { return deathDate; }
@@ -67,6 +76,8 @@ public class Animal implements IWorldElement {
     public Integer getPlantsEaten() { return plantsEaten; }
 
     // setters
+    public void setGenome(int[] genome) { this.genome = genome; }
+    public void setSimulationProps(SimulationProps simulationProps) { this.simulationProps = simulationProps; }
     public void setPosition(Vector2d position) { this.position = position; }
     public void setOrientation(EMapDirection orientation) { this.orientation = orientation; }
     public void addAge() { this.age++; }
@@ -76,6 +87,7 @@ public class Animal implements IWorldElement {
 
     public boolean isAt(Vector2d position){ return this.position.equals(position);}
 
+    // simulation methods (move, eat, ...)
     public void move(IMoveValidator moveValidator) {
         if(moveStyle == EMoveStyle.FULLY_PREDESTINED) {
             this.geneIndex = (this.geneIndex + 1) % this.genome.length;
@@ -101,9 +113,6 @@ public class Animal implements IWorldElement {
 
     public void eat(int howMuch) {
         this.energy += howMuch;
-        if (this.energy > this.maxEnergy) {
-            this.energy = this.maxEnergy;
-        }
         this.plantsEaten++;
     }
 
@@ -129,7 +138,7 @@ public class Animal implements IWorldElement {
 
     @Override
     public FieldPaint getFieldPaint() {
-        float k = 0.2f + (float)(energy*0.8)/maxEnergy;
+        float k = min(1.0f, 0.25f + energy*0.75f/(float)simulationProps.getMaxEnergy());
         Color entityColor = new Color(Color.CHOCOLATE.getRed()*k, Color.CHOCOLATE.getGreen()*k, Color.CHOCOLATE.getBlue()*k, 1.0);
         return new FieldPaint(entityColor, Color.TRANSPARENT);
     }

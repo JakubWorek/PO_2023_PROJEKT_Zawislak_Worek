@@ -32,7 +32,7 @@ public class SimulationProps {
     private int simulationStep;
 
     public SimulationProps(int width_, int height_, int equatorHeight_, int animalCount_, int plantCount_,
-                           int spawnPlantPerDay_, int energy_, int maxEnergy_, int plantEnergy_,
+                           int spawnPlantPerDay_, int energy_, int plantEnergy_,
                            EMoveStyle moveStyle_, EMutationStyle mutationStyle_, EMapType mapType_, int genesCount_,
                            int energyLevelNeededToReproduce_, int energyLevelToPassToChild_, int moveEnergy_,
                            boolean saveToCSV_, String CSVName_, int simulationStep_, int minMutation_, int maxMutation_) {
@@ -43,7 +43,6 @@ public class SimulationProps {
         plantCount = plantCount_;
         spawnPlantPerDay = spawnPlantPerDay_;
         energy = energy_;
-        maxEnergy = maxEnergy_;
         plantEnergy = plantEnergy_;
         moveStyle = moveStyle_;
         mutationStyle = mutationStyle_;
@@ -70,6 +69,14 @@ public class SimulationProps {
 
     public Integer getMapHeight(){
         return height;
+    }
+
+    public void setMaxEnergy(int maxEnergy_){
+        maxEnergy = maxEnergy_;
+    }
+
+    public int getMaxEnergy(){
+        return maxEnergy;
     }
     public int getSpawnPlantPerDay(){
         return spawnPlantPerDay;
@@ -98,10 +105,6 @@ public class SimulationProps {
 
     public EMapType getMapType() {
         return mapType;
-    }
-
-    public int getMaxEnergy() {
-        return maxEnergy;
     }
 
     public int getPlantEnergy(){
