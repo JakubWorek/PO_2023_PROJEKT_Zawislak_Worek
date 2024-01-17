@@ -22,16 +22,21 @@ public class WaterMap extends AbstractWorldMap{
     }
 
     public void makeWaterDoAnything(boolean isFlow){
-        // wylosuj z obecnych wód 50%
         int waterCount = waters.size();
-        int waterToChangeCount = waterCount/2;
+        int waterToChangeCount;
+        if (isFlow) {
+            waterToChangeCount = waterCount/10;
+        }
+        else {
+            waterToChangeCount = waterCount/5;
+        }
         if (waterToChangeCount == 0) waterToChangeCount = 1;
 
         List<Vector2d> waterToChange = new ArrayList<>(waters.keySet());
         Collections.shuffle(waterToChange);
 
 
-        for (int i = 0; i < waterToChangeCount && i < waterToChange.size(); i++) {
+        for (int i = 0; i < waterToChangeCount; i++) {
             Vector2d currentPosition = waterToChange.get(i);
 
             if (isFlow) {
@@ -53,7 +58,7 @@ public class WaterMap extends AbstractWorldMap{
                 }
 
                 // Jeśli nie ma tam zwierzaka
-                if (!animals.containsKey(newPosition)) {
+                if(!animals.containsKey(newPosition) || animals.get(newPosition).isEmpty()) {
                     // Jeśli roślinka to usuń roślinkę i dodaj wodę
                     if (plants.containsKey(newPosition)) {
                         plants.remove(newPosition);
