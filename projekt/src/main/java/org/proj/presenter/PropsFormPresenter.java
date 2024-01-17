@@ -86,6 +86,15 @@ public class PropsFormPresenter {
                 throw new RuntimeException("Not valid csv file name!");
             }
         }
+
+        if (Integer.parseInt(mapWidth.getText()) * Integer.parseInt(mapHeight.getText()) < Integer.parseInt(plantCount.getText()) || Integer.parseInt(mapWidth.getText()) * Integer.parseInt(mapHeight.getText()) < Integer.parseInt(spawnPlantPerDay.getText())) {
+            throw new RuntimeException("Lower initial amount of plants or amount of plants to spawn or make the map bigger.");
+        }
+
+        if (Integer.parseInt(mapWidth.getText()) * Integer.parseInt(mapHeight.getText()) < Integer.parseInt(animalCount.getText())) {
+            throw new RuntimeException("Lower initial amount of animals or make the map bigger.");
+        }
+
         EMoveStyle moveStyle = (moveStyleCBox.getValue() == "FULLY_PREDESTINED" ? EMoveStyle.FULLY_PREDESTINED : EMoveStyle.BACK_AND_FORTH);
         EMapType mapType = (mapStyleCBox.getValue() == "WATER" ? EMapType.WATER : EMapType.GLOBE);
         SimulationProps props = new SimulationProps(
