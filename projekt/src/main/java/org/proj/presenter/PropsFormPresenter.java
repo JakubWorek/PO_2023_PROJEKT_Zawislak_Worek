@@ -143,21 +143,21 @@ public class PropsFormPresenter {
                 }
                 myReader.close();
                 startEnergy.setText(lines.get(0));
-                moveEnergy.setText(lines.get(2));
-                genesCount.setText(lines.get(3));
-                energyToReproduce.setText(lines.get(4));
-                energyToPass.setText(lines.get(5));
-                moveStyleCBox.getSelectionModel().select(lines.get(6));
-                mapStyleCBox.getSelectionModel().select(lines.get(7));
-                energyFromPlant.setText(lines.get(8));
-                plantCount.setText(lines.get(9));
-                spawnPlantPerDay.setText(lines.get(10));
-                animalCount.setText(lines.get(11));
-                simulationStepTime.setText(lines.get(12));
-                mapWidth.setText(lines.get(13));
-                mapHeight.setText(lines.get(14));
-                minMutations.setText(lines.get(15));
-                maxMutations.setText(lines.get(16));
+                moveEnergy.setText(lines.get(1));
+                genesCount.setText(lines.get(2));
+                energyToReproduce.setText(lines.get(3));
+                energyToPass.setText(lines.get(4));
+                moveStyleCBox.getSelectionModel().select(lines.get(5));
+                mapStyleCBox.getSelectionModel().select(lines.get(6));
+                energyFromPlant.setText(lines.get(7));
+                plantCount.setText(lines.get(8));
+                spawnPlantPerDay.setText(lines.get(9));
+                animalCount.setText(lines.get(10));
+                simulationStepTime.setText(lines.get(11));
+                mapWidth.setText(lines.get(12));
+                mapHeight.setText(lines.get(13));
+                minMutations.setText(lines.get(14));
+                maxMutations.setText(lines.get(15));
             } catch (FileNotFoundException e) {
             }
         }
