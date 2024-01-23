@@ -1,5 +1,4 @@
 ## Dawid Zawiślak
-- World elements (eg. Water, Animal, general interface)
 - DayManager
 - SimulationProps class to pass simulation configuration between class
 - AbstractApp, SimulationApp, PropsFormApp
