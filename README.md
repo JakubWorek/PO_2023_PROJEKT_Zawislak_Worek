@@ -20,10 +20,14 @@ Logs will look like this:
 # Simulation
 ## Interface
 <img src="https://github.com/JakubWorek/evolution_simulator/blob/main/images/game.png">
-Application shows:
-  - Plots ilustrating changes in animals and plants quantity
-  - Grid for simulation map
-  - Statistics about simulation
+Application shows:  
+
+- Plots ilustrating changes in animals and plants quantity 
+ 
+- Grid for simulation map  
+
+- Statistics about simulation  
+
 
 ## Features
 ### Following animal
